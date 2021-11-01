@@ -1,4 +1,5 @@
 ﻿using System;
+using Roguelike;
 
 namespace Roguelike
 {
@@ -6,7 +7,7 @@ namespace Roguelike
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MapRender render = new MapRender();
         }
     }
 }
