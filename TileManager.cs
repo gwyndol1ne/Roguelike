@@ -1,50 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Roguelike
 {
-    public class Tile
+    class TileManager
     {
-        protected bool can_stand_on;
-        protected char draw_symbol;
-    }
-    class EmptyTile : Tile
-    {
-        EmptyTile()
-        {
-            can_stand_on = true;
-            draw_symbol = '.';
+        List<bool> canStandOn;
+        TileManager() 
+        { 
+            List<bool> canStandOn = new List<bool>(); 
         }
-    }
-    class WallTile : Tile
-    {
-        WallTile()
+        string unstandable = "#~ ";
+        public void update(string[] currentMap)
         {
-            can_stand_on = false;
-            draw_symbol = '#';
+            for(int i = 0; i < currentMap.Length; i++)
+            {
+                for(int j = 0; j < currentMap[i].Length; j++)
+                {
+                    if (unstandable.IndexOf(currentMap[i][j]) >= 0)
+                    {
+                        canStandOn.Add(false);
+                    }
+                    else
+                    {
+                        canStandOn.Add(true);
+                    }
+                }
+            }
         }
-    }
-    class DungeonEntranceTile : Tile
-    {
-        DungeonEntranceTile()
+        public void clearMap()
         {
-            can_stand_on = true;
-            draw_symbol = 'd';
-        }
-    }
-    class BossEntranceTile : Tile
-    {
-        BossEntranceTile()
-        {
-            can_stand_on = true;
-            draw_symbol = 'b';
-        }
-    }
-    class SeaTile : Tile
-    {
-        SeaTile()
-        {
-            can_stand_on = false;
-            draw_symbol = '$';
+            canStandOn.Clear();
         }
     }
 }

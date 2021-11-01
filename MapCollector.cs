@@ -5,20 +5,19 @@ namespace Roguelike
 {
     public class MapCollector {
 
-        protected string[] lines;
-        
+        public string[] mainMap;
+        public MapCollector()
+        {
+            mainMap = File.ReadAllLines("../../../main.map");
+        }
     }
     class MapRender : MapCollector
     {
-        public MapRender()
+        public void RenderMap(string[] map)
         {
-
-        }
-        void RenderMap()
-        {
-            for(int i = 0; i < lines.Length; i++)
+            for(int i = 0; i < map.Length; i++)
             {
-                Console.WriteLine(lines[i]);
+                Console.WriteLine(map[i]);
             }
         }
     }
