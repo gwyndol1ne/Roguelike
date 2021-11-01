@@ -8,6 +8,8 @@ namespace Roguelike
         static void Main(string[] args)
         {
             MapRender render = new MapRender();
+            render.RenderMainMap();
+            Console.ReadLine();
         }
     }
 }
