@@ -22,6 +22,7 @@ namespace Roguelike
        
        protected List<Weapon> weapons = new List<Weapon>();
         protected int Hp;
+        public int x, y;
         protected int Damage;
         protected int Deffence;
         protected int x;
@@ -50,6 +51,7 @@ namespace Roguelike
 
         
     }
+<<<<<<< HEAD
 
     class Program
     {
@@ -59,3 +61,6 @@ namespace Roguelike
         }
     }
 }
+=======
+
+>>>>>>> 538efb5b77a644371a9d88e8547650abf9bac712

@@ -1,5 +1,5 @@
 ﻿using System;
-using Roguelike;
+using mapcollector;
 
 namespace Roguelike
 {
@@ -9,7 +9,6 @@ namespace Roguelike
         {
             MapCollector collector = new MapCollector();
             MapRender render = new MapRender();
-            render.RenderMap(collector.mainMap);
             Console.ReadLine();
         }
     }
