@@ -9,7 +9,7 @@ namespace Roguelike
         {
             MapCollector collector = new MapCollector();
             MapRender render = new MapRender();
-            render.RenderMap(collector.mainMap);
+            TileManager tileManager = new TileManager();
             Console.ReadLine();
         }
     }

@@ -14,6 +14,7 @@ namespace Roguelike
     public class PLayer
     {
         protected int Hp;
+        public int x, y;
         protected int Damage;
         protected int Deffence;
         protected Abbility Passive;
@@ -26,14 +27,6 @@ namespace Roguelike
             this.Deffence = Deffence;
             this.Aktiv = Aktiv;
             this.Passive = Passive;
-        }
-    }
-    class Program
-    {
-
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
         }
     }
 }
