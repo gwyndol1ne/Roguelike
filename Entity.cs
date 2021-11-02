@@ -16,6 +16,7 @@ namespace Roguelike
             name = Name;
             hp = Hp;
             damage = Damage;
+            currentHp = Hp;
         }
     }
 }
