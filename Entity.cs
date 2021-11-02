@@ -18,6 +18,7 @@ namespace Roguelike
             hp = Hp;
             damage = Damage;
             mapId = MapId;
+            currentHp = Hp;
         }
         public int getMapId()
         {
