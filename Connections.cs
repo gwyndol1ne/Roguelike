@@ -7,11 +7,11 @@ namespace connections
     public struct Connection
     {
         public int cx, cy, id;
-        public Connection(int x, int y, int id)
+        public Connection(int X, int Y, int Id)
         {
-            cx = x;
-            cy = y;
-            this.id = id;
+            cx = X;
+            cy = Y;
+            id = Id;
         }
     }
 }

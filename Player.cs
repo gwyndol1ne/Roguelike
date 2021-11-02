@@ -1,31 +1,18 @@
 ﻿using System;
-using Roguelike;
 using System.Collections.Generic;
+using System.Text;
+
 namespace Roguelike
 {
-    public interface Abbility
+    class Player : Entity
     {
-        public void UseAbbility() { }
+        private int x;
+        private int y;
 
-    }
-    public class Player
-    {
-        protected int Hp;
-        public int x, y;
-        protected int Damage;
-        protected int Deffence;
-    }
-    public class MagihensRed : Player, Abbility
-    {
-        public MagihensRed()
+        public Player (string Name, int Hp, int Damage, int X, int Y) : base (Name, Hp, Damage)
         {
-            Hp = 12;
-            Damage = 23;
-            Deffence = 123;
-        }
-        public void UseAbbility()
-        {
-            Damage *= 2;
+            x = X;
+            y = Y;
         }
     }
 }
