@@ -28,7 +28,7 @@ namespace mapsolvers
         public string[] SolverDrawnMap(string[] map)
         {
             string[] result = map;
-            string numbers = "1234567890";
+            string numbers = "0123456789";
             for (int i = 0; i < map.Length; i++)
             {
                 for (int j = 0; j < map[i].Length; j++)

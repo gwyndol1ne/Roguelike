@@ -7,7 +7,7 @@ using connections;
 namespace mapcollector {
     public class MapCollector {
 
-        List<Map> baseMaps = new List<Map>();
+        public List<Map> baseMaps = new List<Map>();
         string[] workingOnMap;
         string[] mapPaths = { "../../../main.map", "../../../boss.map" };
         public MapCollector()
@@ -18,7 +18,7 @@ namespace mapcollector {
                 baseMaps.Add(new Map(i, workingOnMap));
             }
         }
-        struct Map
+        public struct Map
         {
             int MapID;
             string[] textMap;
@@ -34,16 +34,6 @@ namespace mapcollector {
                 connections = solver.ConnectionSolver(tm);
                 drawnMap = solver.SolverDrawnMap(tm);
                 standable = solver.SolverStandable(tm, "#~ ");
-            }
-        }
-    }
-    class MapRender : MapCollector
-    {
-        public void RenderMap(string[] map)
-        {
-            for(int i = 0; i < map.Length-1; i++)
-            {
-                Console.WriteLine(map[i]);
             }
         }
     }

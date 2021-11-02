@@ -14,4 +14,9 @@ namespace connections
             this.id = id;
         }
     }
+    public struct ConnectionPair
+    {
+        Connection map1Trigger, map2Trigger;
+        int id1, id2;
+    }
 }

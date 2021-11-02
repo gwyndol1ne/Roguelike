@@ -8,7 +8,6 @@ namespace Roguelike
         static void Main(string[] args)
         {
             MapCollector collector = new MapCollector();
-            MapRender render = new MapRender();
             Console.ReadLine();
         }
     }

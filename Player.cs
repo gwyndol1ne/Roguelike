@@ -13,6 +13,7 @@ namespace Roguelike
     }
     public class PLayer
     {
+        protected int mapID = 0;
         protected int Hp;
         public int x, y;
         protected int Damage;
