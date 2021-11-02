@@ -6,6 +6,6 @@ namespace Roguelike
 {
     class Friend : NPC
     {
-        public Friend(string Name, int Hp, int Damage, int X, int Y) : base(Name, Hp, Damage, X, Y) { }
+        public Friend(string Name, int Hp, int Damage, int MapId, int X, int Y) : base(Name, Hp, Damage, MapId, X, Y) { }
     }
 }
