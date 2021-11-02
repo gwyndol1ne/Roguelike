@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using mapsolvers;
-using connections;
+using Mapsolvers;
+using Connections;
 
-namespace mapcollector
+namespace Mapcollector
 {
     public class MapCollector
     {
 
-        List<Map> baseMaps = new List<Map>();
+        public List<Map> baseMaps = new List<Map>();
         string[] workingOnMap;
         string[] mapPaths = { "../../../main.map", "../../../boss.map" };
         public MapCollector()
@@ -20,11 +20,11 @@ namespace mapcollector
                 baseMaps.Add(new Map(i, workingOnMap));
             }
         }
-        struct Map
+        public struct Map
         {
             int MapID;
             string[] textMap;
-            string[] drawnMap;
+            public string[] drawnMap;
             List<Connection> connections;
             bool[,] standable;
             public Map(int mi, string[] tm)
@@ -38,15 +38,9 @@ namespace mapcollector
                 standable = solver.SolverStandable(tm, "#~ ");
             }
         }
-    }
-    class MapRender : MapCollector
-    {
-        public void RenderMap(string[] map)
+        public string[] GetCurrentMap(int i)
         {
-            for (int i = 0; i < map.Length - 1; i++)
-            {
-                Console.WriteLine(map[i]);
-            }
+            return baseMaps[i].drawnMap;
         }
     }
 }

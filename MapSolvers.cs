@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using connections;
+using Connections;
 
-namespace mapsolvers
+namespace Mapsolvers
 {
     class MapSolver
     {
+        public int DecideLength(string[] input)
+        {
+            int result = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+                result = input[i].Length > result ? input[i].Length : result;
+            }
+            return result;
+        }
         public List<Connection> ConnectionSolver(string[] map)
         {
             int index = 0;
@@ -27,26 +36,34 @@ namespace mapsolvers
         }
         public string[] SolverDrawnMap(string[] map)
         {
-            string[] result = map;
-            string numbers = "1234567890";
+            int maxLength = DecideLength(map);
+            char[][] result = new char[map.Length][];
+            for(int i = 0; i < map.Length; i++)
+            {
+                result[i] = new char[maxLength];
+            }
+            string numbers = "0123456789";
             for (int i = 0; i < map.Length; i++)
             {
-                for (int j = 0; j < map[i].Length; j++)
+                for(int j = 0; j < map[i].Length; j++)
                 {
-                    if (numbers.IndexOf(map[i][j]) >= 0)
-                    {
-                        map[i].ToCharArray()[j] = '#';
-                    }
+                    result[i][j] = numbers.IndexOf(map[i][j]) >= 0 ? '#' : map[i][j];
                 }
             }
-            return result;
+            string[] actualResult = new string[maxLength];
+            for(int i = 0; i < result.Length; i++)
+            {
+                actualResult[i] = new string(result[i]);
+            }
+            return actualResult;
         }
         public bool[,] SolverStandable(string[] map, string unstandable)
         {
-            bool[,] result = new bool[map.Length, map[0].Length];
+            int maxLength = DecideLength(map);
+            bool[,] result = new bool[map.Length, maxLength];
             for (int i = 0; i < map.Length; i++)
             {
-                for (int j = 0; j < map[i].Length; j++)
+                for (int j = 0; j < maxLength; j++)
                 {
                     if (unstandable.IndexOf(map[i][j]) >= 0)
                     {
@@ -56,5 +73,6 @@ namespace mapsolvers
             }
             return result;
         }
+        
     }
 }

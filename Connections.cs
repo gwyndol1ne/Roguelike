@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace connections
+namespace Connections
 {
     public struct Connection
     {
@@ -13,5 +13,10 @@ namespace connections
             cy = Y;
             id = Id;
         }
+    }
+    public struct ConnectionPair
+    {
+        Connection map1Trigger, map2Trigger;
+        int id1, id2;
     }
 }
