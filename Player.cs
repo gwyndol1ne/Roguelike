@@ -15,5 +15,4 @@ namespace Roguelike
             y = Y;
         }
     }
-    
 }

@@ -38,7 +38,6 @@ namespace Roguelike
                 Console.WriteLine( Class[menuResult2]);
                 Playbel = 3;
             }
-            System.Threading.Thread.Sleep(500);
             Console.Clear();
             if (Playbel==3)
             {
@@ -48,8 +47,6 @@ namespace Roguelike
                 screen.draw(collector.GetCurrentMap(player.getMapId()));
                 Console.ReadLine();
             }
-          
-
         }
         static void Exit()
         {

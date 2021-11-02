@@ -6,6 +6,7 @@ namespace Menu
 {
     class ConsoleMenu
     {
+        int time = 0;
         readonly string[] menuItems;
         int counter = 0;
         public ConsoleMenu(string[] menuItems)
@@ -22,23 +23,22 @@ namespace Menu
                 {
                     if (counter == i)
                     {
-                        Console.BackgroundColor = ConsoleColor.Magenta;
-                        Console.ForegroundColor = ConsoleColor.Black;
                         Console.WriteLine(menuItems[i]);
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
+                    {
                         Console.WriteLine(menuItems[i]);
+                    }
 
                 }
+                System.Threading.Thread.Sleep(1000);
                 key = Console.ReadKey();
                 if (key.Key == ConsoleKey.UpArrow)
                 {
                     counter--;
                     if (counter == -1) counter = menuItems.Length - 1;
                 }
-                if (key.Key == ConsoleKey.DownArrow)
+                else if (key.Key == ConsoleKey.DownArrow)
                 {
                     counter++;
                     if (counter == menuItems.Length) counter = 0;

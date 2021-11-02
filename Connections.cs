@@ -18,5 +18,12 @@ namespace Connections
     {
         Connection map1Trigger, map2Trigger;
         int id1, id2;
+        public ConnectionPair(Connection c1, Connection c2, int i1, int i2) 
+        {
+            map1Trigger = c1;
+            map2Trigger = c2;
+            id1 = i1;
+            id2 = i2;
+        }
     }
 }
