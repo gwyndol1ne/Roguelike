@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using mapsolvers;
 using connections;
 
-namespace mapcollector {
-    public class MapCollector {
+namespace mapcollector
+{
+    public class MapCollector
+    {
 
         public List<Map> baseMaps = new List<Map>();
         string[] workingOnMap;
         string[] mapPaths = { "../../../main.map", "../../../boss.map" };
         public MapCollector()
         {
-            for(int i = 0; i < mapPaths.Length; i++)
+            for (int i = 0; i < mapPaths.Length; i++)
             {
                 workingOnMap = System.IO.File.ReadAllLines(mapPaths[i]);
                 baseMaps.Add(new Map(i, workingOnMap));
@@ -37,4 +39,16 @@ namespace mapcollector {
             }
         }
     }
+
+    class MapRender : MapCollector
+    {
+        public void RenderMap(string[] map)
+        {
+            for (int i = 0; i < map.Length - 1; i++)
+            {
+                Console.WriteLine(map[i]);
+            }
+        }
+    }
+
 }
