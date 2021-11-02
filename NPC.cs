@@ -9,7 +9,7 @@ namespace Roguelike
         private int x;
         private int y;
 
-        public NPC(string Name, int Hp, int Damage, int X, int Y) : base(Name, Hp, Damage)
+        public NPC(string Name, int Hp, int Damage, int X, int Y) : base(Name, Hp, Damage, 0)
         {
             x = X;
             y = Y;

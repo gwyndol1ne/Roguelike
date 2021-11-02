@@ -17,8 +17,28 @@ namespace Mapcollector
             for (int i = 0; i < mapPaths.Length; i++)
             {
                 workingOnMap = System.IO.File.ReadAllLines(mapPaths[i]);
-                baseMaps.Add(new Map(i, workingOnMap));
+                baseMaps.Add(new Map(i, MapAdder()));
             }
+        }
+        protected string[] MapAdder()
+        {
+            int actualLength = 0;
+            for(int i = 0; i < workingOnMap.Length; i++)
+            {
+                if (workingOnMap[i] != null)
+                {
+                    actualLength++;
+                }
+            }
+            string[] result = new string[actualLength];
+            for(int i = 0; i < workingOnMap.Length; i++)
+            {
+                if (workingOnMap[i] != null)
+                {
+                    result[i] = workingOnMap[i];
+                }
+            }
+            return result;
         }
         public struct Map
         {
@@ -33,9 +53,9 @@ namespace Mapcollector
                 MapSolver solver = new MapSolver();
                 MapID = mi;
                 textMap = tm;
-                connections = solver.ConnectionSolver(tm);
-                drawnMap = solver.SolverDrawnMap(tm);
-                standable = solver.SolverStandable(tm, "#~ ");
+                connections = solver.ConnectionSolver(textMap);
+                drawnMap = solver.SolverDrawnMap(textMap);
+                standable = solver.SolverStandable(drawnMap, "#~ "); //change tm to drawnMap to fix bug
             }
         }
         public string[] GetCurrentMap(int i)
