@@ -10,12 +10,18 @@ namespace Roguelike
         private int hp;
         private int damage;
         private int currentHp;
+        private int mapId;
 
-        public Entity(string Name, int Hp, int Damage)
+        public Entity(string Name, int Hp, int Damage, int MapId)
         {
             name = Name;
             hp = Hp;
             damage = Damage;
+            mapId = MapId;
+        }
+        public int getMapId()
+        {
+            return mapId;
         }
     }
 }

@@ -10,8 +10,8 @@ namespace Roguelike
         {
             MapCollector collector = new MapCollector();
             Draw screen = new Draw();
-            Player player = new Player();
-            screen.draw(collector.GetCurrentMap(player.GetMapID()));
+            Player player = new Player("a",0,0,0,0);
+            screen.draw(collector.GetCurrentMap(player.getMapId()));
             Console.ReadLine();
         }
     }

@@ -47,10 +47,10 @@ namespace Mapsolvers
             {
                 for(int j = 0; j < map[i].Length; j++)
                 {
-                    result[i][j] = numbers.IndexOf(map[i][j]) >= 0 ? '#' : map[i][j];
+                    result[i][j] = numbers.IndexOf(map[i][j]) >= 0 ? 'O' : map[i][j];
                 }
             }
-            string[] actualResult = new string[maxLength];
+            string[] actualResult = new string[result.Length];
             for(int i = 0; i < result.Length; i++)
             {
                 actualResult[i] = new string(result[i]);
