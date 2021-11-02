@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Roguelike
 {
-    class Class1
+    class TransitionManager
     {
+        
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace connections
+namespace Connections
 {
     public struct Connection
     {

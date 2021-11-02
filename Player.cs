@@ -15,6 +15,10 @@ namespace Roguelike
         public int x, y;
         protected int Damage;
         protected int Deffence;
+        public int GetMapID()
+        {
+            return mapID;
+        }
     }
     public class MagihensRed : Player, Abbility
     {
