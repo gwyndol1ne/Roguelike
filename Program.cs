@@ -44,7 +44,7 @@ namespace Roguelike
                 MapCollector collector = new MapCollector();
                 Draw screen = new Draw();
                 Player player = new Player("a", 0, 0, 0, 0);
-                screen.draw(collector.GetCurrentMap(player.MapId));
+                screen.draw(collector.GetCurrentMap(player.getMapId()));
                 Console.ReadLine();
             }
         }

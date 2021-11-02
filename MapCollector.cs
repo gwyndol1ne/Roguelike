@@ -12,6 +12,7 @@ namespace Mapcollector
         public List<Map> baseMaps = new List<Map>();
         string[] workingOnMap;
         string[] mapPaths = { "../../../main.map", "../../../boss.map" };
+        string[] connections = { "1 ", "0 "};
         public MapCollector()
         {
             for (int i = 0; i < mapPaths.Length; i++)
@@ -40,27 +41,28 @@ namespace Mapcollector
             }
             return result;
         }
-        public struct Map
-        {
-            int MapID;
-            string[] textMap;
-            public string[] drawnMap;
-            List<Connection> connections;
-            bool[,] standable;
-            public Map(int mi, string[] tm)
-            {
-                connections = new List<Connection>();
-                MapSolver solver = new MapSolver();
-                MapID = mi;
-                textMap = tm;
-                connections = solver.ConnectionSolver(textMap);
-                drawnMap = solver.SolverDrawnMap(textMap);
-                standable = solver.SolverStandable(drawnMap, "#~ "); //change tm to drawnMap to fix bug
-            }
-        }
+        
         public string[] GetCurrentMap(int i)
         {
             return baseMaps[i].drawnMap;
+        }
+    }
+    public struct Map
+    {
+        int MapID;
+        string[] textMap;
+        public string[] drawnMap;
+        List<Connection> connections;
+        bool[,] standable;
+        public Map(int mi, string[] tm)
+        {
+            connections = new List<Connection>();
+            MapSolver solver = new MapSolver();
+            MapID = mi;
+            textMap = tm;
+            connections = solver.ConnectionSolver(textMap);
+            drawnMap = solver.SolverDrawnMap(textMap);
+            standable = solver.SolverStandable(drawnMap, "#~ ");
         }
     }
 }

@@ -17,6 +17,16 @@ namespace Mapsolvers
             }
             return result;
         }
+        public int[] SolveConnectionsFromString(string a)
+        {
+            string[] resultString = a.Split(' ');
+            int[] result = new int[resultString.Length];
+            for(int i = 0; i < result.Length; i++)
+            {
+                result[i] = Convert.ToInt32(resultString);
+            }
+            return result;
+        }
         public List<Connection> ConnectionSolver(string[] map)
         {
             int index = 0;
@@ -74,6 +84,5 @@ namespace Mapsolvers
             }
             return result;
         }
-        
     }
 }
