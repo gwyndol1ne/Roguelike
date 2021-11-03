@@ -6,61 +6,39 @@ namespace Roguelike
 {
     public class MapCollector
     {
-
-        public List<Map> baseMaps = new List<Map>();
-        string[] workingOnMap;
-        string[] mapPaths = { "../../../main.map", "../../../boss.map" };
-        string[] connections = { "1 ", "0 " };
+        List<Map> allMaps = new List<Map>();
+        string[] paths = { "../../../main.map", "../../../boss.map" };
+        public struct Map
+        {
+            Entity[,] entities;
+            int[,] transitionTo;
+            public char[,] drawnMap;
+            bool[,] passable;
+            public Map(string[] a)
+            {
+                MapSolver solver = new MapSolver();
+                int[] connections = solver.ConnectionSolver(a[a.Length-1]);
+                int sizex = a.Length-1;
+                int sizey = 0;
+                for(int i = 0; i < sizex-1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
+                entities = new Entity[sizex,sizey];
+                transitionTo = new int[sizex, sizey];
+                drawnMap = new char[sizex, sizey];
+                passable = new bool[sizex, sizey];
+                drawnMap = solver.mapSplitter(a,sizey,transitionTo,connections,passable);
+            }
+        }
         public MapCollector()
         {
-            for (int i = 0; i < mapPaths.Length; i++)
+            for (int i = 0; i < paths.Length; i++)
             {
-                workingOnMap = System.IO.File.ReadAllLines(mapPaths[i]);
-                baseMaps.Add(new Map(i, MapAdder()));
+                string[] collectedMap = System.IO.File.ReadAllLines(paths[i]);
+                allMaps.Add(new Map(collectedMap));
             }
         }
-        protected string[] MapAdder()
+        public char[,] getDrawnMapById(int id)
         {
-            int actualLength = 0;
-            for (int i = 0; i < workingOnMap.Length; i++)
-            {
-                if (workingOnMap[i] != null)
-                {
-                    actualLength++;
-                }
-            }
-            string[] result = new string[actualLength];
-            for (int i = 0; i < workingOnMap.Length; i++)
-            {
-                if (workingOnMap[i] != null)
-                {
-                    result[i] = workingOnMap[i];
-                }
-            }
-            return result;
-        }
-
-        public string[] GetCurrentMap(int i)
-        {
-            return baseMaps[i].drawnMap;
-        }
-    }
-    public struct Map
-    {
-        int MapID;
-        string[] textMap;
-        public string[] drawnMap;
-        List<Connection> connections;
-        bool[,] standable;
-        public Map(int mi, string[] tm)
-        {
-            connections = new List<Connection>();
-            MapSolver solver = new MapSolver();
-            MapID = mi;
-            textMap = tm;
-            connections = solver.ConnectionSolver(textMap);
-            drawnMap = solver.SolverDrawnMap(textMap);
-            standable = solver.SolverStandable(drawnMap, "#~ ");
+            return allMaps[id].drawnMap;
         }
     }
 }
