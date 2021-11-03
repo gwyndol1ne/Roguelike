@@ -10,7 +10,7 @@ namespace Roguelike
         private bool oneHanded;
         private char scaleStat;
 
-        public Weapon (int Id, string Name, int Damage, bool OneHanded, char ScaleStat) : base (Id, Name)
+        public Weapon(int Id, string Name, int Damage, bool OneHanded, char ScaleStat) : base(Id, Name)
         {
             damage = Damage;
             oneHanded = OneHanded;

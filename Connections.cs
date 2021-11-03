@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Connections
+namespace Roguelike
 {
     public struct Connection
     {

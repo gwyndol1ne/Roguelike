@@ -12,7 +12,7 @@ namespace Roguelike
         private int agility;
         private int intelligence;
 
-        public Armor (int Id, string Name, int Defense, char EquipmentSlot, int Strength, int Agility, int Intelligence) : base (Id, Name)
+        public Armor(int Id, string Name, int Defense, char EquipmentSlot, int Strength, int Agility, int Intelligence) : base(Id, Name)
         {
             defense = Defense;
             equipmentSlot = EquipmentSlot;

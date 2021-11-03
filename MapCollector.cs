@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using Mapsolvers;
-using Connections;
 
-namespace Mapcollector
+namespace Roguelike
 {
     public class MapCollector
     {
@@ -12,7 +10,7 @@ namespace Mapcollector
         public List<Map> baseMaps = new List<Map>();
         string[] workingOnMap;
         string[] mapPaths = { "../../../main.map", "../../../boss.map" };
-        string[] connections = { "1 ", "0 "};
+        string[] connections = { "1 ", "0 " };
         public MapCollector()
         {
             for (int i = 0; i < mapPaths.Length; i++)
@@ -24,7 +22,7 @@ namespace Mapcollector
         protected string[] MapAdder()
         {
             int actualLength = 0;
-            for(int i = 0; i < workingOnMap.Length; i++)
+            for (int i = 0; i < workingOnMap.Length; i++)
             {
                 if (workingOnMap[i] != null)
                 {
@@ -32,7 +30,7 @@ namespace Mapcollector
                 }
             }
             string[] result = new string[actualLength];
-            for(int i = 0; i < workingOnMap.Length; i++)
+            for (int i = 0; i < workingOnMap.Length; i++)
             {
                 if (workingOnMap[i] != null)
                 {
@@ -41,7 +39,7 @@ namespace Mapcollector
             }
             return result;
         }
-        
+
         public string[] GetCurrentMap(int i)
         {
             return baseMaps[i].drawnMap;

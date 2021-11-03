@@ -2,20 +2,20 @@
 using System;
 
 
-namespace ConsoleMenu
+namespace Roguelike
 {
-    class ConsoleMenu
+    class Menu
     {
-        int time = 0;
-        readonly string[] menuItems;
-        int counter = 0;
+        private string[] menuItems;
+        private int cursor;
 
-        public ConsoleMenu(string[] MenuItems)
+        public Menu(string[] MenuItems)
         {
             menuItems = MenuItems;
+            cursor = 0;
         }
 
-        public int PrintMenu()
+        public int GetChoice()
         {
             ConsoleKeyInfo key;
             do
@@ -23,9 +23,11 @@ namespace ConsoleMenu
                 Console.Clear();
                 for (int i = 0; i < menuItems.Length; i++)
                 {
-                    if (counter == i)
+                    if (cursor == i)
                     {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
                         Console.WriteLine(menuItems[i]);
+                        Console.ResetColor();
                     }
                     else
                     {
@@ -33,21 +35,21 @@ namespace ConsoleMenu
                     }
 
                 }
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(80);
                 key = Console.ReadKey();
                 if (key.Key == ConsoleKey.UpArrow)
                 {
-                    counter--;
-                    if (counter == -1) counter = menuItems.Length - 1;
+                    cursor--;
+                    if (cursor == -1) cursor = menuItems.Length - 1;
                 }
                 else if (key.Key == ConsoleKey.DownArrow)
                 {
-                    counter++;
-                    if (counter == menuItems.Length) counter = 0;
+                    cursor++;
+                    if (cursor == menuItems.Length) cursor = 0;
                 }
             }
             while (key.Key != ConsoleKey.Enter);
-            return counter;
+            return cursor;
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Roguelike
 {
     class TransitionManager
     {
-        
+
     }
 }

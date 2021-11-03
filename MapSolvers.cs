@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Connections;
-using Mapcollector;
 
-namespace Mapsolvers
+namespace Roguelike
 {
     class MapSolver
     {
@@ -21,7 +19,7 @@ namespace Mapsolvers
         {
             string[] resultString = a.Split(' ');
             int[] result = new int[resultString.Length];
-            for(int i = 0; i < result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 result[i] = Convert.ToInt32(resultString);
             }
@@ -49,20 +47,20 @@ namespace Mapsolvers
         {
             int maxLength = DecideLength(map);
             char[][] result = new char[map.Length][];
-            for(int i = 0; i < map.Length; i++)
+            for (int i = 0; i < map.Length; i++)
             {
                 result[i] = new char[maxLength];
             }
             string numbers = "0123456789";
             for (int i = 0; i < map.Length; i++)
             {
-                for(int j = 0; j < map[i].Length; j++)
+                for (int j = 0; j < map[i].Length; j++)
                 {
                     result[i][j] = numbers.IndexOf(map[i][j]) >= 0 ? 'O' : map[i][j];
                 }
             }
             string[] actualResult = new string[result.Length];
-            for(int i = 0; i < result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 actualResult[i] = new string(result[i]);
             }

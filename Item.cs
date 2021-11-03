@@ -9,7 +9,7 @@ namespace Roguelike
         private int id;
         private string name;
 
-        public Item ( int Id, string Name)
+        public Item(int Id, string Name)
         {
             id = Id;
             name = Name;
