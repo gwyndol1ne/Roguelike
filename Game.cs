@@ -40,7 +40,7 @@ namespace Roguelike
                 ConsoleKeyInfo pressedKey;
                 do
                 {
-                    screen.draw(collector.GetCurrentMap(player.MapId));
+                    screen.draw(collector.GetDrawnMapById(player.MapId));
                     pressedKey = Console.ReadKey();
 
                     if (pressedKey.Key == ConsoleKey.W)
