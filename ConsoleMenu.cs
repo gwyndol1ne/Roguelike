@@ -2,17 +2,19 @@
 using System;
 
 
-namespace Menu
+namespace ConsoleMenu
 {
     class ConsoleMenu
     {
         int time = 0;
         readonly string[] menuItems;
         int counter = 0;
-        public ConsoleMenu(string[] menuItems)
+
+        public ConsoleMenu(string[] MenuItems)
         {
-            this.menuItems = menuItems;
+            menuItems = MenuItems;
         }
+
         public int PrintMenu()
         {
             ConsoleKeyInfo key;
@@ -47,6 +49,5 @@ namespace Menu
             while (key.Key != ConsoleKey.Enter);
             return counter;
         }
-
     }
 }

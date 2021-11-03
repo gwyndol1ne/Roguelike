@@ -1,7 +1,7 @@
 ﻿using System;
 using Mapcollector;
 using Screen;
-using Menu;
+using ConsoleMenu;
 namespace Roguelike
 {
     delegate void method();
@@ -19,7 +19,7 @@ namespace Roguelike
 
             string[] items = { "Новая игра", "Выход" };
             method[] methods = new method[] { Play, Exit };
-            ConsoleMenu menu = new ConsoleMenu(items);
+            ConsoleMenu.ConsoleMenu menu = new ConsoleMenu.ConsoleMenu(items);
             int menuResult;
             menuResult = menu.PrintMenu();
             methods[menuResult]();
@@ -29,7 +29,7 @@ namespace Roguelike
                 Console.Clear();
                 string[] Class = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green", "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice", "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum", "Dark Blue Moon ", "Sun", "Judgement ", "The World" };
 
-                ConsoleMenu menu2 = new ConsoleMenu(Class);
+                ConsoleMenu.ConsoleMenu menu2 = new ConsoleMenu.ConsoleMenu(Class);
                 int menuResult2;
                 menuResult2 = menu2.PrintMenu();
                 Console.Clear();
