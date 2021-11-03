@@ -6,11 +6,15 @@ namespace Roguelike
 {
     class Draw
     {
-        public void draw(string[] screen)
-        {
-            for (int i = 0; i < screen.Length; i++)
+        public void draw(char[,] screen)
+        { 
+            for(int i = 0; i < screen.GetLength(0); i++)
             {
-                Console.WriteLine(screen[i]);
+                for(int j = 0;j< screen.GetLength(1);j++)
+                {
+                    Console.Write(screen[i, j]);
+                }
+                Console.WriteLine();
             }
         }
     }

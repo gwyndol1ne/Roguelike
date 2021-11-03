@@ -6,77 +6,41 @@ namespace Roguelike
 {
     class MapSolver
     {
-        public int DecideLength(string[] input)
+        public int[] ConnectionSolver(string path)
         {
-            int result = 0;
-            for (int i = 0; i < input.Length; i++)
+            string[] split = path.Split(' ');
+            int[] result = new int[split.Length];
+            for (int i = 0; i < split.Length; i++)
             {
-                result = input[i].Length > result ? input[i].Length : result;
+                result[i] = Convert.ToInt32(split[i]);
             }
             return result;
         }
-        public int[] SolveConnectionsFromString(string a)
+        public char[,] mapSplitter(string[] a,int sy, int[,] t, int[] tr, bool[,] pass)
         {
-            string[] resultString = a.Split(' ');
-            int[] result = new int[resultString.Length];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = Convert.ToInt32(resultString);
-            }
-            return result;
-        }
-        public List<Connection> ConnectionSolver(string[] map)
-        {
-            int index = 0;
+            char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
-            List<Connection> result = new List<Connection>();
-            for (int i = 0; i < map.Length; i++)
+            string unpassable = "# ~";
+            for(int i = 0; i < a.Length-1; i++)
             {
-                for (int j = 0; j < map[i].Length; j++)
+                for(int j = 0; j < a[i].Length; j++)
                 {
-                    index = numbers.IndexOf(map[i][j]);
-                    if (index >= 0)
+                    if (numbers.IndexOf(a[i][j]) >= 0)
                     {
-                        result.Add(new Connection(i, j, index));
+                        t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
+                        result[i,j] = 'E';
                     }
-                }
-            }
-            return result;
-        }
-        public string[] SolverDrawnMap(string[] map)
-        {
-            int maxLength = DecideLength(map);
-            char[][] result = new char[map.Length][];
-            for (int i = 0; i < map.Length; i++)
-            {
-                result[i] = new char[maxLength];
-            }
-            string numbers = "0123456789";
-            for (int i = 0; i < map.Length; i++)
-            {
-                for (int j = 0; j < map[i].Length; j++)
-                {
-                    result[i][j] = numbers.IndexOf(map[i][j]) >= 0 ? 'O' : map[i][j];
-                }
-            }
-            string[] actualResult = new string[result.Length];
-            for (int i = 0; i < result.Length; i++)
-            {
-                actualResult[i] = new string(result[i]);
-            }
-            return actualResult;
-        }
-        public bool[,] SolverStandable(string[] map, string unstandable)
-        {
-            int maxLength = DecideLength(map);
-            bool[,] result = new bool[map.Length, maxLength];
-            for (int i = 0; i < map.Length; i++)
-            {
-                for (int j = 0; j < maxLength; j++)
-                {
-                    if (unstandable.IndexOf(map[i][j]) >= 0)
+                    else
                     {
-                        result[i, j] = false;
+                        result[i, j] = a[i][j];
+                    }
+                    if (unpassable.IndexOf(a[i][j]) >= 0)
+                    {
+                        pass[i,j] = false;
+                    }
+                    else
+                    {
+                        pass[i, j] = true;
                     }
                 }
             }
