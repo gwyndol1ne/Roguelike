@@ -6,8 +6,8 @@ namespace Roguelike
 {
     public class MapCollector
     {
-        List<Map> allMaps = new List<Map>();
-        string[] paths = { "../../../main.map", "../../../boss.map" };
+        public List<Map> allMaps = new List<Map>();
+        public string[] paths = { "../../../main.map", "../../../boss.map" };        
         public struct Map
         {
             Entity[,] entities;

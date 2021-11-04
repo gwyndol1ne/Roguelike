@@ -6,6 +6,7 @@ namespace Roguelike
 {
     class Menu
     {
+        
         private string[] menuItems;
         private int cursor;
 
@@ -39,7 +40,7 @@ namespace Roguelike
 
                 }
                 System.Threading.Thread.Sleep(80);
-                key = Console.ReadKey();
+                key = Console.ReadKey();              
                 if (key.Key == ConsoleKey.UpArrow)
                 {
                     cursor--;
