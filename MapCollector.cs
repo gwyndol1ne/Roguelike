@@ -29,6 +29,7 @@ namespace Roguelike
     }
     public struct Map
     {
+
         public int[,] transitionTo;
         public char[,] drawnMap;
         public bool[,] passable;

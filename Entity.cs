@@ -13,7 +13,6 @@ namespace Roguelike
         private int x;
         private int y;
         private int mapId;
-        private fuckingSlaves shit;
 
         public Entity(string Name, int Hp, int Damage, int MapId, int X, int Y)
         {
@@ -24,7 +23,6 @@ namespace Roguelike
             currentHp = Hp;
             x = X;
             y = Y;
-            shit = new fuckingSlaves(x, y, mapId);
         }
         public int MapId
         {

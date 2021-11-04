@@ -4,10 +4,18 @@ using System.Text;
 
 namespace Roguelike
 {
+   
     class Game
     {
-        const int gameBeforeStarting = 0;
-        const int gameStarted = 2;
+        
+        /*const int gameBeforeStarting = 0;
+        const int gameStarted = 2;*/
+        private enum Status : int
+        {
+            gameBeforeStarting = 0,
+            gameStarted = 2,
+            gameInProcess = 3,
+        }
         public static void Start()
         {
             int gameStatus;
@@ -15,26 +23,59 @@ namespace Roguelike
             Menu startMenu = new Menu(startMenuItems);
             gameStatus = startMenu.GetChoice();
 
-            if (gameStatus == gameBeforeStarting)
+            if (gameStatus == (int)Status.gameBeforeStarting)
             {
                 Console.Clear();
                 /*string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green", 
                                    "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice", 
                                    "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum", 
                                    "Dark Blue Moon ", "Sun", "Judgement ", "The World" };*/
-                gameStatus = gameStarted;
+                gameStatus = (int)Status.gameStarted;
             }
 
-            if (gameStatus == gameStarted)
+            if (gameStatus == (int)Status.gameStarted)
             {
                 MapCollector collector = new MapCollector();
                 Game game = new Game();
                 Console.Clear();
                 Draw screen = new Draw();
-                Player player = new Player("a", 0, 0, 0, 0, 0);
-                MovementManager movement = new MovementManager(collector.getMapById(player.MapId));
+                Player player = new Player("a", 0, 0, 0, 11, 11);
+                ConsoleKeyInfo pressedKey;
                 screen.draw(collector.getDrawnMapById(player.MapId));
-                Console.ReadLine();
+                do
+                {
+                    
+                    Console.SetCursorPosition(player.X, player.Y);
+                    Console.Write("a");
+                    pressedKey = Console.ReadKey(true);
+                  
+                    if (pressedKey.Key == ConsoleKey.W)
+                    {
+                        Console.SetCursorPosition(player.X, player.Y);
+                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y,player.X]);
+                        player.Y--;
+                    }
+                    if (pressedKey.Key == ConsoleKey.A)
+                    {
+                        Console.SetCursorPosition(player.X, player.Y);
+                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
+                        player.X--;
+                    }
+
+                    if (pressedKey.Key == ConsoleKey.S)
+                    {
+                        Console.SetCursorPosition(player.X, player.Y);
+                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
+                        player.Y++;
+                    }
+
+                    if (pressedKey.Key == ConsoleKey.D)
+                    {
+                        Console.SetCursorPosition(player.X, player.Y);
+                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
+                        player.X++;
+                    }
+                } while (gameStatus != (int)Status.gameInProcess);
             }
         }
     }

@@ -10,11 +10,5 @@ namespace Roguelike
         {
 
         }
-        
-        public kalista reactOnPlayer()
-        {
-            kalista result = this.reactOnPlayer();
-            return result;
-        }
     }
 }
