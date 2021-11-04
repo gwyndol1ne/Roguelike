@@ -4,66 +4,109 @@ using System.Text;
 
 namespace Roguelike
 {
+   
     class Game
     {
-        /*const int gameBeforeStarting = 0;
-        const int gameStarted = 2;*/
-        private enum Status : int
+        private enum Status
         {
-            gameBeforeStarting = 0,
-            gameStarted = 2,
-            gameInProcess = 3,
+            ClassMenu = 0,
+            Closed = 1,
+            InGame = 2,
+            PauseMenu = 3,
+            StartMenu = 4,
+            
         }
         public static void Start()
         {
-            int gameStatus;
-            string[] startMenuItems = { "Новая игра", "Выход" };
-            Menu startMenu = new Menu(startMenuItems);
-            gameStatus = startMenu.GetChoice();
-
-            if (gameStatus == (int)Status.gameBeforeStarting)
+            int gameStatus = (int)Status.StartMenu;
+            do
             {
-                Console.Clear();
-                /*string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green", 
-                                   "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice", 
-                                   "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum", 
-                                   "Dark Blue Moon ", "Sun", "Judgement ", "The World" };*/
-                gameStatus = (int)Status.gameStarted;
-            }
-
-            if (gameStatus == (int)Status.gameStarted)
-            {
-                Console.Clear();
-                MapCollector collector = new MapCollector();
-                Draw screen = new Draw();
-                Player player = new Player("a", 0, 0, 0, 0, 0);
-                ConsoleKeyInfo pressedKey;
-                do
+                if (gameStatus == (int)Status.StartMenu)
                 {
+                    string[] startMenuItems = { "Новая игра", "Выход" };
+                    Menu startMenu = new Menu(startMenuItems);
+                    gameStatus = startMenu.GetChoice();
+                }
+
+                if (gameStatus == (int)Status.ClassMenu)
+                {
+                    Console.Clear();
+                    /*string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green", 
+                                       "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice", 
+                                       "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum", 
+                                       "Dark Blue Moon ", "Sun", "Judgement ", "The World" };*/
+                    gameStatus = (int)Status.InGame;
+                }
+
+                if (gameStatus == (int)Status.InGame)
+                {
+                    Console.Clear();
+                    MapCollector collector = new MapCollector();
+                    Draw screen = new Draw();
+                    Player player = new Player("a", 0, 0, 0, 11, 11);
+                    ConsoleKeyInfo pressedKey;
                     screen.draw(collector.GetDrawnMapById(player.MapId));
-                    pressedKey = Console.ReadKey();
-
-                    if (pressedKey.Key == ConsoleKey.W)
+                    do
                     {
-                        
-                    }
+                        Console.SetCursorPosition(player.X, player.Y);
+                        Console.Write("a");
+                        pressedKey = Console.ReadKey(true);
 
-                    if (pressedKey.Key == ConsoleKey.A)
+                        if (pressedKey.Key == ConsoleKey.W)
+                        {
+                            Console.SetCursorPosition(player.X, player.Y);
+                            Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
+                            player.Y--;
+                        }
+
+                        if (pressedKey.Key == ConsoleKey.A)
+                        {
+                            Console.SetCursorPosition(player.X, player.Y);
+                            Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
+                            player.X--;
+                        }
+
+                        if (pressedKey.Key == ConsoleKey.S)
+                        {
+                            Console.SetCursorPosition(player.X, player.Y);
+                            Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
+                            player.Y++;
+                        }
+
+                        if (pressedKey.Key == ConsoleKey.D)
+                        {
+                            Console.SetCursorPosition(player.X, player.Y);
+                            Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
+                            player.X++;
+                        }
+
+                        if (pressedKey.Key == ConsoleKey.Escape)
+                        {
+                            gameStatus = (int)Status.PauseMenu;
+                        }
+                    } while (gameStatus == (int)Status.InGame);
+
+                    if (gameStatus == (int)Status.PauseMenu)
                     {
-
+                        string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
+                        Menu pauseMenu = new Menu(pauseMenuItems);
+                        int choice = pauseMenu.GetChoice();
+                        if (choice == 0)
+                        {
+                            gameStatus = (int)Status.InGame;
+                        }
+                        if (choice == 1)
+                        {
+                            gameStatus = (int)Status.StartMenu;
+                        }
                     }
+                }
 
-                    if (pressedKey.Key == ConsoleKey.S)
-                    {
-
-                    }
-
-                    if (pressedKey.Key == ConsoleKey.D)
-                    {
-
-                    }
-                } while (gameStatus == (int)Status.gameInProcess);
-            }
+                if (gameStatus == (int)Status.Closed)
+                {
+                    Environment.Exit(0);
+                }
+            } while (true);
         }
     }
 }
