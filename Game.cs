@@ -74,6 +74,28 @@ namespace Roguelike
                         Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
                         player.X++;
                     }
+                    if (pressedKey.Key==ConsoleKey.Escape)
+                    {
+                        string[] pausetMenuItems = { "Продолжить игру ", "Выход" ,"Загрузить ","Сохранить "};
+                        Menu PauseMenu = new Menu(pausetMenuItems);
+                        Console.Clear();
+                        int a= PauseMenu.GetChoice();
+                        if (a==0)
+                        {
+                            Console.Clear();
+                            screen.draw(collector.GetDrawnMapById(player.MapId));
+                        }
+                        if (a==1)
+                        {
+                            Console.Clear();
+                            Environment.Exit(0);
+                        }
+                        if (a==2)
+                        {
+                            Console.Clear();
+
+                        }
+                    }
                 } while (gameStatus != (int)Status.gameInProcess);
             }
         }
