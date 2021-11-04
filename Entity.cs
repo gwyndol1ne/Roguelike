@@ -13,8 +13,9 @@ namespace Roguelike
         private int x;
         private int y;
         private int mapId;
+        private fuckingSlaves shit;
 
-        public Entity(string Name, int Hp, int Damage, int MapId, int X, int Y, MapCollector setTo)
+        public Entity(string Name, int Hp, int Damage, int MapId, int X, int Y)
         {
             name = Name;
             hp = Hp;
@@ -23,7 +24,7 @@ namespace Roguelike
             currentHp = Hp;
             x = X;
             y = Y;
-            setTo.setEntity(this);
+            shit = new fuckingSlaves(x, y, mapId);
         }
         public int MapId
         {

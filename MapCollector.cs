@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
+
 namespace Roguelike
 {
     public class MapCollector
@@ -25,14 +26,9 @@ namespace Roguelike
         {
             return allMaps[id];
         }
-        public void setEntity(Entity entity)
-        {
-            allMaps[entity.MapId].entities[entity.X, entity.Y] = entity;
-        }
     }
     public struct Map
     {
-        public Entity[,] entities;
         public int[,] transitionTo;
         public char[,] drawnMap;
         public bool[,] passable;
@@ -43,7 +39,6 @@ namespace Roguelike
             int sizex = a.Length - 1;
             int sizey = 0;
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
-            entities = new Entity[sizex, sizey];
             transitionTo = new int[sizex, sizey];
             for (int i = 0; i < sizex; i++)
             {
