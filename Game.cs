@@ -27,10 +27,12 @@ namespace Roguelike
 
             if (gameStatus == gameStarted)
             {
-                Console.Clear();
                 MapCollector collector = new MapCollector();
+                Game game = new Game();
+                Console.Clear();
                 Draw screen = new Draw();
                 Player player = new Player("a", 0, 0, 0, 0, 0);
+                MovementManager movement = new MovementManager(collector.getMapById(player.MapId));
                 screen.draw(collector.getDrawnMapById(player.MapId));
                 Console.ReadLine();
             }

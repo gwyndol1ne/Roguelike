@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-    class Entity
+    public class Entity
     {
         private string name;
         private int hp;
@@ -14,7 +14,7 @@ namespace Roguelike
         private int y;
         private int mapId;
 
-        public Entity(string Name, int Hp, int Damage, int MapId, int X, int Y)
+        public Entity(string Name, int Hp, int Damage, int MapId, int X, int Y, MapCollector setTo)
         {
             name = Name;
             hp = Hp;
@@ -23,11 +23,12 @@ namespace Roguelike
             currentHp = Hp;
             x = X;
             y = Y;
+            setTo.setEntity(this);
         }
         public int MapId
         {
             get { return mapId; }
-            set { if (value >= 0 && value < 9) mapId = value; else mapId = -1; }
+            set { mapId = value; }
         }
 
         public int X

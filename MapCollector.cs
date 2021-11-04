@@ -6,28 +6,9 @@ namespace Roguelike
 {
     public class MapCollector
     {
-        List<Map> allMaps = new List<Map>();
+        public List<Map> allMaps = new List<Map>();
         string[] paths = { "../../../main.map", "../../../boss.map" };
-        public struct Map
-        {
-            Entity[,] entities;
-            int[,] transitionTo;
-            public char[,] drawnMap;
-            bool[,] passable;
-            public Map(string[] a)
-            {
-                MapSolver solver = new MapSolver();
-                int[] connections = solver.ConnectionSolver(a[a.Length-1]);
-                int sizex = a.Length-1;
-                int sizey = 0;
-                for(int i = 0; i < sizex-1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
-                entities = new Entity[sizex,sizey];
-                transitionTo = new int[sizex, sizey];
-                drawnMap = new char[sizex, sizey];
-                passable = new bool[sizex, sizey];
-                drawnMap = solver.mapSplitter(a,sizey,transitionTo,connections,passable);
-            }
-        }
+        
         public MapCollector()
         {
             for (int i = 0; i < paths.Length; i++)
@@ -39,6 +20,41 @@ namespace Roguelike
         public char[,] getDrawnMapById(int id)
         {
             return allMaps[id].drawnMap;
+        }
+        public Map getMapById(int id)
+        {
+            return allMaps[id];
+        }
+        public void setEntity(Entity entity)
+        {
+            allMaps[entity.MapId].entities[entity.X, entity.Y] = entity;
+        }
+    }
+    public struct Map
+    {
+        public Entity[,] entities;
+        public int[,] transitionTo;
+        public char[,] drawnMap;
+        public bool[,] passable;
+        public Map(string[] a)
+        {
+            MapSolver solver = new MapSolver();
+            int[] connections = solver.ConnectionSolver(a[a.Length - 1]);
+            int sizex = a.Length - 1;
+            int sizey = 0;
+            for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
+            entities = new Entity[sizex, sizey];
+            transitionTo = new int[sizex, sizey];
+            for (int i = 0; i < sizex; i++)
+            {
+                for (int j = 0; j < sizey; j++)
+                {
+                    transitionTo[i, j] = -1;
+                }
+            }
+            drawnMap = new char[sizex, sizey];
+            passable = new bool[sizex, sizey];
+            drawnMap = solver.mapSplitter(a, sizey, transitionTo, connections, passable);
         }
     }
 }
