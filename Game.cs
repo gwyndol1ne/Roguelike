@@ -45,7 +45,7 @@ namespace Roguelike
 
                     if (pressedKey.Key == ConsoleKey.W)
                     {
-
+                        
                     }
 
                     if (pressedKey.Key == ConsoleKey.A)
