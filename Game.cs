@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-   
+
     class Game
     {
         private enum Status
@@ -14,7 +14,7 @@ namespace Roguelike
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
-            
+
         }
         public static void Start()
         {
@@ -100,11 +100,11 @@ namespace Roguelike
                             gameStatus = (int)Status.StartMenu;
                         }
                     }
-                }
 
-                if (gameStatus == (int)Status.Closed)
-                {
-                    Environment.Exit(0);
+                    if (gameStatus == (int)Status.Closed)
+                    {
+                        Environment.Exit(0);
+                    }
                 }
             } while (true);
         }
