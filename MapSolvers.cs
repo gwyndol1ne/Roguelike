@@ -16,8 +16,13 @@ namespace Roguelike
             }
             return result;
         }
+<<<<<<< HEAD
         static public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass) //переименуй как-нибудь понятно аргументы 
         {                                                                                       //мне понятно
+=======
+        public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass)
+        {
+>>>>>>> interface_dev
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
             string unpassable = "# ~";
@@ -42,15 +47,15 @@ namespace Roguelike
         public static void TransitionSolver(List<Map> maps)
         {
             int writeToMap;
-            for(int i = 0; i < maps.Count; i++)
+            for (int i = 0; i < maps.Count; i++)
             {
-                for(int j = 0; j < maps[i].transitionTo.GetLength(0); j++)
+                for (int j = 0; j < maps[i].transitionTo.GetLength(0); j++)
                 {
-                    for(int k = 0; k < maps[i].transitionTo.GetLength(1); k++)
+                    for (int k = 0; k < maps[i].transitionTo.GetLength(1); k++)
                     {
-                        if (maps[i].transitionTo[j,k] != -1)
+                        if (maps[i].transitionTo[j, k] != -1)
                         {
-                            writeToMap = maps[i].transitionTo[j,k];
+                            writeToMap = maps[i].transitionTo[j, k];
                             maps[writeToMap].transitionCoords[i].x = j;
                             maps[writeToMap].transitionCoords[i].y = k;
                         }
