@@ -19,6 +19,7 @@ namespace Roguelike
         public static void Start()
         {
             int gameStatus = (int)Status.StartMenu;
+            Player player = new Player("a", 0, 0, 0, 11, 11);
             do
             {
                 if (gameStatus == (int)Status.StartMenu)
@@ -37,13 +38,13 @@ namespace Roguelike
                                        "Dark Blue Moon ", "Sun", "Judgement ", "The World" };*/
                     gameStatus = (int)Status.InGame;
                 }
-
+               
                 if (gameStatus == (int)Status.InGame)
                 {
                     Console.Clear();
                     MapCollector collector = new MapCollector();
                     Draw screen = new Draw();
-                    Player player = new Player("a", 0, 0, 0, 11, 11);
+                   
                     ConsoleKeyInfo pressedKey;
                     screen.draw(collector.GetDrawnMapById(player.MapId));
                     do
