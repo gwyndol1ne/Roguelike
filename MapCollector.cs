@@ -17,6 +17,8 @@ namespace Roguelike
                 string[] collectedMap = System.IO.File.ReadAllLines(paths[i]);
                 allMaps.Add(new Map(collectedMap));
             }
+            MapSolver solver = new MapSolver();
+            solver.TransitionSolver(allMaps);
         }
         public char[,] getDrawnMapById(int id)
         {
@@ -26,10 +28,34 @@ namespace Roguelike
         {
             return allMaps[id];
         }
+        public int CanMove(int y, int x, int mapId)
+        {
+            if (allMaps[mapId].passable[x, y])
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public bool Transition(Player player)
+        {
+            
+            if (allMaps[player.MapId].transitionTo[player.Y, player.X] != -1)
+            {
+                int cx = allMaps[player.MapId].transitionToX[player.Y,player.X];
+                int cy = allMaps[player.MapId].transitionToY[player.Y,player.X];
+                int cid = allMaps[player.MapId].transitionTo[player.Y,player.X];
+                player.X = cy;
+                player.Y = cx;
+                player.MapId = cid;
+                return true;
+            }
+            return false;
+        }
     }
     public struct Map
     {
-
+        public int[,] transitionToX;
+        public int[,] transitionToY;
         public int[,] transitionTo;
         public char[,] drawnMap;
         public bool[,] passable;
@@ -41,6 +67,8 @@ namespace Roguelike
             int sizey = 0;
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
             transitionTo = new int[sizex, sizey];
+            transitionToX = new int[sizex, sizey];
+            transitionToY = new int[sizex, sizey];
             for (int i = 0; i < sizex; i++)
             {
                 for (int j = 0; j < sizey; j++)

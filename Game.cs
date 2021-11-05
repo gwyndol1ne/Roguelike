@@ -39,12 +39,11 @@ namespace Roguelike
                 Game game = new Game();
                 Console.Clear();
                 Draw screen = new Draw();
-                Player player = new Player("a", 0, 0, 0, 11, 11);
+                Player player = new Player("a", 0, 0, 0, 1, 2);
                 ConsoleKeyInfo pressedKey;
                 screen.draw(collector.getDrawnMapById(player.MapId));
                 do
                 {
-                    
                     Console.SetCursorPosition(player.X, player.Y);
                     Console.Write("a");
                     pressedKey = Console.ReadKey(true);
@@ -52,28 +51,33 @@ namespace Roguelike
                     if (pressedKey.Key == ConsoleKey.W)
                     {
                         Console.SetCursorPosition(player.X, player.Y);
-                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y,player.X]);
-                        player.Y--;
+                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
+                        player.Y = player.Y - 1 * collector.CanMove(player.X, player.Y - 1, player.MapId);
                     }
-                    if (pressedKey.Key == ConsoleKey.A)
+                    else if (pressedKey.Key == ConsoleKey.A)
                     {
                         Console.SetCursorPosition(player.X, player.Y);
                         Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
-                        player.X--;
-                    }
-
-                    if (pressedKey.Key == ConsoleKey.S)
-                    {
-                        Console.SetCursorPosition(player.X, player.Y);
-                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
-                        player.Y++;
+                        player.X = player.X - 1 * collector.CanMove(player.X-1, player.Y, player.MapId);
                     }
 
-                    if (pressedKey.Key == ConsoleKey.D)
+                    else if (pressedKey.Key == ConsoleKey.S)
                     {
                         Console.SetCursorPosition(player.X, player.Y);
                         Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
-                        player.X++;
+                        player.Y = player.Y + 1 * collector.CanMove(player.X, player.Y+1, player.MapId);
+                    }
+
+                    else if (pressedKey.Key == ConsoleKey.D)
+                    {
+                        Console.SetCursorPosition(player.X, player.Y);
+                        Console.WriteLine(collector.getDrawnMapById(player.MapId)[player.Y, player.X]);
+                        player.X = player.X + 1 * collector.CanMove(player.X+1, player.Y, player.MapId);
+                    }
+                    if (collector.Transition(player))
+                    {
+                        Console.Clear();
+                        screen.draw(collector.getDrawnMapById(player.MapId));
                     }
                 } while (gameStatus != (int)Status.gameInProcess);
             }

@@ -46,5 +46,32 @@ namespace Roguelike
             }
             return result;
         }
+        public void TransitionSolver(List<Map> maps)
+        {
+            for (int k = 0; k < maps.Count; k++)
+            {
+                for (int i = 0; i < maps[k].transitionTo.GetLength(0); i++)
+                {
+                    for (int j = 0; j < maps[k].transitionTo.GetLength(1); j++)
+                    {
+                        if (maps[k].transitionTo[i, j] != -1)
+                        {
+                            for(int l =0;l< maps[maps[k].transitionTo[i, j]].transitionTo.GetLength(0);l++)
+                            {
+                                for (int o = 0; o < maps[maps[k].transitionTo[i, j]].transitionTo.GetLength(1);o++)
+                                {
+                                    if(maps[maps[k].transitionTo[i, j]].transitionTo[l, o] == k)
+                                    {
+                                        maps[k].transitionToX[i, j] = l;
+                                        maps[k].transitionToY[i, j] = o; //super fast code that does not work
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
