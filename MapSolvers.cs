@@ -48,26 +48,18 @@ namespace Roguelike
         }
         public void TransitionSolver(List<Map> maps)
         {
-            for (int k = 0; k < maps.Count; k++)
+            int writeToMap;
+            for(int i = 0; i < maps.Count; i++)
             {
-                for (int i = 0; i < maps[k].transitionTo.GetLength(0); i++)
+                for(int j = 0; j < maps[i].transitionTo.GetLength(0); j++)
                 {
-                    for (int j = 0; j < maps[k].transitionTo.GetLength(1); j++)
+                    for(int k = 0; k < maps[i].transitionTo.GetLength(1); k++)
                     {
-                        if (maps[k].transitionTo[i, j] != -1)
+                        if (maps[i].transitionTo[j,k] != -1)
                         {
-                            for(int l =0;l< maps[maps[k].transitionTo[i, j]].transitionTo.GetLength(0);l++)
-                            {
-                                for (int o = 0; o < maps[maps[k].transitionTo[i, j]].transitionTo.GetLength(1);o++)
-                                {
-                                    if(maps[maps[k].transitionTo[i, j]].transitionTo[l, o] == k)
-                                    {
-                                        maps[k].transitionToX[i, j] = l;
-                                        maps[k].transitionToY[i, j] = o; //super fast code that does not work
-                                        break;
-                                    }
-                                }
-                            }
+                            writeToMap = maps[i].transitionTo[j,k];
+                            maps[writeToMap].transitionCoords[i].x = j;
+                            maps[writeToMap].transitionCoords[i].y = k;
                         }
                     }
                 }

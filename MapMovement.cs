@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Roguelike
 {
+    public struct transition
+    {
+        public int x, y;
+    }
     class MovementManager
     {
         Map currentMap;
