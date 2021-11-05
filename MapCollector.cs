@@ -11,7 +11,6 @@ namespace Roguelike
         private List<Map> allMaps = new List<Map>();
         private string[] paths = { "../../../main.map", "../../../boss.map", "../../../map3.map" };
 
-        
         public MapCollector()
         {
             for (int i = 0; i < paths.Length; i++)
@@ -79,31 +78,11 @@ namespace Roguelike
             drawnMap = MapSolver.mapSplitter(a, sizey, transitionTo, connections, passable);
         }
         public Map getMapById(int id)
+=======
+        public char[,] getDrawnMapById(int id)
+>>>>>>> bb48c6f35853beecc54fcc7474eec9a67eb7bbb5
         {
-            return allMaps[id];
-        }
-        public int CanMove(int y, int x, int mapId)
-        {
-            if (allMaps[mapId].passable[x, y])
-            {
-                return 1;
-            }
-            return 0;
-        }
-        public bool Transition(Player player)
-        {
-            
-           if (allMaps[player.MapId].transitionTo[player.Y, player.X] != -1)
-            {
-                int transitionTo = allMaps[player.MapId].transitionTo[player.Y,player.X];
-                int cx = allMaps[player.MapId].transitionCoords[transitionTo].x;
-                int cy = allMaps[player.MapId].transitionCoords[transitionTo].y;
-                player.X = cy;
-                player.Y = cx;
-                player.MapId = transitionTo;
-                return true;
-            }
-            return false;
+            return allMaps[id].drawnMap;
         }
     }*/
     public struct Map
