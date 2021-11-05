@@ -17,16 +17,20 @@ namespace Roguelike
 
         }
         public static void Start()
-        {
-            int gameStatus = (int)Status.StartMenu;
+        {           
             Player player = new Player("a", 0, 0, 0, 11, 11);
+            int gameStatus = (int)Status.StartMenu;          
             do
             {
+               
+              
                 if (gameStatus == (int)Status.StartMenu)
                 {
+                    player = new Player("a", 0, 0, 0, 11, 11);
                     string[] startMenuItems = { "Новая игра", "Выход" };
                     Menu startMenu = new Menu(startMenuItems);
                     gameStatus = startMenu.GetChoice();
+                  
                 }
 
                 if (gameStatus == (int)Status.ClassMenu)
