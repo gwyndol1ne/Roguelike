@@ -16,19 +16,19 @@ namespace Roguelike
             }
             return result;
         }
-        public char[,] mapSplitter(string[] a,int sy, int[,] t, int[] tr, bool[,] pass)
+        public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass)
         {
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
             string unpassable = "# ~";
-            for(int i = 0; i < a.Length-1; i++)
+            for (int i = 0; i < a.Length - 1; i++)
             {
-                for(int j = 0; j < a[i].Length; j++)
+                for (int j = 0; j < a[i].Length; j++)
                 {
                     if (numbers.IndexOf(a[i][j]) >= 0)
                     {
                         t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
-                        result[i,j] = 'E';
+                        result[i, j] = 'E';
                     }
                     else
                     {
@@ -36,7 +36,7 @@ namespace Roguelike
                     }
                     if (unpassable.IndexOf(a[i][j]) >= 0)
                     {
-                        pass[i,j] = false;
+                        pass[i, j] = false;
                     }
                     else
                     {
@@ -49,15 +49,15 @@ namespace Roguelike
         public void TransitionSolver(List<Map> maps)
         {
             int writeToMap;
-            for(int i = 0; i < maps.Count; i++)
+            for (int i = 0; i < maps.Count; i++)
             {
-                for(int j = 0; j < maps[i].transitionTo.GetLength(0); j++)
+                for (int j = 0; j < maps[i].transitionTo.GetLength(0); j++)
                 {
-                    for(int k = 0; k < maps[i].transitionTo.GetLength(1); k++)
+                    for (int k = 0; k < maps[i].transitionTo.GetLength(1); k++)
                     {
-                        if (maps[i].transitionTo[j,k] != -1)
+                        if (maps[i].transitionTo[j, k] != -1)
                         {
-                            writeToMap = maps[i].transitionTo[j,k];
+                            writeToMap = maps[i].transitionTo[j, k];
                             maps[writeToMap].transitionCoords[i].x = j;
                             maps[writeToMap].transitionCoords[i].y = k;
                         }
