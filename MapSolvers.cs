@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Roguelike
 {
-    class MapSolver
+    static class MapSolver //сделал класс и его методы статичными, чтобы не создавать лишний объект класса
     {
-        public int[] ConnectionSolver(string path)
+        static public int[] ConnectionSolver(string path)
         {
             string[] split = path.Split(' ');
             int[] result = new int[split.Length];
@@ -16,27 +16,27 @@ namespace Roguelike
             }
             return result;
         }
-        public char[,] mapSplitter(string[] a,int sy, int[,] t, int[] tr, bool[,] pass)
+        static public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass) //переименуй как-нибудь понятно аргументы
         {
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
             string unpassable = "# ~";
-            for(int i = 0; i < a.Length-1; i++)
+            for (int i = 0; i < a.Length - 1; i++)
             {
-                for(int j = 0; j < a[i].Length; j++)
+                for (int j = 0; j < a[i].Length; j++)
                 {
-                    if (numbers.IndexOf(a[i][j]) >= 0)
+                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :)
                     {
                         t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
-                        result[i,j] = 'E';
+                        result[i, j] = 'E';
                     }
                     else
                     {
                         result[i, j] = a[i][j];
                     }
-                    if (unpassable.IndexOf(a[i][j]) >= 0)
+                    if (unpassable.Contains(a[i][j])) //может лучше написать pass[i, j] = unpassable.Contains(a[i][j]) ? false : true ?
                     {
-                        pass[i,j] = false;
+                        pass[i, j] = false;
                     }
                     else
                     {

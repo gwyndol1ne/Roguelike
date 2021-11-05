@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace Roguelike
 {
-    public class MapCollector
+
+    class MapCollector
     {
         public List<Map> allMaps = new List<Map>();
         string[] paths = { "../../../main.map", "../../../boss.map", "../../../map3.map" };
-        
         public MapCollector()
         {
             for (int i = 0; i < paths.Length; i++)
@@ -22,8 +22,17 @@ namespace Roguelike
         }
         public char[,] getDrawnMapById(int id)
         {
-            return allMaps[id].drawnMap;
+            return allMaps[id].DrawnMap;
         }
+    }
+
+    struct Map //вынес структуру из класса
+    {
+        private Entity[,] entities;
+        private int[,] transitionTo;
+        private char[,] drawnMap;
+        private bool[,] passable;
+
         public Map getMapById(int id)
         {
             return allMaps[id];

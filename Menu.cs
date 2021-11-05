@@ -6,7 +6,6 @@ namespace Roguelike
 {
     class Menu
     {
-        
         private string[] menuItems;
         private int cursor;
 
@@ -32,7 +31,6 @@ namespace Roguelike
                         Console.WriteLine(menuItems[i]);
                         Console.ResetColor();
                     }
-
                     else
                     {
                         Console.WriteLine(menuItems[i]);
@@ -40,17 +38,20 @@ namespace Roguelike
 
                 }
                 System.Threading.Thread.Sleep(80);
-                key = Console.ReadKey();              
-                if (key.Key == ConsoleKey.UpArrow)
+                do
                 {
-                    cursor--;
-                    if (cursor == -1) cursor = menuItems.Length - 1;
-                }
-                else if (key.Key == ConsoleKey.DownArrow)
-                {
-                    cursor++;
-                    if (cursor == menuItems.Length) cursor = 0;
-                }
+                    key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.UpArrow)
+                    {
+                        cursor--;
+                        if (cursor == -1) cursor = menuItems.Length - 1;
+                    }
+                    else if (key.Key == ConsoleKey.DownArrow)
+                    {
+                        cursor++;
+                        if (cursor == menuItems.Length) cursor = 0;
+                    }
+                } while (key.Key != ConsoleKey.UpArrow && key.Key != ConsoleKey.DownArrow && key.Key != ConsoleKey.Enter);
             }
             while (key.Key != ConsoleKey.Enter);
             return cursor;
