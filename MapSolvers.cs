@@ -16,8 +16,8 @@ namespace Roguelike
             }
             return result;
         }
-        static public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass) //переименуй как-нибудь понятно аргументы
-        {
+        static public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass) //переименуй как-нибудь понятно аргументы 
+        {                                                                                       //мне понятно
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
             string unpassable = "# ~";
@@ -25,7 +25,7 @@ namespace Roguelike
             {
                 for (int j = 0; j < a[i].Length; j++)
                 {
-                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :)
+                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец
                     {
                         t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
                         result[i, j] = 'E';
@@ -34,19 +34,12 @@ namespace Roguelike
                     {
                         result[i, j] = a[i][j];
                     }
-                    if (unpassable.Contains(a[i][j])) //может лучше написать pass[i, j] = unpassable.Contains(a[i][j]) ? false : true ?
-                    {
-                        pass[i, j] = false;
-                    }
-                    else
-                    {
-                        pass[i, j] = true;
-                    }
+                    pass[i, j] = unpassable.Contains(a[i][j]) ? false : true; // да.
                 }
             }
             return result;
         }
-        public void TransitionSolver(List<Map> maps)
+        public static void TransitionSolver(List<Map> maps)
         {
             int writeToMap;
             for(int i = 0; i < maps.Count; i++)
