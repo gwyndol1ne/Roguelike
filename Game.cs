@@ -56,30 +56,34 @@ namespace Roguelike
                         {
                             Console.SetCursorPosition(player.X, player.Y);
                             Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                            player.Y--;
+                            player.Y = player.Y-1*collector.CanMove(player.X,player.Y-1,player.MapId);
                         }
 
                         if (pressedKey.Key == ConsoleKey.A)
                         {
                             Console.SetCursorPosition(player.X, player.Y);
                             Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                            player.X--;
+                            player.X = player.X - 1 * collector.CanMove(player.X-1, player.Y, player.MapId);
                         }
 
                         if (pressedKey.Key == ConsoleKey.S)
                         {
                             Console.SetCursorPosition(player.X, player.Y);
                             Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                            player.Y++;
+                            player.Y = player.Y + 1 * collector.CanMove(player.X, player.Y+1, player.MapId);
                         }
 
                         if (pressedKey.Key == ConsoleKey.D)
                         {
                             Console.SetCursorPosition(player.X, player.Y);
                             Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                            player.X++;
+                            player.X = player.X + 1 * collector.CanMove(player.X+1, player.Y, player.MapId);
                         }
-
+                        if (collector.Transition(player))
+                        {
+                            Console.Clear();
+                            screen.draw(collector.GetDrawnMapById(player.MapId));
+                        }
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
                             gameStatus = (int)Status.PauseMenu;

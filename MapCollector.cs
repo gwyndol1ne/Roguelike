@@ -42,12 +42,11 @@ namespace Roguelike
 
         public bool Transition(Player player)
         {
-
             if (allMaps[player.MapId].transitionTo[player.Y, player.X] != -1)
             {
                 int transitionTo = allMaps[player.MapId].transitionTo[player.Y, player.X];
-                int cx = allMaps[player.MapId].transitionCoords[transitionTo].x;
-                int cy = allMaps[player.MapId].transitionCoords[transitionTo].y;
+                int cx = allMaps[transitionTo].transitionCoords[player.MapId].x;
+                int cy = allMaps[transitionTo].transitionCoords[player.MapId].y;
                 player.X = cy;
                 player.Y = cx;
                 player.MapId = transitionTo;
