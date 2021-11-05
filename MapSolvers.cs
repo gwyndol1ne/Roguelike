@@ -16,13 +16,8 @@ namespace Roguelike
             }
             return result;
         }
-<<<<<<< HEAD
         static public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass) //переименуй как-нибудь понятно аргументы 
         {                                                                                       //мне понятно
-=======
-        public char[,] mapSplitter(string[] a, int sy, int[,] t, int[] tr, bool[,] pass)
-        {
->>>>>>> interface_dev
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
             string unpassable = "# ~";

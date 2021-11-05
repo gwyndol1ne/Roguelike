@@ -14,7 +14,6 @@ namespace Roguelike
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
-            
         }
         public static void Start()
         {
