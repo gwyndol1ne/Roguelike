@@ -6,8 +6,8 @@ namespace Roguelike
 {
     static class Draw
     {
-        public static int xoffset = 3;
-        public static int yoffset = 3;
+        public static int xoffset = 5;
+        public static int yoffset = 2;
         public static void draw(char[,] screen)
         {
             for (int i = 0; i < screen.GetLength(0); i++)
@@ -19,6 +19,8 @@ namespace Roguelike
                 }
                 Console.WriteLine();
             }
+            Console.SetCursorPosition(60, 3);
+            Console.WriteLine("hp: 20");
         }
     }
 }
