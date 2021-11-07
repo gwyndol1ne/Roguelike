@@ -24,7 +24,7 @@ namespace Roguelike
                 {
                     for (int i = 0; i < menuItems.Length; i++)
                     {
-                        Console.SetCursorPosition(60 - ((menuItems[i].Length + 1) / 2), (14 - menuItems.Length) + i);
+                        Console.SetCursorPosition(60 - ((menuItems[i].Length + 1) / 2), i);
                         if (cursor == i)
                         {
                             Console.ForegroundColor = ConsoleColor.Magenta;

@@ -14,36 +14,38 @@ namespace Roguelike
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
-
         }
         public static void Start()
-        {           
+        {
             Player player = new Player("a", 0, 0, 0, 11, 11);
+            MapCollector collector = new MapCollector();
+            string[] startMenuItems = { "Новая игра", "Выход" };
+            Menu startMenu = new Menu(startMenuItems);
+            string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
+            Menu pauseMenu = new Menu(pauseMenuItems);
+            string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green",
+                                       "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice",
+                                       "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum",
+                                       "Dark Blue Moon ", "Sun", "Judgement ", "The World" };
+            Menu tarotMenu = new Menu(tarotMenuItems);
             int gameStatus = (int)Status.StartMenu;          
             do
             {
                 if (gameStatus == (int)Status.StartMenu)
                 {
                     player = new Player("a", 0, 0, 0, 11, 11);
-                    string[] startMenuItems = { "Новая игра", "Выход" };
-                    Menu startMenu = new Menu(startMenuItems);
                     gameStatus = startMenu.GetChoice();
                 }
                 if (gameStatus == (int)Status.ClassMenu)
                 {
                     Console.Clear();
-                    /*string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green", 
-                                       "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice", 
-                                       "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum", 
-                                       "Dark Blue Moon ", "Sun", "Judgement ", "The World" };*/
+                    tarotMenu.GetChoice();
                     gameStatus = (int)Status.InGame;
                 }
                 if (gameStatus == (int)Status.InGame)
                 {
-                    MapCollector collector = new MapCollector();
-                   
                     ConsoleKeyInfo pressedKey;
-                    Draw.ReDrawMap(collector.GetMapById(player.MapId), player.Y, player.X, '@');
+                    Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
                     do
                     {
                         pressedKey = Console.ReadKey(true);
@@ -77,14 +79,12 @@ namespace Roguelike
 
                     if (gameStatus == (int)Status.PauseMenu)
                     {
-                        string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
-                        Menu pauseMenu = new Menu(pauseMenuItems);
                         int choice = pauseMenu.GetChoice();
                         if (choice == 0)
                         {
                             gameStatus = (int)Status.InGame;
                         }
-                        if (choice == 1)
+                        else if (choice == 1)
                         {
                             gameStatus = (int)Status.StartMenu;
                         }
@@ -92,10 +92,11 @@ namespace Roguelike
 
                     if (gameStatus == (int)Status.Closed)
                     {
-                        Environment.Exit(0); // не работает хз почему
+                        Environment.Exit(0);
                     }
                 }
             } while (true);
+            
         }
     }
 }
