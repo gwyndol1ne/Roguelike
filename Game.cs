@@ -18,6 +18,7 @@ namespace Roguelike
         public static void Start()
         {
             Player player = new Player("a", 0, 0, 0, 11, 11);
+            ItemCollector icollector = new ItemCollector();
             MapCollector collector = new MapCollector();
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
