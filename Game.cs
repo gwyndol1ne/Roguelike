@@ -14,7 +14,6 @@ namespace Roguelike
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
-
         }
         public static void Start()
         {           
@@ -48,7 +47,7 @@ namespace Roguelike
                     MapCollector collector = new MapCollector();
                    
                     ConsoleKeyInfo pressedKey;
-                    Draw.ReDrawMap(collector.GetMapById(player.MapId), player.Y, player.X, '@');
+                    Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
                     do
                     {
                         pressedKey = Console.ReadKey(true);
