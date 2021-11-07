@@ -23,8 +23,7 @@ namespace Roguelike
             bool moved = canMove == 1 ? true : false; //метод Даника
             if (moved && collector.Transition(player))
             {
-                Console.Clear();
-                Draw.draw(collector.GetDrawnMapById(player.MapId));
+                Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
                 moved = false;
             }
         }

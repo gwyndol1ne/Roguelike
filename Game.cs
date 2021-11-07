@@ -7,8 +7,6 @@ namespace Roguelike
 
     class Game
     {
-        static int xoffset = Draw.xoffset, yoffset = Draw.yoffset, canMove = 0;
-        static bool moved = false;
         private enum Status
         {
             ClassMenu = 0,
@@ -24,8 +22,6 @@ namespace Roguelike
             int gameStatus = (int)Status.StartMenu;          
             do
             {
-               
-              
                 if (gameStatus == (int)Status.StartMenu)
                 {
                     player = new Player("a", 0, 0, 0, 11, 11);
@@ -33,7 +29,6 @@ namespace Roguelike
                     Menu startMenu = new Menu(startMenuItems);
                     gameStatus = startMenu.GetChoice();
                 }
-
                 if (gameStatus == (int)Status.ClassMenu)
                 {
                     Console.Clear();
@@ -43,14 +38,12 @@ namespace Roguelike
                                        "Dark Blue Moon ", "Sun", "Judgement ", "The World" };*/
                     gameStatus = (int)Status.InGame;
                 }
-               
                 if (gameStatus == (int)Status.InGame)
                 {
-                    Console.Clear();
                     MapCollector collector = new MapCollector();
                    
                     ConsoleKeyInfo pressedKey;
-                    Draw.draw(collector.GetDrawnMapById(player.MapId));
+                    Draw.ReDrawMap(collector.GetMapById(player.MapId), player.Y, player.X, '@');
                     do
                     {
                         pressedKey = Console.ReadKey(true);
@@ -99,7 +92,7 @@ namespace Roguelike
 
                     if (gameStatus == (int)Status.Closed)
                     {
-                        Environment.Exit(0);
+                        Environment.Exit(0); // не работает хз почему
                     }
                 }
             } while (true);

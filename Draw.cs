@@ -19,13 +19,17 @@ namespace Roguelike
                 }
                 Console.WriteLine();
             }
-            Console.SetCursorPosition(60, 3);
-            Console.WriteLine("hp: 20");
         }
         public static void DrawAtPos(int x, int y, char symbol)
         {
             Console.SetCursorPosition(x + xoffset, y + yoffset);
             Console.WriteLine(symbol);
+        }
+        public static void ReDrawMap(Map map, int x, int y, char symbol)
+        {
+            Console.Clear();
+            Draw.draw(map.drawnMap);
+            Draw.DrawAtPos(x, y, symbol);
         }
     }
 }

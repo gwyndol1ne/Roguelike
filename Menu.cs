@@ -17,43 +17,37 @@ namespace Roguelike
 
         public int GetChoice()
         {
+            Console.Clear();
             ConsoleKeyInfo key;
-            do
-            {
-                Console.Clear();
-
-                for (int i = 0; i < menuItems.Length; i++)
+            bool exit = false;
+                do
                 {
-                    Console.SetCursorPosition(60 - ((menuItems[i].Length + 1) / 2), (14 - menuItems.Length) + i);
-                    if (cursor == i)
+                    for (int i = 0; i < menuItems.Length; i++)
                     {
-                        Console.ForegroundColor = ConsoleColor.Magenta;
+                        Console.SetCursorPosition(60 - ((menuItems[i].Length + 1) / 2), (14 - menuItems.Length) + i);
+                        if (cursor == i)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                        }
                         Console.WriteLine(menuItems[i]);
                         Console.ResetColor();
                     }
+                    key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.Enter) exit = true;
                     else
                     {
-                        Console.WriteLine(menuItems[i]);
+                        if (key.Key == ConsoleKey.UpArrow)
+                        {
+                            cursor--;
+                            if (cursor == -1) cursor = menuItems.Length - 1;
+                        }
+                        else if (key.Key == ConsoleKey.DownArrow)
+                        {
+                            cursor++;
+                            if (cursor == menuItems.Length) cursor = 0;
+                        }
                     }
-
-                }
-                System.Threading.Thread.Sleep(80);
-                do
-                {
-                    key = Console.ReadKey(true);
-                    if (key.Key == ConsoleKey.UpArrow)
-                    {
-                        cursor--;
-                        if (cursor == -1) cursor = menuItems.Length - 1;
-                    }
-                    else if (key.Key == ConsoleKey.DownArrow)
-                    {
-                        cursor++;
-                        if (cursor == menuItems.Length) cursor = 0;
-                    }
-                } while (key.Key != ConsoleKey.UpArrow && key.Key != ConsoleKey.DownArrow && key.Key != ConsoleKey.Enter);
-            }
-            while (key.Key != ConsoleKey.Enter);
+                } while (!exit);
             return cursor;
         }
     }
