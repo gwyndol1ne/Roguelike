@@ -8,7 +8,7 @@ namespace Roguelike
     {
         string[] lines;
         private int readFrom;
-        List<Item> allItems;
+        public List<Item> allItems;
         public ItemCollector()
         {
             allItems = new List<Item>();
@@ -53,6 +53,15 @@ namespace Roguelike
             int i = Convert.ToInt32(identificators[7]);
             Armor result = new Armor(id, name, def, slot, s, a, i);
             return result;
+        }
+        protected Consumable ConsumableResolver(string[] identificators, int id, string name)
+        {
+            Consumable result = new Consumable(id, name);
+            return result;
+        }
+        public List<Item> GetItemList
+        {
+            get { return allItems; }
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Roguelike
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
+            ChestOpened = 5,
         }
         public static void Start()
         {
@@ -29,7 +30,12 @@ namespace Roguelike
                                        "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum",
                                        "Dark Blue Moon ", "Sun", "Judgement ", "The World" };
             Menu tarotMenu = new Menu(tarotMenuItems);
-            int gameStatus = (int)Status.StartMenu;          
+            string[] chestMenuItems;
+            Menu chestMenu;
+            Chest chest1 = new Chest(0, 1, 10,collector);
+            chest1.GenerateContents(icollector.GetItemList);
+            int gameStatus = (int)Status.StartMenu;
+            int moveX = 0, moveY = 0;
             do
             {
                 if (gameStatus == (int)Status.Closed)
@@ -38,7 +44,6 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 0, 0, 0, 0 ,0, 11, 11);
                     gameStatus = startMenu.GetChoice();
                 }
                 if (gameStatus == (int)Status.ClassMenu)
@@ -49,11 +54,14 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.InGame)
                 {
+                   
                     ConsoleKeyInfo pressedKey;
                     Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
                     
                     do
                     {
+                        moveX = 0;
+                        moveY = 0;
                         GameInterface.GetGameInterface(player);
                         pressedKey = Console.ReadKey(true);
                         if (pressedKey.Key == ConsoleKey.Escape)
@@ -64,24 +72,28 @@ namespace Roguelike
                         {
                             if (pressedKey.Key == ConsoleKey.W)
                             {
-                                player.Agility++;
-                                MovementManager.TryMove(player, 0,-1, collector);                             
+                                moveY = -1;
                             }
 
                             else if (pressedKey.Key == ConsoleKey.A)
                             {
-                                MovementManager.TryMove(player, -1, 0, collector);
+                                moveX = -1;
                             }
 
                             else if (pressedKey.Key == ConsoleKey.S)
                             {
-                                MovementManager.TryMove(player, 0,1, collector);
+                                moveY = 1;
                             }
 
                             else if (pressedKey.Key == ConsoleKey.D)
                             {
-                                MovementManager.TryMove(player, 1, 0, collector);
+                                moveX = 1;
                             }
+                            if (!MovementManager.TryMove(player, moveX, moveY, collector))
+                            {
+                                gameStatus = MovementManager.ChestTouched(player.MapId, player.X + moveX, player.Y + moveY, collector);
+                            }
+                            
                         }
                     } while (gameStatus == (int)Status.InGame);
 
@@ -97,6 +109,13 @@ namespace Roguelike
                         {
                             gameStatus = (int)Status.StartMenu;
                         }
+                    }
+                    if (gameStatus == (int)Status.ChestOpened)
+                    {
+                        chestMenuItems = collector.GetChestItems(player.MapId, player.X + moveX, player.Y + moveY);
+                        chestMenu = new Menu(chestMenuItems);
+                        chestMenu.GetChoice();
+                        gameStatus = (int)Status.InGame;
                     }
                 }
             } while (true);

@@ -7,7 +7,7 @@ namespace Roguelike
     public class GameInterface
     {
        
-        public static  void GetGameInterface(Player player) 
+        public static void GetGameInterface(Player player) 
         {
             Console.SetCursorPosition(63, 4);
             Console.WriteLine("ЗДОРОВЬЕ:{0}", player.HP);
@@ -21,6 +21,7 @@ namespace Roguelike
             Console.WriteLine("ЛОВКОСТЬ:{0}", player.Agility);
             Console.SetCursorPosition(63, 9);
             Console.WriteLine("ВАШИ КВЕСТЫ");
+
         }
 
     }

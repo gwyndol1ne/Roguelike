@@ -10,7 +10,7 @@ namespace Roguelike
     }
     static class MovementManager
     {
-        public static void TryMove(Player player, int x, int y, MapCollector collector)
+        public static bool TryMove(Player player, int x, int y, MapCollector collector)
         {
             int canMove = collector.CanMove(player.Y + y, player.X + x, player.MapId);
             if (canMove == 1)
@@ -24,8 +24,16 @@ namespace Roguelike
             if (moved && collector.Transition(player))
             {
                 Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
-                moved = false;
             }
+            return moved;
+        }
+        public static int ChestTouched(int mapId, int x, int y , MapCollector collector)
+        {
+            if(collector.checkChest(mapId, x, y))
+            {
+                return 5;
+            }
+            return 2;
         }
     }
 }
