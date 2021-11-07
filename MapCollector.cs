@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Roguelike
 {
 
-    class MapCollector
+    public class MapCollector
     {
         private List<Map> allMaps = new List<Map>();
         private string[] paths = { "../../../main.map", "../../../boss.map", "../../../map3.map" };
@@ -54,10 +54,33 @@ namespace Roguelike
             }
             return false;
         }
+        
+        public void addChest(int mapId, Chest chest, int x, int y)
+        {
+            allMaps[mapId].chests[x, y] = chest;
+            allMaps[mapId].passable[x, y] = false;
+            allMaps[mapId].drawnMap[x, y] = 'C';
+        }
+        
+        public bool checkChest(int mapId, int x, int y)
+        {
+            if (allMaps[mapId].chests[y,x] != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        public string[] GetChestItems(int mapId, int x, int y)
+        {
+            Chest chest = allMaps[mapId].chests[y, x];
+            return chest.getItemNames();
+        }
     }
 
     public struct Map
     {
+        public Chest [,] chests;
         public transition[] transitionCoords;
         public int[,] transitionTo;
         public char[,] drawnMap;
@@ -69,6 +92,7 @@ namespace Roguelike
             int sizey = 0;
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
             transitionCoords = new transition[b];
+            chests = new Chest[sizex, sizey];
             transitionTo = new int[sizex, sizey];
             for(int i = 0; i < sizex; i++)
             {

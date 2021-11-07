@@ -47,12 +47,22 @@ namespace Roguelike
         }
         private Armor ArmorResolver(string[] identificators, int id, string name, Item.Slot slot)
         {
-            int def = Convert.ToInt32(identificators[3]);
-            int s = Convert.ToInt32(identificators[4]);
-            int a = Convert.ToInt32(identificators[5]);
-            int i = Convert.ToInt32(identificators[6]);
+            int def = Convert.ToInt32(identificators[4]);
+            int s = Convert.ToInt32(identificators[5]);
+            int a = Convert.ToInt32(identificators[6]);
+            int i = Convert.ToInt32(identificators[7]);
             Armor result = new Armor(id, name, def, slot, s, a, i);
             return result;
+        }
+        protected Consumable ConsumableResolver(string[] identificators, int id, string name)
+        {
+            Consumable result = new Consumable(id, name, (Item.Slot)2);
+            return result;
+        }
+
+        public List<Item> GetItemList
+        {
+            get { return allItems; }
         }
     }
 }

@@ -5,4 +5,5 @@
 e.g. 0:Sword:1:w:3:t:s
 	 1:Chainmail:4:a:10:10:0:-1
 ;;
-0:Sword:1:w:4:t:a
+0:Sword:1:w:3:t:s
+1:Chainmail:4:a:10:10:0:-1

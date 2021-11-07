@@ -31,5 +31,9 @@ namespace Roguelike
             name = Name;
             slot = (int)Slot;
         }
+        /*public int Id
+        {
+            get { return id; }
+        }*/
     }
 }
