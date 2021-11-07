@@ -31,7 +31,6 @@ namespace Roguelike
             int gameStatus = (int)Status.StartMenu;          
             do
             {
-
                 if (gameStatus == (int)Status.Closed)
                 {
                     Environment.Exit(0);
@@ -94,14 +93,6 @@ namespace Roguelike
                             gameStatus = (int)Status.StartMenu;
                         }
                     }
-<<<<<<< HEAD
-
-                    if (gameStatus == (int)Status.Closed)
-                    {
-                        Environment.Exit(0);
-                    }
-=======
->>>>>>> b04ffcd68dda122e0c50c09ab71c1240f0b0b292
                 }
             } while (true);
             
