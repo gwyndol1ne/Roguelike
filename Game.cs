@@ -32,7 +32,6 @@ namespace Roguelike
                     string[] startMenuItems = { "Новая игра", "Выход" };
                     Menu startMenu = new Menu(startMenuItems);
                     gameStatus = startMenu.GetChoice();
-                  
                 }
 
                 if (gameStatus == (int)Status.ClassMenu)
@@ -54,8 +53,6 @@ namespace Roguelike
                     Draw.draw(collector.GetDrawnMapById(player.MapId));
                     do
                     {
-                        Console.SetCursorPosition(player.X+xoffset, player.Y+yoffset);
-                        Console.Write("@");
                         pressedKey = Console.ReadKey(true);
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
@@ -63,49 +60,24 @@ namespace Roguelike
                         }
                         else
                         {
-                            canMove = 0;
-
                             if (pressedKey.Key == ConsoleKey.W)
                             {
-                                Console.SetCursorPosition(player.X + xoffset, player.Y + yoffset);
-                                Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                                canMove = collector.CanMove(player.X, player.Y - 1, player.MapId);
-                                player.Y = player.Y - 1 * canMove;
-                                moved = true;
+                                MovementManager.TryMove(player, 0,-1, collector);
                             }
 
                             else if (pressedKey.Key == ConsoleKey.A)
                             {
-                                Console.SetCursorPosition(player.X + xoffset, player.Y + yoffset);
-                                Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                                canMove = collector.CanMove(player.X - 1, player.Y, player.MapId);
-                                player.X = player.X - 1 * canMove;
-                                moved = true;
+                                MovementManager.TryMove(player, -1, 0, collector);
                             }
 
                             else if (pressedKey.Key == ConsoleKey.S)
                             {
-                                Console.SetCursorPosition(player.X + xoffset, player.Y + yoffset);
-                                Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                                canMove = collector.CanMove(player.X, player.Y + 1, player.MapId);
-                                player.Y = player.Y + 1 * canMove;
-                                moved = true;
+                                MovementManager.TryMove(player, 0,1, collector);
                             }
 
                             else if (pressedKey.Key == ConsoleKey.D)
                             {
-                                Console.SetCursorPosition(player.X + xoffset, player.Y + yoffset);
-                                Console.WriteLine(collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
-                                canMove = collector.CanMove(player.X + 1, player.Y, player.MapId);
-                                player.X = player.X + 1 * canMove;
-                                moved = true;
-                            }
-                            moved = canMove == 1 ? true : false; //метод Даника помог
-                            if (moved && (collector.Transition(player)))
-                            {
-                                Console.Clear();
-                                Draw.draw(collector.GetDrawnMapById(player.MapId));
-                                moved = false;
+                                MovementManager.TryMove(player, 1, 0, collector);
                             }
                         }
                     } while (gameStatus == (int)Status.InGame);

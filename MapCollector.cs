@@ -31,7 +31,7 @@ namespace Roguelike
             return allMaps[id];
         }
 
-        public int CanMove(int y, int x, int mapId)
+        public int CanMove(int x, int y, int mapId)
         {
             if (allMaps[mapId].passable[x, y])
             {

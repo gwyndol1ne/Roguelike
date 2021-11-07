@@ -22,5 +22,10 @@ namespace Roguelike
             Console.SetCursorPosition(60, 3);
             Console.WriteLine("hp: 20");
         }
+        public static void DrawAtPos(int x, int y, char symbol)
+        {
+            Console.SetCursorPosition(x + xoffset, y + yoffset);
+            Console.WriteLine(symbol);
+        }
     }
 }
