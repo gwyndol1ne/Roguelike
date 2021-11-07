@@ -91,8 +91,10 @@ namespace Roguelike
                             {
                                 moveX = 1;
                             }
-                            MovementManager.TryMove(player, moveX, moveY, collector);
-                            gameStatus = MovementManager.ChestTouched(player.MapId, player.X + moveX, player.Y + moveY, collector);
+                            if (!MovementManager.TryMove(player, moveX, moveY, collector))
+                            {
+                                gameStatus = MovementManager.ChestTouched(player.MapId, player.X + moveX, player.Y + moveY, collector);
+                            }
                             
                         }
                     } while (gameStatus == (int)Status.InGame);
