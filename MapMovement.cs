@@ -8,17 +8,24 @@ namespace Roguelike
     {
         public int x, y;
     }
-    class MovementManager
+    static class MovementManager
     {
-        Map currentMap;
-        public MovementManager(Map setMap)
+        public static void TryMove(Player player, int x, int y, MapCollector collector)
         {
-            currentMap = setMap;
+            int canMove = collector.CanMove(player.Y + y, player.X + x, player.MapId);
+            if (canMove == 1)
+            {
+                Draw.DrawAtPos(player.X, player.Y, collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
+                player.X += x * canMove;
+                player.Y += y * canMove;
+                Draw.DrawAtPos(player.X, player.Y, '@');
+            }
+            bool moved = canMove == 1 ? true : false; //метод Даника
+            if (moved && collector.Transition(player))
+            {
+                Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
+                moved = false;
+            }
         }
-        public void setCurrentMap(Map map)
-        {
-            currentMap = map;
-        }
-
     }
 }

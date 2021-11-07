@@ -31,7 +31,7 @@ namespace Roguelike
             return allMaps[id];
         }
 
-        public int CanMove(int y, int x, int mapId)
+        public int CanMove(int x, int y, int mapId)
         {
             if (allMaps[mapId].passable[x, y])
             {
@@ -56,34 +56,6 @@ namespace Roguelike
         }
     }
 
-    /*struct Map //вынес структуру из класса
-    {
-        private Entity[,] entities;
-        private int[,] transitionTo;
-        private char[,] drawnMap;
-        private bool[,] passable;
-
-        public char[,] DrawnMap { get { return drawnMap; } } //сделал доступ к drawnMap через св-во
-
-        public Map(string[] a) //переименуй массив строк как-нибудь понятно :)
-        {
-            int[] connections = MapSolver.ConnectionSolver(a[a.Length - 1]);
-            int sizex = a.Length - 1;
-            int sizey = 0;
-            for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
-            entities = new Entity[sizex, sizey];
-            transitionTo = new int[sizex, sizey];
-            passable = new bool[sizex, sizey];
-            drawnMap = MapSolver.mapSplitter(a, sizey, transitionTo, connections, passable);
-        }
-        public Map getMapById(int id)
-=======
-        public char[,] getDrawnMapById(int id)
->>>>>>> bb48c6f35853beecc54fcc7474eec9a67eb7bbb5
-        {
-            return allMaps[id].drawnMap;
-        }
-    }*/
     public struct Map
     {
         public transition[] transitionCoords;
