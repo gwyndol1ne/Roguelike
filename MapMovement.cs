@@ -24,8 +24,15 @@ namespace Roguelike
             if (moved && collector.Transition(player))
             {
                 Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
-                moved = false;
             }
+        }
+        public static int ChestTouched(int mapId, int x, int y , MapCollector collector)
+        {
+            if(collector.checkChest(mapId, x, y))
+            {
+                return 5;
+            }
+            return 2;
         }
     }
 }
