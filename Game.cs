@@ -22,8 +22,11 @@ namespace Roguelike
             int gameStatus = (int)Status.StartMenu;          
             do
             {
-               
-              
+
+                if (gameStatus == (int)Status.Closed)
+                {
+                    Environment.Exit(0);
+                }
                 if (gameStatus == (int)Status.StartMenu)
                 {
                     player = new Player("a", 0, 0, 0, 11, 11);
@@ -110,10 +113,7 @@ namespace Roguelike
                         }
                     }
 
-                    if (gameStatus == (int)Status.Closed)
-                    {
-                        Environment.Exit(0);
-                    }
+                   
                 }
             } while (true);
         }
