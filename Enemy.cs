@@ -6,6 +6,6 @@ namespace Roguelike
 {
     class Enemy : NPC
     {
-        public Enemy(string Name, int Hp, int Damage, int MapId, int X, int Y) : base(Name, Hp, Damage, MapId, X, Y) { }
+        public Enemy(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) : base(Name, Hp, Strength, Agility, Intelligence, Defense, MapId, X, Y) { }
     }
 }

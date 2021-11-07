@@ -17,6 +17,7 @@ namespace Roguelike
 
         public int GetChoice()
         {
+            cursor = 0;
             Console.Clear();
             ConsoleKeyInfo key;
             bool exit = false;

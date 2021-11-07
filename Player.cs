@@ -6,6 +6,6 @@ namespace Roguelike
 {
     public class Player : Entity
     {
-        public Player(string Name, int Hp, int Damage, int MapId, int X, int Y) : base(Name, Hp, Damage, MapId, X, Y) { }
+        public Player(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) : base(Name, Hp, Strength, Agility,  Intelligence,  Defense, MapId, X, Y) { }
     }
 }
