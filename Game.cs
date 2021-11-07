@@ -125,8 +125,8 @@ namespace Roguelike
                         {
                             List<string> inventoryItems = player.GetInventory();
                             Menu inventoryMenu = new Menu(inventoryItems);
-                            int inventoryChoice = inventoryMenu.GetChoice(true);
-                            if (inventoryChoice == 2)
+                            int inventoryChoice = inventoryMenu.GetChoice(true); //3
+                            if (inventoryChoice == 8)
                             {
                                 gameStatus = (int)Status.InGame;
                                 break;
@@ -138,13 +138,30 @@ namespace Roguelike
                                 switch (inventoryChoice)
                                 {
                                     case 0:
-                                        player.EquipedWeapon = null;
+                                        player.EquippedLeftHand = null;
                                         break;
                                     case 1:
-                                        player.EquipedHelmet = null;
+                                        player.EquippedRightHand = null;
+                                        break;
+                                    case 2:
+                                        player.EquippedHelmet = null;
+                                        break;
+                                    case 3:
+                                        player.EquippedPlate = null;
+                                        break;
+                                    case 4:
+                                        player.EquippedLegs = null;
+                                        break;
+                                    case 5:
+                                        player.EquippedBoots = null;
+                                        break;
+                                    case 6:
+                                        player.EquippedRing = null;
+                                        break;
+                                    case 7:
+                                        player.EquippedAmulet = null;
                                         break;
                                 }
-
                             }
                             else player.ChangeItemByChoice(slotChoice, inventoryChoice);
                         } while (true);
@@ -153,7 +170,7 @@ namespace Roguelike
                     {
                         chestMenuItems = collector.GetChestItems(player.MapId, player.X + moveX, player.Y + moveY);
                         chestMenu = new Menu(chestMenuItems);
-                        chestMenu.GetChoice(true);
+                        player.AddItem(collector.GetChest(player.MapId, player.X + moveX, player.Y + moveY).GetItems()[chestMenu.GetChoice(true)]);//сами думайте)
                         gameStatus = (int)Status.InGame;
                     }
                 }
