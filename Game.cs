@@ -14,6 +14,7 @@ namespace Roguelike
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
+            Inventory = 5,
         }
         public static void Start()
         {
@@ -57,6 +58,10 @@ namespace Roguelike
                         {
                             gameStatus = (int)Status.PauseMenu;
                         }
+                        else if (pressedKey.Key == ConsoleKey.I)
+                        {
+                            gameStatus = (int)Status.Inventory;
+                        }
                         else
                         {
                             if (pressedKey.Key == ConsoleKey.W)
@@ -92,6 +97,11 @@ namespace Roguelike
                         {
                             gameStatus = (int)Status.StartMenu;
                         }
+                    }
+
+                    if (gameStatus == (int)Status.Inventory)
+                    {
+                        player.ShowInventory();
                     }
                 }
             } while (true);
