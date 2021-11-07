@@ -36,7 +36,6 @@ namespace Roguelike
             chest1.GenerateContents(icollector.GetItemList);
             int gameStatus = (int)Status.StartMenu;
             int moveX = 0, moveY = 0;
-            bool triedMoving = false;
             do
             {
                 if (gameStatus == (int)Status.Closed)
@@ -73,7 +72,6 @@ namespace Roguelike
                         {
                             if (pressedKey.Key == ConsoleKey.W)
                             {
-                                player.Agility++;
                                 moveY = -1;
                             }
 

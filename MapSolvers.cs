@@ -20,7 +20,7 @@ namespace Roguelike
         {                                                                                       //мне понятно //мне нет
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
-            string unpassable = "# ~";
+            string unpassable = "# ~/\\|=+_";
             for (int i = 0; i < a.Length - 1; i++)
             {
                 for (int j = 0; j < a[i].Length; j++)

@@ -5,4 +5,7 @@
 e.g. 0:Sword:w:3:t:s
 	 1:Chainmail:a:10:b:10:0:-1
 ;;
-0:Sword:w:4:t:a
+0:Topor Dreyvena:w:4:t:a
+1:Mech Viego:a:3:b:10:-5:0
+2:Lapa Volibira:w:100000:f:s
+3:Kopye Kalisti:w:-10000:t:a
