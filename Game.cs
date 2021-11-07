@@ -17,7 +17,7 @@ namespace Roguelike
         }
         public static void Start()
         {
-            Player player = new Player("a", 0, 0, 0, 11, 11);
+            Player player = new Player("a", 0, 0, 0, 0, 0, 0, 11, 11);
             MapCollector collector = new MapCollector();
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
@@ -38,7 +38,7 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 0, 0, 11, 11);
+                    player = new Player("a", 0, 0, 0, 0, 0 ,0, 11, 11);
                     gameStatus = startMenu.GetChoice();
                 }
                 if (gameStatus == (int)Status.ClassMenu)
@@ -51,8 +51,10 @@ namespace Roguelike
                 {
                     ConsoleKeyInfo pressedKey;
                     Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
+                    
                     do
                     {
+                        GameInterface.GetGameInterface(player);
                         pressedKey = Console.ReadKey(true);
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
@@ -62,7 +64,8 @@ namespace Roguelike
                         {
                             if (pressedKey.Key == ConsoleKey.W)
                             {
-                                MovementManager.TryMove(player, 0,-1, collector);
+                                player.Agility++;
+                                MovementManager.TryMove(player, 0,-1, collector);                             
                             }
 
                             else if (pressedKey.Key == ConsoleKey.A)
@@ -88,20 +91,14 @@ namespace Roguelike
                         if (choice == 0)
                         {
                             gameStatus = (int)Status.InGame;
+
                         }
                         else if (choice == 1)
                         {
                             gameStatus = (int)Status.StartMenu;
                         }
                     }
-<<<<<<< HEAD
 
-                    if (gameStatus == (int)Status.Closed)
-                    {
-                        Environment.Exit(0);
-                    }
-=======
->>>>>>> b04ffcd68dda122e0c50c09ab71c1240f0b0b292
                 }
             } while (true);
             
