@@ -1,0 +1,8 @@
+﻿id:name:type
+		(a)armor:def:slot:str:agi:int
+		(w)weapon:dmg:oneHanded:scale
+		(c)consumable:?
+e.g. 0:Sword:w:3:t:s
+	 1:Chainmail:a:10:b:10:0:-1
+;;
+0:Sword:w:4:t:a
