@@ -25,7 +25,7 @@ namespace Roguelike
             {
                 for (int j = 0; j < a[i].Length; j++)
                 {
-                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец
+                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец соси конец
                     {
                         t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
                         result[i, j] = 'E';

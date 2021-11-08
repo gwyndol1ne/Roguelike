@@ -31,9 +31,9 @@ namespace Roguelike
         {
             if(collector.checkChest(mapId, x, y))
             {
-                return 5;
+                return (int)Game.Status.ChestOpened;
             }
-            return 2;
+            return (int)Game.Status.InGame;
         }
     }
 }

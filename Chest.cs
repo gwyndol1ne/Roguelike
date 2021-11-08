@@ -31,6 +31,9 @@ namespace Roguelike
             }
             return result;
         }
-        
+        public List<Item> GetItems()
+        {
+            return items;
+        }
     }
 }

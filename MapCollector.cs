@@ -15,7 +15,7 @@ namespace Roguelike
         {
             for (int i = 0; i < paths.Length; i++)
             {
-                string[] collectedMap = System.IO.File.ReadAllLines(paths[i]);
+                string[] collectedMap = File.ReadAllLines(paths[i]);
                 allMaps.Add(new Map(collectedMap, paths.Length));
             }
             MapSolver.TransitionSolver(allMaps);
@@ -75,9 +75,12 @@ namespace Roguelike
         {
             Chest chest = allMaps[mapId].chests[y, x];
             return chest.getItemNames();
-        } 
-        
-        
+
+        }
+        public Chest GetChest(int mapId, int x, int y)
+        {
+            return allMaps[mapId].chests[y, x];
+        }
     }
 
     public struct Map
@@ -107,7 +110,5 @@ namespace Roguelike
             passable = new bool[sizex, sizey];
             drawnMap = MapSolver.mapSplitter(a, sizey,transitionTo , connections, passable);
         }
-
-
     }
 }
