@@ -66,7 +66,7 @@ namespace Roguelike
                     {
                         moveX = 0;
                         moveY = 0;
-                        GameInterface.GetGameInterface(player);
+                        GameInterface.GetGameInterface(player, collector);
                         pressedKey = Console.ReadKey(true);
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
@@ -125,7 +125,7 @@ namespace Roguelike
                         {
                             List<string> inventoryItems = player.GetInventory();
                             Menu inventoryMenu = new Menu(inventoryItems);
-                            int inventoryChoice = inventoryMenu.GetChoice(true); //3
+                            int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это?
                             if (inventoryChoice == 8)
                             {
                                 gameStatus = (int)Status.InGame;
@@ -170,7 +170,12 @@ namespace Roguelike
                     {
                         chestMenuItems = collector.GetChestItems(player.MapId, player.X + moveX, player.Y + moveY);
                         chestMenu = new Menu(chestMenuItems);
-                        player.AddItem(collector.GetChest(player.MapId, player.X + moveX, player.Y + moveY).GetItems()[chestMenu.GetChoice(true)]);//сами думайте)
+                        Chest chest = collector.GetChest(player.MapId, player.X + moveX, player.Y + moveY);
+                        int choice = chestMenu.GetChoice(true);
+                        if (choice != chestMenuItems.Length - 1){
+                            player.AddItem(chest.GetItems()[choice]); //сами думайте)
+                            chest.DeleteItem(choice);
+                        }
                         gameStatus = (int)Status.InGame;
                     }
                 }

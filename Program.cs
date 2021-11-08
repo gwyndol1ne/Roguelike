@@ -9,6 +9,7 @@ namespace Roguelike
         {
             Console.CursorVisible = false;
             Console.SetWindowSize(90, 34);
+            Console.SetBufferSize(90, 34);
             Game.Start();
         }
     }

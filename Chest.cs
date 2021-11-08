@@ -16,7 +16,7 @@ namespace Roguelike
         {
             Random rng = new Random();
             int value;
-            for(int i = 0; i < 25; i++)
+            for(int i = 0; i < 3; i++)
             {
                 value = rng.Next(source.Count);
                 items.Add(source[value]);
@@ -30,6 +30,10 @@ namespace Roguelike
                 result[i] = items[i].Name;
             }
             return result;
+        }
+        public void DeleteItem(int index)
+        {
+            items.RemoveAt(index);
         }
         public List<Item> GetItems()
         {

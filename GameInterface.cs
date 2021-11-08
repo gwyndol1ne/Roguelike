@@ -7,19 +7,21 @@ namespace Roguelike
     public class GameInterface
     {
        
-        public static void GetGameInterface(Player player) 
+        public static void GetGameInterface(Player player, MapCollector collector) 
         {
-            Console.SetCursorPosition(63, 4);
+            Console.SetCursorPosition(53, 3);
+            Console.WriteLine("ЛОКАЦИЯ:{0}", collector.GetMapById(player.MapId).name);
+            Console.SetCursorPosition(53, 4);
             Console.WriteLine("ЗДОРОВЬЕ:{0}", player.HP);
-            Console.SetCursorPosition(63, 5);
+            Console.SetCursorPosition(53, 5);
             Console.WriteLine("СИЛА:{0}", player.Strength);
-            Console.SetCursorPosition(63, 6);
+            Console.SetCursorPosition(53, 6);
             Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Intelligence);
-            Console.SetCursorPosition(63, 7);
+            Console.SetCursorPosition(53, 7);
             Console.WriteLine("ЗАЩИТА:{0}", player.Defense);
-            Console.SetCursorPosition(63, 8);
+            Console.SetCursorPosition(53, 8);
             Console.WriteLine("ЛОВКОСТЬ:{0}", player.Agility);
-            Console.SetCursorPosition(63, 9);
+            Console.SetCursorPosition(53, 9);
             Console.WriteLine("ВАШИ КВЕСТЫ");
 
         }
