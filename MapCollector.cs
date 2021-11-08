@@ -75,7 +75,9 @@ namespace Roguelike
         {
             Chest chest = allMaps[mapId].chests[y, x];
             return chest.getItemNames();
-        }
+        } 
+        
+        
     }
 
     public struct Map
