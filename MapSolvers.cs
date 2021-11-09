@@ -21,11 +21,11 @@ namespace Roguelike
             char[,] result = new char[a.Length, sy];
             string numbers = "0123456789";
             string unpassable = "# ~/\\|=+_";
-            for (int i = 0; i < a.Length - 1; i++)
+            for (int i = 0; i < a.Length - 2; i++)
             {
                 for (int j = 0; j < a[i].Length; j++)
                 {
-                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец
+                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец соси конец
                     {
                         t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
                         result[i, j] = 'E';

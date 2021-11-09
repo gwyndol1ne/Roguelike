@@ -4,16 +4,14 @@ using System.Text;
 
 namespace Roguelike
 {
-    class Weapon : Item
+    public class Weapon : Item
     {
         private int damage;
-        private bool oneHanded;
         private char scaleStat;
 
-        public Weapon(int Id, string Name, int Damage, bool OneHanded, char ScaleStat) : base(Id, Name)
+        public Weapon(int Id, string Name, int Damage, Item.Slot Slot, char ScaleStat) : base(Id, Name, Slot)
         {
             damage = Damage;
-            oneHanded = OneHanded;
             scaleStat = ScaleStat; // agility - 'a', strength - 's', intelligence - 'i'
         }
     }

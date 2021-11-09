@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Roguelike
 {
@@ -8,12 +9,12 @@ namespace Roguelike
     {
         string[] lines;
         private int readFrom;
-        public List<Item> allItems;
+        private List<Item> allItems;
         public ItemCollector()
         {
             allItems = new List<Item>();
-            lines = System.IO.File.ReadAllLines("../../../items.txt");
-            for(int i = 0; i < lines.Length; i++)
+            lines = File.ReadAllLines("../../../items.txt");
+            for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i] == ";;")
                 {
@@ -21,33 +22,32 @@ namespace Roguelike
                     break;
                 }
             }
-            for(int i = readFrom; i < lines.Length; i++)
+            for (int i = readFrom; i < lines.Length; i++)
             {
                 string[] identificators = lines[i].Split(':');
                 int id = Convert.ToInt32(identificators[0]);
                 string name = identificators[1];
-                if(identificators[2] == "w")
+                Item.Slot slot = (Item.Slot)Convert.ToInt32(identificators[2]);
+                if (identificators[3] == "w")
                 {
-                    allItems.Add(WeaponResolver(identificators,id,name));
+                    allItems.Add(WeaponResolver(identificators, id, name, slot));
                 }
-                else if(identificators[2] == "a")
+                else if (identificators[3] == "a")
                 {
-                    allItems.Add(ArmorResolver(identificators, id, name));
+                    allItems.Add(ArmorResolver(identificators, id, name, slot));
                 }
             }
         }
-        protected Weapon WeaponResolver(string[] identificators, int id, string name)
+        private Weapon WeaponResolver(string[] identificators, int id, string name, Item.Slot slot) //
         {
-            int dmg = Convert.ToInt32(identificators[3]);
-            bool oneHanded = identificators[4] == "t" ? true : false;
+            int dmg = Convert.ToInt32(identificators[4]);
             char scale = Convert.ToChar(identificators[5]);
-            Weapon result = new Weapon(id, name, dmg, oneHanded, scale);
+            Weapon result = new Weapon(id, name, dmg, slot, scale);
             return result;
         }
-        protected Armor ArmorResolver(string[] identificators, int id, string name)
+        private Armor ArmorResolver(string[] identificators, int id, string name, Item.Slot slot)
         {
-            int def = Convert.ToInt32(identificators[3]);
-            char slot = Convert.ToChar(identificators[4]);
+            int def = Convert.ToInt32(identificators[4]);
             int s = Convert.ToInt32(identificators[5]);
             int a = Convert.ToInt32(identificators[6]);
             int i = Convert.ToInt32(identificators[7]);
@@ -56,9 +56,10 @@ namespace Roguelike
         }
         protected Consumable ConsumableResolver(string[] identificators, int id, string name)
         {
-            Consumable result = new Consumable(id, name);
+            Consumable result = new Consumable(id, name, (Item.Slot)2);
             return result;
         }
+
         public List<Item> GetItemList
         {
             get { return allItems; }

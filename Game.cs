@@ -7,20 +7,23 @@ namespace Roguelike
 
     class Game
     {
-        private enum Status
+        public enum Status
         {
             ClassMenu = 0,
             Closed = 1,
             InGame = 2,
             PauseMenu = 3,
             StartMenu = 4,
-            ChestOpened = 5,
+            Inventory = 5,
+            SlotChoice = 6,
+            ItemChoice = 7,
+            ChestOpened = 8,
         }
         public static void Start()
         {
             ItemCollector icollector = new ItemCollector();
-            Player player = new Player("a", 0, 0, 0, 0, 0, 0, 11, 11);
             MapCollector collector = new MapCollector();
+            Player player = null;
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
             string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
@@ -32,7 +35,7 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
-            Chest chest1 = new Chest(0, 1, 10,collector);
+            Chest chest1 = new Chest(0, 1, 10, collector);
             chest1.GenerateContents(icollector.GetItemList);
             int gameStatus = (int)Status.StartMenu;
             int moveX = 0, moveY = 0;
@@ -44,29 +47,34 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    gameStatus = startMenu.GetChoice();
+                    player = new Player("a", 0, 0, 0, 0, 0, 0, 11, 11);
+                    gameStatus = startMenu.GetChoice(true);
                 }
                 if (gameStatus == (int)Status.ClassMenu)
                 {
                     Console.Clear();
-                    tarotMenu.GetChoice();
+                    tarotMenu.GetChoice(true);
                     gameStatus = (int)Status.InGame;
                 }
                 if (gameStatus == (int)Status.InGame)
                 {
-                   
+
                     ConsoleKeyInfo pressedKey;
                     Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
-                    
+
                     do
                     {
                         moveX = 0;
                         moveY = 0;
-                        GameInterface.GetGameInterface(player);
+                        GameInterface.GetGameInterface(player, collector);
                         pressedKey = Console.ReadKey(true);
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
                             gameStatus = (int)Status.PauseMenu;
+                        }
+                        else if (pressedKey.Key == ConsoleKey.I)
+                        {
+                            gameStatus = (int)Status.Inventory;
                         }
                         else
                         {
@@ -93,13 +101,13 @@ namespace Roguelike
                             {
                                 gameStatus = MovementManager.ChestTouched(player.MapId, player.X + moveX, player.Y + moveY, collector);
                             }
-                            
+
                         }
                     } while (gameStatus == (int)Status.InGame);
 
                     if (gameStatus == (int)Status.PauseMenu)
                     {
-                        int choice = pauseMenu.GetChoice();
+                        int choice = pauseMenu.GetChoice(true);
                         if (choice == 0)
                         {
                             gameStatus = (int)Status.InGame;
@@ -110,16 +118,68 @@ namespace Roguelike
                             gameStatus = (int)Status.StartMenu;
                         }
                     }
+
+                    if (gameStatus == (int)Status.Inventory)
+                    {
+                        do
+                        {
+                            List<string> inventoryItems = player.GetInventory();
+                            Menu inventoryMenu = new Menu(inventoryItems);
+                            int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это?
+                            if (inventoryChoice == 8)
+                            {
+                                gameStatus = (int)Status.InGame;
+                                break;
+                            }
+                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice + 1));
+                            int slotChoice = slotMenu.GetChoice(true);
+                            if (slotChoice == 0)
+                            {
+                                switch (inventoryChoice)
+                                {
+                                    case 0:
+                                        player.EquippedLeftHand = null;
+                                        break;
+                                    case 1:
+                                        player.EquippedRightHand = null;
+                                        break;
+                                    case 2:
+                                        player.EquippedHelmet = null;
+                                        break;
+                                    case 3:
+                                        player.EquippedPlate = null;
+                                        break;
+                                    case 4:
+                                        player.EquippedLegs = null;
+                                        break;
+                                    case 5:
+                                        player.EquippedBoots = null;
+                                        break;
+                                    case 6:
+                                        player.EquippedRing = null;
+                                        break;
+                                    case 7:
+                                        player.EquippedAmulet = null;
+                                        break;
+                                }
+                            }
+                            else player.ChangeItemByChoice(slotChoice, inventoryChoice);
+                        } while (true);
+                    }
                     if (gameStatus == (int)Status.ChestOpened)
                     {
                         chestMenuItems = collector.GetChestItems(player.MapId, player.X + moveX, player.Y + moveY);
                         chestMenu = new Menu(chestMenuItems);
-                        chestMenu.GetChoice();
+                        Chest chest = collector.GetChest(player.MapId, player.X + moveX, player.Y + moveY);
+                        int choice = chestMenu.GetChoice(true);
+                        if (choice != chestMenuItems.Length - 1){
+                            player.AddItem(chest.GetItems()[choice]); //сами думайте)
+                            chest.DeleteItem(choice);
+                        }
                         gameStatus = (int)Status.InGame;
                     }
                 }
             } while (true);
-            
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Roguelike
         {
             for (int i = 0; i < paths.Length; i++)
             {
-                string[] collectedMap = System.IO.File.ReadAllLines(paths[i]);
+                string[] collectedMap = File.ReadAllLines(paths[i]);
                 allMaps.Add(new Map(collectedMap, paths.Length));
             }
             MapSolver.TransitionSolver(allMaps);
@@ -74,12 +74,25 @@ namespace Roguelike
         public string[] GetChestItems(int mapId, int x, int y)
         {
             Chest chest = allMaps[mapId].chests[y, x];
-            return chest.getItemNames();
+            string[] chestItems = chest.getItemNames();
+            string[] result = new string[chestItems.Length + 1];
+            for(int i = 0; i < chestItems.Length; i++)
+            {
+                result[i] = chestItems[i];
+            }
+            result[result.Length - 1] = "Вернуться в игру";
+            return result;
+
+        }
+        public Chest GetChest(int mapId, int x, int y)
+        {
+            return allMaps[mapId].chests[y, x];
         }
     }
 
     public struct Map
     {
+        public string name;
         public Chest [,] chests;
         public transition[] transitionCoords;
         public int[,] transitionTo;
@@ -87,7 +100,7 @@ namespace Roguelike
         public bool[,] passable;
         public Map(string[] a, int b)
         {
-            int[] connections = MapSolver.ConnectionSolver(a[a.Length - 1]);
+            int[] connections = MapSolver.ConnectionSolver(a[a.Length - 2]);
             int sizex = a.Length - 1;
             int sizey = 0;
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
@@ -103,9 +116,8 @@ namespace Roguelike
             }
             drawnMap = new char[sizex, sizey];
             passable = new bool[sizex, sizey];
+            name = a[a.Length - 1];
             drawnMap = MapSolver.mapSplitter(a, sizey,transitionTo , connections, passable);
         }
-
-
     }
 }

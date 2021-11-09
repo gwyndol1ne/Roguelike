@@ -1,11 +1,9 @@
-﻿id:name:type
-		(a)armor:def:slot:str:agi:int
-		(w)weapon:dmg:oneHanded:scale
-		(c)consumable:?
-e.g. 0:Sword:w:3:t:s
-	 1:Chainmail:a:10:b:10:0:-1
+﻿id:name:slot:type
+			 (a)armor:def:slot:str:agi:int
+			 (w)weapon:dmg:oneHanded:scale
+			 (c)consumable:?
+e.g. 0:Sword:1:w:3:t:s
+	 1:Chainmail:4:a:10:10:0:-1
 ;;
-0:Topor Dreyvena:w:4:t:a
-1:Mech Viego:a:3:b:10:-5:0
-2:Lapa Volibira:w:100000:f:s
-3:Kopye Kalisti:w:-10000:t:a
+0:Sword:1:w:3:t:s
+1:Chainmail:4:a:10:10:0:-1

@@ -6,6 +6,6 @@ namespace Roguelike
 {
     class Consumable : Item
     {
-        public Consumable(int id, string name) : base(id, name){ }
+        public Consumable(int Id, string Name, Item.Slot Slot) : base(Id, Name, Slot){ }
     }
 }
