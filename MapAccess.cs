@@ -6,6 +6,13 @@ namespace Roguelike
 {
     static class Maps
     {
+        public enum CantGoBecause
+        {
+            Wall = 0,
+            Chest = 1,
+            Entity = 2,
+        }
+
         static private bool initialised = false;
         static private List<Map> allMaps;
         static public void Initialise()
@@ -31,6 +38,18 @@ namespace Roguelike
                 return 1;
             }
             return 0;
+        }
+        static public int CantMoveBecause(int mapId, int x, int y)
+        {
+            if (allMaps[mapId].chests[y, x] != null)
+            {
+                return (int)CantGoBecause.Chest;
+            }
+            else if (allMaps[mapId].entities[y, x] != null)
+            {
+                return (int)CantGoBecause.Entity;
+            }
+            return (int)CantGoBecause.Wall;
         }
         static public int[,] GetTransitionsTo(int mapId)
         {
@@ -74,11 +93,13 @@ namespace Roguelike
         public static string[] GetChestItems(int mapId, int x, int y)
         {
             string[] chestItems = allMaps[mapId].chests[y, x].GetItemNames();
-            string[] result = new string[chestItems.Length + 1];
+            int emptyChest = chestItems.Length == 0 ? 0 : 1;
+            string[] result = new string[chestItems.Length + 1 + emptyChest];
             for(int i = 0; i < chestItems.Length; i++)
             {
                 result[i] = chestItems[i];
             }
+            if (emptyChest == 1) result[result.Length - 2] = "Забрать все";
             result[result.Length - 1] = "Вернуться в игру";
             return result;
         }
@@ -87,6 +108,16 @@ namespace Roguelike
             Chest chest = allMaps[mapId].chests[y, x];
             Item result = chest.GetItemByIndex(index);
             chest.DeleteItem(index);
+            return result;
+        }
+        public static Item[] GetAllItemsFromChest(int mapId,int x, int y)
+        {
+            Chest chest = allMaps[mapId].chests[y, x];
+            Item[] result = new Item[chest.ChestItemsAmount()];
+            for(int i = 0; i < result.Length; i++)
+            {
+                result[i] = GetItemFromChest(mapId, x, y, 0);
+            }
             return result;
         }
     }
