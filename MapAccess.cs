@@ -33,6 +33,7 @@ namespace Roguelike
         }
         static public int CanMoveTo(int mapId, int x, int y)
         {
+
             if (allMaps[mapId].passable[y, x]) return 1;
             return 0;
         }

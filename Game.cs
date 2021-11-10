@@ -112,6 +112,10 @@ namespace Roguelike
                             {
                                 moveX = 2;
                             }
+                            
+                        }
+                        if ((moveX != 0) || (moveY != 0))
+                        {
                             player.Move(moveX, moveY);
                         }
                     } while (gameStatus == (int)Status.InGame);
