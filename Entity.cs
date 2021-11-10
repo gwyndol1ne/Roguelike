@@ -37,6 +37,11 @@ namespace Roguelike
             get { return hp; }
             set { hp = value; }
         }
+        public string Name
+        {
+            get { return name; }
+            
+        }
         public int Strength
         {
             get { return strength; }

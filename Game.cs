@@ -23,7 +23,9 @@ namespace Roguelike
             SlotChoice = 6,
             ItemChoice = 7,
             ChestOpened = 8,
-            EntityCollided = 9,
+            InDialog = 9,
+            EntityCollided = 10
+
         }
         public static void Start()
         {
@@ -41,7 +43,17 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
+            string[] arr = new string[2];
+            string[] arr2 = new string[3];
+            arr[0] = "Привет как тебя зовут ?";
+            arr2[0] = "ytn";
+            arr2[1] = "lf";
+            arr2[2] = "nj";
+            List<string> Message = new List<string>(arr);
+            List<string> otwet = new List<string>(arr2);
+            Dialog dialog = new Dialog(Message, otwet);
             Chest chest1 = new Chest(0, 1, 10);
+            NPC npc1 = new NPC("Максим", 23, 22, 11, 33, 2, 0, 4, 32);
             chest1.GenerateContents(icollector.GetItemList);
             
             int moveX = 0, moveY = 0;
@@ -106,7 +118,7 @@ namespace Roguelike
                             player.Move(moveX, moveY);
                         }
                     } while (gameStatus == (int)Status.InGame);
-
+                    
                     if (gameStatus == (int)Status.PauseMenu)
                     {
                         int choice = pauseMenu.GetChoice(true);
@@ -181,6 +193,17 @@ namespace Roguelike
                             player.AddItems(Maps.GetAllItemsFromChest(player.MapId,player.X+moveX,player.Y+moveY));
                         }
                         gameStatus = (int)Status.InGame;
+                    }
+                    if (gameStatus==(int)Status.InDialog)
+                    {
+                        Console.Clear();
+                        dialog.GetDialog(npc1);
+                        ConsoleKeyInfo key;
+                        key = Console.ReadKey();
+                        if (key.Key == ConsoleKey.Enter)
+                        {
+
+                        }
                     }
                 }
             } while (true);

@@ -48,9 +48,11 @@ namespace Roguelike
             {
                 return (int)Game.Status.ChestOpened;
             }
-            else if(cgb == (int)Maps.CantGoBecause.Entity)
+
+            if (Maps.checkNpc(mapId, x, y))
             {
-                return (int)Game.Status.EntityCollided;
+                return (int)Game.Status.InDialog;
+
             }
             return (int)Game.Status.InGame;
         }
