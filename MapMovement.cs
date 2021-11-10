@@ -35,9 +35,16 @@ namespace Roguelike
                 Draw.DrawAtPos(entity.X, entity.Y, '@');
             }
             bool moved = canMove == 1 ? true : false; //метод Даника
+            if (moved)
+            {
+                Maps.MoveEntity(entity.MapId, entity.X, entity.Y,x,y,entity);
+            }
             if (moved && MovementManager.Transition(entity))
             {
-                Draw.ReDrawMap(Maps.GetDrawnMap(entity.MapId), entity.X, entity.Y, '@');
+                if (entity.MapId == Draw.currentMapId)
+                {
+                    Draw.ReDrawMap(Maps.GetDrawnMap(entity.MapId), entity.MapId);
+                }
             }
             return moved;
         }
@@ -48,11 +55,9 @@ namespace Roguelike
             {
                 return (int)Game.Status.ChestOpened;
             }
-
-            if (Maps.checkNpc(mapId, x, y))
+            else if (cgb == (int)Maps.CantGoBecause.Entity)
             {
                 return (int)Game.Status.InDialog;
-
             }
             return (int)Game.Status.InGame;
         }

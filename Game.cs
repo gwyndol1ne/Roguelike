@@ -31,7 +31,7 @@ namespace Roguelike
         {
             Maps.Initialise();
             ItemCollector icollector = new ItemCollector();
-            Player player = null;
+            Player player = new Player("a", 0, 10, 0, 0, 0, 0, 10, 11, '@');
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
             string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
@@ -53,7 +53,7 @@ namespace Roguelike
             List<string> otwet = new List<string>(arr2);
             Dialog dialog = new Dialog(Message, otwet);
             Chest chest1 = new Chest(0, 1, 10);
-            NPC npc1 = new NPC("Максим", 23, 22, 11, 33, 2, 0, 4, 32);
+            NPC npc1 = new NPC("Максим", 23, 22, 11, 33, 2, 0, 32, 4, 'N');
             chest1.GenerateContents(icollector.GetItemList);
             
             int moveX = 0, moveY = 0;
@@ -65,7 +65,6 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 10, 0, 0, 0, 0, 10, 11);
                     gameStatus = startMenu.GetChoice(true);
                 }
                 if (gameStatus == (int)Status.ClassMenu)
@@ -78,8 +77,7 @@ namespace Roguelike
                 {
 
                     ConsoleKeyInfo pressedKey;
-                    Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.X, player.Y, '@');
-
+                    Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                     do
                     {
                         moveX = 0;
@@ -202,7 +200,7 @@ namespace Roguelike
                         key = Console.ReadKey();
                         if (key.Key == ConsoleKey.Enter)
                         {
-
+                            gameStatus = (int)Status.InGame;
                         }
                     }
                 }

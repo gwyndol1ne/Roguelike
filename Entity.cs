@@ -17,8 +17,9 @@ namespace Roguelike
         private int y;
         private int mapId;
         private int damage;
+        private char symbol;
 
-        public Entity(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y)
+        public Entity(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, char symb)
         {
             name = Name;
             hp = Hp;
@@ -30,7 +31,12 @@ namespace Roguelike
             currentHp = Hp;
             x = X;
             y = Y;
+            symbol = symb;
             Maps.SetEntity(mapId, x, y, this);
+        }
+        public char Symbol
+        {
+            get { return symbol; }
         }
         public int HP
         {
@@ -89,6 +95,10 @@ namespace Roguelike
             if (!MovementManager.TryMove(this, dirX, dirY))
             {
                 Game.SetStatus = MovementManager.CantMoveDecider(mapId, x + dirX, y + dirY);
+            }
+            else
+            {
+                
             }
         }
     }

@@ -18,9 +18,9 @@ namespace Roguelike
         public Armor EquippedRing { get { return (Armor)equippedItems[(int)Item.Slot.Ring - 1]; } set { equippedItems[(int)Item.Slot.Ring - 1] = value; } }
         public Armor EquippedAmulet { get { return (Armor)equippedItems[(int)Item.Slot.Amulet - 1]; } set { equippedItems[(int)Item.Slot.Amulet - 1] = value; } }
 
-        public Player(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) :
-                      base(Name, Hp, Strength, Agility, Intelligence, Defense, MapId, X, Y)
-        { }
+        public Player(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, char Symbol) :
+                      base(Name, Hp, Strength, Agility, Intelligence, Defense, MapId, X, Y, Symbol)
+        { Draw.currentMapId = MapId; }
 
         public List<string> GetInventory() //ждет изменений максима - ничего менять не буду
         {

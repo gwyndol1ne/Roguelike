@@ -8,6 +8,7 @@ namespace Roguelike
     {
         public static int xoffset = 5;
         public static int yoffset = 2;
+        public static int currentMapId;
         public static void draw(char[,] screen)
         {
             for (int i = 0; i < screen.GetLength(0); i++)
@@ -25,11 +26,15 @@ namespace Roguelike
             Console.SetCursorPosition(x + xoffset, y + yoffset);
             Console.WriteLine(symbol);
         }
-        public static void ReDrawMap(char[,] drawnMap, int x, int y, char symbol)
+        public static void ReDrawMap(char[,] drawnMap, int mapId)
         {
             Console.Clear();
             Draw.draw(drawnMap);
-            Draw.DrawAtPos(x, y, symbol);
+            foreach(Entity entity in Maps.GetEntities(currentMapId))
+            {
+                DrawAtPos(entity.X, entity.Y, entity.Symbol);
+
+            }
         }
     }
 }
