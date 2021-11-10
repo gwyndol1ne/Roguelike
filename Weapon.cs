@@ -14,5 +14,10 @@ namespace Roguelike
             damage = Damage;
             scaleStat = ScaleStat; // agility - 'a', strength - 's', intelligence - 'i'
         }
+        public int Damage
+        {
+            get { return damage; }
+        }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,7 +26,7 @@ namespace Roguelike
             {
                 for (int j = 0; j < a[i].Length; j++)
                 {
-                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец соси конец
+                    if (numbers.Contains(a[i][j])) //я поменял IndexOf на Contains :) -молодец
                     {
                         t[i, j] = tr[Convert.ToInt32(a[i][j]) - 48];
                         result[i, j] = 'E';
@@ -57,6 +58,18 @@ namespace Roguelike
                     }
                 }
             }
+        }
+        static public List<Map> MapCollector()
+        {
+            List<Map> allMaps = new List<Map>();
+            string[] paths = { "../../../map1.map", "../../../map2.map", "../../../map3.map" };
+            for (int i = 0; i < paths.Length; i++)
+            {
+                string[] collectedMap = File.ReadAllLines(paths[i]);
+                allMaps.Add(new Map(collectedMap, paths.Length));
+            }
+            MapSolver.TransitionSolver(allMaps);
+            return allMaps;
         }
     }
 }

@@ -10,34 +10,49 @@ namespace Roguelike
     }
     static class MovementManager
     {
-        public static bool TryMove(Player player, int x, int y, MapCollector collector)
+        static private bool Transition(Player player)
         {
-            int canMove = collector.CanMove(player.Y + y, player.X + x, player.MapId);
+            int[,] transitionTo = Maps.GetTransitionsTo(player.MapId);
+            if (transitionTo[player.Y,player.X] != -1)
+            {
+                int moveToMap = transitionTo[player.Y, player.X];
+                transition transitionCoords = Maps.GetTransitionCoords(moveToMap,player.MapId);
+                player.Y = transitionCoords.x;
+                player.X = transitionCoords.y;
+                player.MapId = moveToMap;
+                return true;
+            }
+            return false;
+        }
+        public static bool TryMove(Player player, int x, int y)
+        {
+            int canMove = Maps.CanMoveTo(player.MapId,player.X + x, player.Y + y);
             if (canMove == 1)
             {
-                Draw.DrawAtPos(player.X, player.Y, collector.GetDrawnMapById(player.MapId)[player.Y, player.X]);
+                Draw.DrawAtPos(player.X, player.Y, Maps.GetDrawnMap(player.MapId)[player.Y, player.X]);
                 player.X += x * canMove;
                 player.Y += y * canMove;
                 Draw.DrawAtPos(player.X, player.Y, '@');
             }
             bool moved = canMove == 1 ? true : false; //метод Даника
-            if (moved && collector.Transition(player))
+            if (moved && MovementManager.Transition(player))
             {
-                Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
+                Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.X, player.Y, '@');
             }
             return moved;
         }
-        public static int ChestTouched(int mapId, int x, int y , MapCollector collector)
+        public static int ChestTouched(int mapId, int x, int y)
         {
-            if(collector.checkChest(mapId, x, y))
+            if(Maps.ChestHere(mapId, x, y))
             {
                 return (int)Game.Status.ChestOpened;
             }
-            if (collector.checkNpc(mapId, x, y))
+            if (Maps.checkNpc(mapId, x, y))
             {
                 return (int)Game.Status.InDialog;
             }
             return (int)Game.Status.InGame;
         }
+        
     }
 }
