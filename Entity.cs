@@ -94,11 +94,7 @@ namespace Roguelike
         {
             if (!MovementManager.TryMove(this, dirX, dirY))
             {
-                Game.SetStatus = MovementManager.CantMoveDecider(mapId, x + dirX, y + dirY);
-            }
-            else
-            {
-                
+                Game.SetStatus = MovementManager.CantMoveDecider(mapId, x+dirX, y+dirY);
             }
         }
     }

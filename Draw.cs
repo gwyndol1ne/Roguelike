@@ -33,7 +33,6 @@ namespace Roguelike
             foreach(Entity entity in Maps.GetEntities(currentMapId))
             {
                 DrawAtPos(entity.X, entity.Y, entity.Symbol);
-
             }
         }
     }

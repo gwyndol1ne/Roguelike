@@ -75,7 +75,6 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.InGame)
                 {
-
                     ConsoleKeyInfo pressedKey;
                     Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                     do
@@ -137,7 +136,7 @@ namespace Roguelike
                         {
                             List<string> inventoryItems = player.GetInventory();
                             Menu inventoryMenu = new Menu(inventoryItems);
-                            int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это?
+                            int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это? тот кто это писал з
                             if (inventoryChoice == 8)
                             {
                                 gameStatus = (int)Status.InGame;
