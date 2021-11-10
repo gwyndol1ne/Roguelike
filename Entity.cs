@@ -33,5 +33,13 @@ namespace Roguelike
             X = x;
             Y = y;
         }
+
+        public void Move(int dirX, int dirY)
+        {
+            if (!MovementManager.TryMove(this, dirX, dirY))
+            {
+                Game.SetStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
+            }
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace Roguelike
         {                                                                                      
             char[,] result = new char[baseMap.Length, sizeY];
             string numbers = "0123456789";
-            string unpassable = "# ~/\\|=+_";
+            string unpassable = "#";
             for (int i = 0; i < baseMap.Length - 2; i++)
             {
                 for (int j = 0; j < baseMap[i].Length; j++)

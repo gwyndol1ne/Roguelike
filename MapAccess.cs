@@ -76,6 +76,20 @@ namespace Roguelike
             }
             return false;
         }
+        static public void SetNpc(int mapId, NPC npc, int x, int y)
+        {
+            allMaps[mapId].npcs[x, y] = npc;
+            allMaps[mapId].passable[x, y] = false;
+            allMaps[mapId].drawnMap[x, y] = 'N';
+        }
+        static public bool checkNpc(int mapId, int x, int y)
+        {
+            if (allMaps[mapId].npcs[y, x] != null)
+            {
+                return true;
+            }
+            return false;
+        }
         public static string[] GetChestItems(int mapId, int x, int y)
         {
             string[] chestItems = allMaps[mapId].chests[y, x].GetItemNames();
@@ -105,6 +119,10 @@ namespace Roguelike
                 result[i] = GetItemFromChest(mapId, x, y, 0);
             }
             return result;
+        }
+        public static void SetEntity(int mapId, int x, int y , Entity entity)
+        {
+            allMaps[mapId].entities[x, y] = entity;
         }
     }
 }
