@@ -15,11 +15,14 @@ namespace Roguelike
             int[,] transitionTo = Maps.GetTransitionsTo(entity.MapId);
             if (transitionTo[entity.Y,entity.X] != -1)
             {
+                Maps.DelEntity(entity.MapId, entity.X, entity.Y);
                 int moveToMap = transitionTo[entity.Y, entity.X];
+                Draw.currentMapId = moveToMap;
                 transition transitionCoords = Maps.GetTransitionCoords(moveToMap,entity.MapId);
                 entity.Y = transitionCoords.x;
                 entity.X = transitionCoords.y;
                 entity.MapId = moveToMap;
+                Maps.SetEntity(entity.MapId, entity.X, entity.Y, entity);
                 return true;
             }
             return false;
@@ -30,15 +33,12 @@ namespace Roguelike
             if (canMove == 1)
             {
                 Draw.DrawAtPos(entity.X, entity.Y, Maps.GetDrawnMap(entity.MapId)[entity.Y, entity.X]);
+                Maps.MoveEntity(entity.MapId, entity.X, entity.Y, x * canMove, y * canMove, entity);
                 entity.X += x * canMove;
                 entity.Y += y * canMove;
                 Draw.DrawAtPos(entity.X, entity.Y, entity.Symbol);
             }
             bool moved = canMove == 1 ? true : false; //метод Даника
-            if (moved)
-            {
-                Maps.MoveEntity(entity.MapId, entity.X, entity.Y,x*canMove,y*canMove,entity);
-            }
             if (moved && MovementManager.Transition(entity))
             {
                 if (entity.MapId == Draw.currentMapId)
