@@ -12,7 +12,6 @@ namespace Roguelike
         public Menu(string[] MenuItems)
         {
             menuItems = MenuItems;
-            cursor = 0;
         }
 
         public Menu(List<string> MenuItems)

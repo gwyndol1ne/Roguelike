@@ -6,83 +6,40 @@ namespace Roguelike
 {
     public class Entity
     {
-        private string name;
-        private int hp;
-        private int strength;
-        private int agility;
-        private int defense;
-        private int intelligence;
-        private int currentHp;
-        private int x;
-        private int y;
-        private int mapId;
-        private int damage;
+        public string Name { get ; }
+        public int HP { get; }
+        public int Damage { get; }
+        public int Strength { get; }
+        public int Agility { get; }
+        public int Defense { get; }
+        public int Intelligence { get; }
+        public int CurrentHP { get; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int MapId { get; set; }
 
-        public Entity(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y)
+        public Entity(string name, int hp, int damage, int strength, int agility, int intelligence, int defense, int mapId, int x, int y)
         {
-            name = Name;
-            hp = Hp;
-            strength = Strength;
-            agility = Agility;
-            intelligence = Intelligence;
-            defense = Defense;
-            mapId = MapId;
-            currentHp = Hp;
-            x = X;
-            y = Y;
-        }
-        public int HP
-        {
-            get { return hp; }
-            set { hp = value; }
-        }
-        public string Name
-        {
-            get { return name; }
-            
-        }
-        public int Strength
-        {
-            get { return strength; }
-            set => strength = value;
-        }
-        public int Intelligence
-        {
-            get { return intelligence; }
-            set => intelligence = value;
-        }
-        public int Agility
-        {
-            get { return agility; }
-            set => agility = value;
-        }
-        public int Defense
-        {
-            get { return defense; }
-            set => defense = value; // метод илья платонов (любитель)
-        }
-        public int MapId
-        {
-            get { return mapId; }
-            set { mapId = value; }
-        }
-        public int Damage
-        {
-            get { return damage; }
-            set { damage = value; } // метод максим матвеенко (профессионал)
-        }
-        public int X
-        {
-            get { return x; }
-            set { x = value; } // метод даниил гончаров (сеньор помидор) я это не писал
+           
+            Name = name;
+            HP = hp;
+            Damage = damage;
+            Strength = strength;
+            Agility = agility;
+            Intelligence = intelligence;
+            Defense = defense;
+            MapId = mapId;
+            CurrentHP = hp;
+            X = x;
+            Y = y;
         }
 
-        public int Y
+        public void Move(int dirX, int dirY)
         {
-            get { return y; }
-            set { y = value; }
+            if (!MovementManager.TryMove(this, dirX, dirY))
+            {
+                Game.SetStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
+            }
         }
-        
-        
     }
 }

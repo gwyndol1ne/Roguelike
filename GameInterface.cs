@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-    public class GameInterface
+    static class GameInterface
     {
        
         public static void GetGameInterface(Player player) 

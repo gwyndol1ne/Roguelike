@@ -7,6 +7,11 @@ namespace Roguelike
 
     class Game
     {
+        static int gameStatus = (int)Status.StartMenu;
+        static public int SetStatus
+        {
+            set { gameStatus = value; }
+        }
         public enum Status
         {
             ClassMenu = 0,
@@ -25,7 +30,6 @@ namespace Roguelike
         public static void Start()
         {
             Maps.Initialise();
-            ItemCollector icollector = new ItemCollector();
             Player player = null;
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
@@ -53,10 +57,14 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(Message, otwet,reaction);
             Chest chest1 = new Chest(0, 1, 10);
-            NPC npc1 = new NPC("Максим", 23, 22, 11, 33, 2, 0, 4, 32);
-            NPC npc2 = new NPC("Максм", 25, 21, 12, 3, 2, 0, 6, 30);
-            chest1.GenerateContents(icollector.GetItemList);
+
+            NPC npc1 = new NPC("Максим",11, 23, 22, 11, 33, 2, 0, 4, 32);
+            NPC npc2 = new NPC("Максм", 11,25, 21, 12, 3, 2, 0, 6, 30);
+           
+            chest1.GenerateContents(ItemCollector.GetAllItems());
+
             int gameStatus = (int)Status.StartMenu;
+
             int moveX = 0, moveY = 0;
             do
             {
@@ -66,7 +74,7 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 10, 0, 0, 0, 0, 10, 11);
+                    player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);
                     gameStatus = startMenu.GetChoice(true);
                 }
                 if (gameStatus == (int)Status.ClassMenu)
@@ -77,7 +85,6 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.InGame)
                 {
-
                     ConsoleKeyInfo pressedKey;
                     Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.X, player.Y, '@');
 
@@ -117,11 +124,13 @@ namespace Roguelike
                             {
                                 moveX = 2;
                             }
+
                             if (!MovementManager.TryMove(player, moveX, moveY))
                             {
                                 gameStatus = MovementManager.CantMoveDecider(player.MapId, player.X + moveX, player.Y + moveY);
 
                             }
+
                         }
                     } while (gameStatus == (int)Status.InGame);
                     
@@ -151,37 +160,11 @@ namespace Roguelike
                                 gameStatus = (int)Status.InGame;
                                 break;
                             }
-                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice + 1));
+                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice));
                             int slotChoice = slotMenu.GetChoice(true);
                             if (slotChoice == 0)
                             {
-                                switch (inventoryChoice)
-                                {
-                                    case 0:
-                                        player.EquippedLeftHand = null;
-                                        break;
-                                    case 1:
-                                        player.EquippedRightHand = null;
-                                        break;
-                                    case 2:
-                                        player.EquippedHelmet = null;
-                                        break;
-                                    case 3:
-                                        player.EquippedPlate = null;
-                                        break;
-                                    case 4:
-                                        player.EquippedLegs = null;
-                                        break;
-                                    case 5:
-                                        player.EquippedBoots = null;
-                                        break;
-                                    case 6:
-                                        player.EquippedRing = null;
-                                        break;
-                                    case 7:
-                                        player.EquippedAmulet = null;
-                                        break;
-                                }
+                                player.EquippedItems[inventoryChoice] = null;
                             }
                             else player.ChangeItemByChoice(slotChoice, inventoryChoice);
                         } while (true);
