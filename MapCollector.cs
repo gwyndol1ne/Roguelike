@@ -61,7 +61,14 @@ namespace Roguelike
             allMaps[mapId].passable[x, y] = false;
             allMaps[mapId].drawnMap[x, y] = 'C';
         }
-        
+
+        public void addNpc(int mapId, NPC npc, int x, int y)
+        {
+            allMaps[mapId].npcs[x, y] = npc;
+            allMaps[mapId].passable[x, y] = false;
+            allMaps[mapId].drawnMap[x, y] = 'N';
+        }
+
         public bool checkChest(int mapId, int x, int y)
         {
             if (allMaps[mapId].chests[y,x] != null)
@@ -70,10 +77,19 @@ namespace Roguelike
             }
             return false;
         }
-        
+        public bool checkNpc(int mapId, int x, int y)
+        {
+            if (allMaps[mapId].npcs[y, x] != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public string[] GetChestItems(int mapId, int x, int y)
         {
             Chest chest = allMaps[mapId].chests[y, x];
+            NPC npc = allMaps[mapId].npcs[y, x];
             string[] chestItems = chest.getItemNames();
             string[] result = new string[chestItems.Length + 1];
             for(int i = 0; i < chestItems.Length; i++)
@@ -94,6 +110,7 @@ namespace Roguelike
     {
         public string name;
         public Chest [,] chests;
+        public NPC[,] npcs;
         public transition[] transitionCoords;
         public int[,] transitionTo;
         public char[,] drawnMap;
@@ -106,6 +123,7 @@ namespace Roguelike
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
             transitionCoords = new transition[b];
             chests = new Chest[sizex, sizey];
+            npcs = new NPC[sizex, sizey];
             transitionTo = new int[sizex, sizey];
             for(int i = 0; i < sizex; i++)
             {

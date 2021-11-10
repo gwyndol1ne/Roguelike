@@ -18,6 +18,7 @@ namespace Roguelike
             SlotChoice = 6,
             ItemChoice = 7,
             ChestOpened = 8,
+            InDialog = 9
         }
         public static void Start()
         {
@@ -36,6 +37,7 @@ namespace Roguelike
             string[] chestMenuItems;
             Menu chestMenu;
             Chest chest1 = new Chest(0, 1, 10, collector);
+            NPC npc1=new NPC("Mакс", 17, 13, 2 , 2 , 33 , 0, 5, 11, collector);
             chest1.GenerateContents(icollector.GetItemList);
             int gameStatus = (int)Status.StartMenu;
             int moveX = 0, moveY = 0;
@@ -100,11 +102,12 @@ namespace Roguelike
                             if (!MovementManager.TryMove(player, moveX, moveY, collector))
                             {
                                 gameStatus = MovementManager.ChestTouched(player.MapId, player.X + moveX, player.Y + moveY, collector);
+
                             }
 
                         }
                     } while (gameStatus == (int)Status.InGame);
-
+                    
                     if (gameStatus == (int)Status.PauseMenu)
                     {
                         int choice = pauseMenu.GetChoice(true);
@@ -177,6 +180,11 @@ namespace Roguelike
                             chest.DeleteItem(choice);
                         }
                         gameStatus = (int)Status.InGame;
+                    }
+                    if (gameStatus==(int)Status.InDialog)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("kjk");
                     }
                 }
             } while (true);

@@ -33,6 +33,10 @@ namespace Roguelike
             {
                 return (int)Game.Status.ChestOpened;
             }
+            if (collector.checkNpc(mapId, x, y))
+            {
+                return (int)Game.Status.InDialog;
+            }
             return (int)Game.Status.InGame;
         }
     }
