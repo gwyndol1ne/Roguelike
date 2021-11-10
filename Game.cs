@@ -29,7 +29,7 @@ namespace Roguelike
         {
             Maps.Initialise();
             ItemCollector icollector = new ItemCollector();
-            Player player = new Player("a", 0, 10, 0, 0, 0, 0, 10, 11, '@');
+            Player player = new Player("a", 0, 10, 0, 0, 0, 0, 0, 10, 11);
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
             string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
@@ -44,15 +44,19 @@ namespace Roguelike
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
-            arr2[0] = "ytn";
-            arr2[1] = "lf";
-            arr2[2] = "nj";
+            arr2[0] = "Максим";
+            arr2[1] = "Иди нахуй";
+            arr2[2] = "Нет";
+            string[] arr3 = new string[3];
+            arr3[0] = "ОООО МЕНЯ ТОЖЕ";
+            arr3[1] = "уфуфуфк";
+            arr3[2] = "Лфдно";
             List<string> Message = new List<string>(arr);
             List<string> otwet = new List<string>(arr2);
-            Dialog dialog = new Dialog(Message, otwet);
+            List<string> reaction = new List<string>(arr3);
+            Dialog dialog = new Dialog(Message, otwet,reaction);
             Chest chest1 = new Chest(0, 1, 10);
-            chest1.GenerateContents(icollector.GetItemList);
-            
+            chest1.GenerateContents(ItemCollector.GetAllItems());
             int moveX = 0, moveY = 0;
             do
             {
@@ -62,6 +66,7 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
+                    player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);
                     gameStatus = startMenu.GetChoice(true);
                 }
                 if (gameStatus == (int)Status.ClassMenu)
@@ -139,37 +144,11 @@ namespace Roguelike
                                 gameStatus = (int)Status.InGame;
                                 break;
                             }
-                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice + 1));
+                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice));
                             int slotChoice = slotMenu.GetChoice(true);
                             if (slotChoice == 0)
                             {
-                                switch (inventoryChoice)
-                                {
-                                    case 0:
-                                        player.EquippedLeftHand = null;
-                                        break;
-                                    case 1:
-                                        player.EquippedRightHand = null;
-                                        break;
-                                    case 2:
-                                        player.EquippedHelmet = null;
-                                        break;
-                                    case 3:
-                                        player.EquippedPlate = null;
-                                        break;
-                                    case 4:
-                                        player.EquippedLegs = null;
-                                        break;
-                                    case 5:
-                                        player.EquippedBoots = null;
-                                        break;
-                                    case 6:
-                                        player.EquippedRing = null;
-                                        break;
-                                    case 7:
-                                        player.EquippedAmulet = null;
-                                        break;
-                                }
+                                player.EquippedItems[inventoryChoice] = null;
                             }
                             else player.ChangeItemByChoice(slotChoice, inventoryChoice);
                         } while (true);
@@ -190,6 +169,7 @@ namespace Roguelike
                     }
                     if (gameStatus==(int)Status.InDialog)
                     {
+                        
                         Console.Clear();
                         ConsoleKeyInfo key;
                         key = Console.ReadKey();
@@ -197,6 +177,7 @@ namespace Roguelike
                         {
                             gameStatus = (int)Status.InGame;
                         }
+                      
                     }
                 }
             } while (true);

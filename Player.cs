@@ -6,33 +6,22 @@ namespace Roguelike
 {
     public class Player : Entity
     {
-        private Item[] equippedItems = new Item[8]; 
+        public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
-        //что это нахуй такое зачем оно вообще существует
-        public Weapon EquippedLeftHand { get { return (Weapon)equippedItems[(int)Item.Slot.LeftHand - 1]; } set { equippedItems[(int)Item.Slot.LeftHand - 1] = value; } }
-        public Weapon EquippedRightHand { get { return (Weapon)equippedItems[(int)Item.Slot.RightHand - 1]; } set { equippedItems[(int)Item.Slot.RightHand - 1] = value; } }
-        public Armor EquippedHelmet { get { return (Armor)equippedItems[(int)Item.Slot.Head - 1]; } set { equippedItems[(int)Item.Slot.Head - 1] = value; } }
-        public Armor EquippedPlate { get { return (Armor)equippedItems[(int)Item.Slot.Body - 1]; } set { equippedItems[(int)Item.Slot.Body - 1] = value; } }
-        public Armor EquippedLegs { get { return (Armor)equippedItems[(int)Item.Slot.Legs - 1]; } set { equippedItems[(int)Item.Slot.Legs - 1] = value; } }
-        public Armor EquippedBoots { get { return (Armor)equippedItems[(int)Item.Slot.Foot - 1]; } set { equippedItems[(int)Item.Slot.Foot - 1] = value; } }
-        public Armor EquippedRing { get { return (Armor)equippedItems[(int)Item.Slot.Ring - 1]; } set { equippedItems[(int)Item.Slot.Ring - 1] = value; } }
-        public Armor EquippedAmulet { get { return (Armor)equippedItems[(int)Item.Slot.Amulet - 1]; } set { equippedItems[(int)Item.Slot.Amulet - 1] = value; } }
-
-        public Player(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, char Symbol) :
-                      base(Name, Hp, Strength, Agility, Intelligence, Defense, MapId, X, Y, Symbol)
-        { Draw.currentMapId = MapId; }
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) :
+                 base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@') 
+        {
+            Draw.currentMapId = MapId;
+            EquippedItems = new PutOnItem[8];
+        }
 
         public List<string> GetInventory() //ждет изменений максима - ничего менять не буду
         {
             List<string> result = new List<string>();
-            result.Add("Left Hand: " + (EquippedLeftHand != null ? EquippedLeftHand.Name : "None"));
-            result.Add("Right Hand: " + (EquippedRightHand != null ? EquippedRightHand.Name : "None"));
-            result.Add("Head: " + (EquippedHelmet != null ? EquippedHelmet.Name : "None"));
-            result.Add("Body: " + (EquippedPlate != null ? EquippedPlate.Name : "None"));
-            result.Add("Legs: " + (EquippedLegs != null ? EquippedLegs.Name : "None"));
-            result.Add("Foot: " + (EquippedBoots != null ? EquippedBoots.Name : "None"));
-            result.Add("Ring: " + (EquippedRing != null ? EquippedRing.Name : "None"));
-            result.Add("Amulet: " + (EquippedAmulet != null ? EquippedAmulet.Name : "None"));
+            for (int i = 0; i < 8; i++)
+            {
+                result.Add((PutOnItem.Slot)i + ": " + (EquippedItems[i] != null ? EquippedItems[i].Name : "None"));
+            }
             result.Add("Вернуться к игре");
             return result;
         }
@@ -45,8 +34,14 @@ namespace Roguelike
             {
                 foreach (Item item in items)
                 {
-                    if (item.GetSlot == Slot)
-                        result.Add(item.Name);
+                    if (item is Weapon || item is Armor)
+                    {
+                        PutOnItem putOnItem = item as PutOnItem;
+                        if ((int)putOnItem.EquippmentSlot == Slot)
+                        {
+                            result.Add(putOnItem.Name);
+                        }
+                    }
                 }
             }
             return result;
@@ -59,37 +54,18 @@ namespace Roguelike
             {
                 foreach (Item item in items)
                 {
-                    if (item.GetSlot == choice + 1)
-                        slotItems.Add(item);
+                    if (item is Weapon || item is Armor)
+                    {
+                        PutOnItem putOnItem = item as PutOnItem;
+                        if ((int)putOnItem.EquippmentSlot == choice)
+                        {
+                            slotItems.Add(putOnItem);
+                        }
+                    }
                 }
             }
-            switch (choice) //Mohammedu Abdul???!!?!??! Yes I am!
-            {
-                case 0:
-                    EquippedLeftHand = (Weapon)slotItems[slot - 1];
-                    break;
-                case 1:
-                    EquippedRightHand = (Weapon)slotItems[slot - 1];
-                    break;
-                case 2:
-                    EquippedHelmet = (Armor)slotItems[slot - 1];
-                    break;
-                case 3:
-                    EquippedPlate = (Armor)slotItems[slot - 1];
-                    break;
-                case 4:
-                    EquippedLegs = (Armor)slotItems[slot - 1];
-                    break;
-                case 5:
-                    EquippedBoots = (Armor)slotItems[slot - 1];
-                    break;
-                case 6:
-                    EquippedRing = (Armor)slotItems[slot - 1];
-                    break;
-                case 7:
-                    EquippedAmulet = (Armor)slotItems[slot - 1];
-                    break;
-            }
+            if (choice < 3) EquippedItems[choice] = (Weapon)slotItems[slot - 1];
+            else EquippedItems[choice] = (Armor)slotItems[slot - 1];
         }
 
         public void AddItem(Item item)
@@ -102,6 +78,69 @@ namespace Roguelike
             {
                 AddItem(items[i]);
             }
+        }
+        public int CountDamage()
+        {
+            int damage = 0;
+            for(int i = 0; i < 2; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    Weapon weapon = EquippedItems[i] as Weapon;
+                    damage += weapon.Damage;
+                }
+            }
+            return damage;
+        }
+        public int CountDefense()
+        {
+            int defense = 0;
+            for (int i = 2; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    Armor armor = EquippedItems[i] as Armor;
+                    defense += armor.Defense;
+                }
+            }
+            return defense;
+        }
+        public int CountAgility()
+        {
+            int agility = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    agility += EquippedItems[i].Agility;
+                }
+            }
+            return agility;
+        }
+
+        public int CountStrength()
+        {
+            int strength = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    strength += EquippedItems[i].Strenght;
+                }
+            }
+            return strength;
+        }
+        public int CountIntelligence()
+        {
+            int intelligence = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    intelligence += EquippedItems[i].Intelligence;
+                }
+            }
+            return intelligence;
         }
     }
 }

@@ -9,20 +9,29 @@ namespace Roguelike
         int reaction;
         private List<string> message;
         private List<string> otwet;
-        public Dialog(List<string> Message,List<string> Otwet) 
+        private List<string> reactionmsg;
+        public Dialog(List<string> Message,List<string> Otwet, List<string> Reactionmsg) 
         {
             message = Message;
             otwet = Otwet;
+            reactionmsg = Reactionmsg;
         }
-       public void GetDialog(NPC nPC)
+        public int GetDialog(NPC nPC)
         {
-            Console.WriteLine("Привет меня зовут{0}, a тебя ?",nPC.Name);
+            Console.Write(nPC.Name + ":");
             Menu DialogOtwet = new Menu(otwet);
-            reaction= DialogOtwet.GetChoice(true,message[0]);
+            reaction = DialogOtwet.GetChoice(true, message[0]);
             Console.Clear();
-            Console.WriteLine("Привет меня зовут{0}", nPC.Name);
-            Console.WriteLine(otwet[reaction]);
-          
+            Console.WriteLine(nPC.Name + ":" + message[0]);
+            Console.WriteLine("Вы:" + otwet[reaction]);
+            Console.WriteLine(nPC.Name + ":" + reactionmsg[reaction]);
+            Console.WriteLine("Для выхода из диалога нажмите ENTER");
+            string[] leaVe = new string[1];
+            leaVe[0] = "Я пожалуй пойду ";
+            Menu LeaveMenu = new Menu(leaVe);            
+            return reaction = LeaveMenu.GetChoice(reaction);
+           
+            
         }
     }
     

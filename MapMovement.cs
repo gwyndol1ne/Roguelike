@@ -13,7 +13,7 @@ namespace Roguelike
         static private bool Transition(Entity entity)
         {
             int[,] transitionTo = Maps.GetTransitionsTo(entity.MapId);
-            if (transitionTo[entity.Y,entity.X] != -1)
+            if (transitionTo[entity.Y, entity.X] != -1)
             {
                 Maps.DelEntity(entity.MapId, entity.X, entity.Y);
                 int moveToMap = transitionTo[entity.Y, entity.X];
@@ -29,7 +29,7 @@ namespace Roguelike
         }
         public static bool TryMove(Entity entity, int x, int y)
         {
-            int canMove = Maps.CanMoveTo(entity.MapId,entity.X + x, entity.Y + y);
+            int canMove = Maps.CanMoveTo(entity.MapId, entity.X + x, entity.Y + y);
             if (canMove == 1)
             {
                 Draw.DrawAtPos(entity.X, entity.Y, Maps.GetDrawnMap(entity.MapId)[entity.Y, entity.X]);
@@ -51,7 +51,7 @@ namespace Roguelike
         public static int CantMoveDecider(int mapId, int x, int y)
         {
             int cgb = Maps.CantMoveBecause(mapId, x, y);
-            if(cgb == (int)Maps.CantGoBecause.Chest)
+            if (cgb == (int)Maps.CantGoBecause.Chest)
             {
                 return (int)Game.Status.ChestOpened;
             }
@@ -61,6 +61,6 @@ namespace Roguelike
             }
             return (int)Game.Status.InGame;
         }
-        
+
     }
 }

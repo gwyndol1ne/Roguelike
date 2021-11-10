@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-    public class GameInterface
+    static class GameInterface
     {
        
         public static void GetGameInterface(Player player) 
@@ -14,16 +14,16 @@ namespace Roguelike
             Console.SetCursorPosition(53, 4);
             Console.WriteLine("ЗДОРОВЬЕ:{0}", player.HP);
             Console.SetCursorPosition(53, 5);
-            Console.WriteLine("УРОН:{0}", player.Damage);
+            Console.WriteLine("УРОН:{0}", player.Damage + player.CountDamage());
             //она не лишняя она не как все
             Console.SetCursorPosition(53, 6);
-            Console.WriteLine("СИЛА:{0}", player.Strength);
+            Console.WriteLine("СИЛА:{0}", player.Strength + player.CountStrength());
             Console.SetCursorPosition(53, 7);
-            Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Intelligence);
+            Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Intelligence + player.CountIntelligence());
             Console.SetCursorPosition(53, 8);
-            Console.WriteLine("ЗАЩИТА:{0}", player.Defense);
+            Console.WriteLine("ЗАЩИТА:{0}", player.Defense + player.CountDefense());
             Console.SetCursorPosition(53, 9);
-            Console.WriteLine("ЛОВКОСТЬ:{0}", player.Agility);
+            Console.WriteLine("ЛОВКОСТЬ:{0}", player.Agility + player.CountAgility());
             Console.SetCursorPosition(53, 10);
             Console.WriteLine("ВАШИ КВЕСТЫ");
 
