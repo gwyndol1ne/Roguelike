@@ -18,6 +18,7 @@ namespace Roguelike
             SlotChoice = 6,
             ItemChoice = 7,
             ChestOpened = 8,
+            EntityCollided = 9,
         }
         public static void Start()
         {
@@ -99,7 +100,7 @@ namespace Roguelike
                             }
                             if (!MovementManager.TryMove(player, moveX, moveY))
                             {
-                                gameStatus = MovementManager.ChestTouched(player.MapId, player.X + moveX, player.Y + moveY);
+                                gameStatus = MovementManager.CantMoveDecider(player.MapId, player.X + moveX, player.Y + moveY);
                             }
                         }
                     } while (gameStatus == (int)Status.InGame);
@@ -170,8 +171,12 @@ namespace Roguelike
                         chestMenuItems = Maps.GetChestItems(player.MapId, player.X + moveX, player.Y + moveY);
                         chestMenu = new Menu(chestMenuItems);
                         int choice = chestMenu.GetChoice(true);
-                        if (choice != chestMenuItems.Length - 1){
+                        if (choice < chestMenuItems.Length - 2){
                             player.AddItem(Maps.GetItemFromChest(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
+                        }
+                        else if(choice == chestMenuItems.Length - 2)
+                        {
+                            player.AddItems(Maps.GetAllItemsFromChest(player.MapId,player.X+moveX,player.Y+moveY));
                         }
                         gameStatus = (int)Status.InGame;
                     }

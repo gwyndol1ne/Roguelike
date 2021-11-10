@@ -96,5 +96,12 @@ namespace Roguelike
         {
             items.Add(item);
         }
+        public void AddItems(Item[] items) 
+        {
+            for(int i = 0; i < items.Length; i++)
+            {
+                AddItem(items[i]);
+            }
+        }
     }
 }

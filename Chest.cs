@@ -39,5 +39,9 @@ namespace Roguelike
         {
             return items[i];
         }
+        public int ChestItemsAmount()
+        {
+            return items.Count;
+        }
     }
 }

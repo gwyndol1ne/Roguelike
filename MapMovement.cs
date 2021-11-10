@@ -41,11 +41,16 @@ namespace Roguelike
             }
             return moved;
         }
-        public static int ChestTouched(int mapId, int x, int y)
+        public static int CantMoveDecider(int mapId, int x, int y)
         {
-            if(Maps.ChestHere(mapId, x, y))
+            int cgb = Maps.CantMoveBecause(mapId, x, y);
+            if(cgb == (int)Maps.CantGoBecause.Chest)
             {
                 return (int)Game.Status.ChestOpened;
+            }
+            else if(cgb == (int)Maps.CantGoBecause.Entity)
+            {
+                return (int)Game.Status.EntityCollided;
             }
             return (int)Game.Status.InGame;
         }
