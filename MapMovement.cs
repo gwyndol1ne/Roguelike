@@ -8,17 +8,59 @@ namespace Roguelike
     {
         public int x, y;
     }
-    class MovementManager
+    static class MovementManager
     {
-        Map currentMap;
-        public MovementManager(Map setMap)
+        static private bool Transition(Entity entity)
         {
-            currentMap = setMap;
+            int[,] transitionTo = Maps.GetTransitionsTo(entity.MapId);
+            if (transitionTo[entity.Y,entity.X] != -1)
+            {
+                int moveToMap = transitionTo[entity.Y, entity.X];
+                transition transitionCoords = Maps.GetTransitionCoords(moveToMap,entity.MapId);
+                entity.Y = transitionCoords.x;
+                entity.X = transitionCoords.y;
+                entity.MapId = moveToMap;
+                return true;
+            }
+            return false;
         }
-        public void setCurrentMap(Map map)
+        public static bool TryMove(Entity entity, int x, int y)
         {
-            currentMap = map;
+            int canMove = Maps.CanMoveTo(entity.MapId,entity.X + x, entity.Y + y);
+            if (canMove == 1)
+            {
+                Draw.DrawAtPos(entity.X, entity.Y, Maps.GetDrawnMap(entity.MapId)[entity.Y, entity.X]);
+                entity.X += x * canMove;
+                entity.Y += y * canMove;
+                Draw.DrawAtPos(entity.X, entity.Y, entity.Symbol);
+            }
+            bool moved = canMove == 1 ? true : false; //метод Даника
+            if (moved)
+            {
+                Maps.MoveEntity(entity.MapId, entity.X, entity.Y,x*canMove,y*canMove,entity);
+            }
+            if (moved && MovementManager.Transition(entity))
+            {
+                if (entity.MapId == Draw.currentMapId)
+                {
+                    Draw.ReDrawMap(Maps.GetDrawnMap(entity.MapId), entity.MapId);
+                }
+            }
+            return moved;
         }
-
+        public static int CantMoveDecider(int mapId, int x, int y)
+        {
+            int cgb = Maps.CantMoveBecause(mapId, x, y);
+            if(cgb == (int)Maps.CantGoBecause.Chest)
+            {
+                return (int)Game.Status.ChestOpened;
+            }
+            else if (cgb == (int)Maps.CantGoBecause.Entity)
+            {
+                return (int)Game.Status.InDialog;
+            }
+            return (int)Game.Status.InGame;
+        }
+        
     }
 }
