@@ -8,6 +8,7 @@ namespace Roguelike
     {
         public string Name { get; }
         public int HP { get; }
+        public int Damage { get; }
         public int Strength { get; }
         public int Agility { get; }
         public int Defense { get; }
@@ -17,11 +18,12 @@ namespace Roguelike
         public int Y { get; set; }
         public int MapId { get; set; }
 
-        public Entity(string name, int hp, int strength, int agility, int intelligence, int defense, int mapId, int x, int y)
+        public Entity(string name, int hp, int damage, int strength, int agility, int intelligence, int defense, int mapId, int x, int y)
         {
            
             Name = Name;
             HP = hp;
+            Damage = damage;
             Strength = strength;
             Agility = agility;
             Intelligence = intelligence;
