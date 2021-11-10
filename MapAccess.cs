@@ -102,7 +102,7 @@ namespace Roguelike
         {
             allMaps[mapId].entities[y,x] = null;
             allMaps[mapId].passable[y,x] = true;
-            SetEntity(mapId, x+moveX, y+moveY, entity);
+            SetEntity(mapId, x + moveX, y + moveY, entity);
         }
         public static List<Entity> GetEntities(int mapId)
         {

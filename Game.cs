@@ -51,7 +51,6 @@ namespace Roguelike
             List<string> otwet = new List<string>(arr2);
             Dialog dialog = new Dialog(Message, otwet);
             Chest chest1 = new Chest(0, 1, 10);
-            NPC npc1 = new NPC("Максим", 23, 22, 11, 33, 2, 0, 32, 4, 'N');
             chest1.GenerateContents(icollector.GetItemList);
             
             int moveX = 0, moveY = 0;
@@ -192,7 +191,6 @@ namespace Roguelike
                     if (gameStatus==(int)Status.InDialog)
                     {
                         Console.Clear();
-                        dialog.GetDialog(npc1);
                         ConsoleKeyInfo key;
                         key = Console.ReadKey();
                         if (key.Key == ConsoleKey.Enter)
