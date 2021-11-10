@@ -16,10 +16,10 @@ namespace Roguelike
         private int x;
         private int y;
         private int mapId;
+        private int damage;
 
         public Entity(string Name, int Hp, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y)
         {
-           
             name = Name;
             hp = Hp;
             strength = Strength;
@@ -54,18 +54,22 @@ namespace Roguelike
         public int Defense
         {
             get { return defense; }
-            set => defense = value;
+            set => defense = value; // метод илья платонов (любитель)
         }
         public int MapId
         {
             get { return mapId; }
             set { mapId = value; }
         }
-
+        public int Damage
+        {
+            get { return damage; }
+            set { damage = value; } // метод максим матвеенко (профессионал)
+        }
         public int X
         {
             get { return x; }
-            set { x = value; }
+            set { x = value; } // метод даниил гончаров (сеньор помидор) я это не писал
         }
 
         public int Y

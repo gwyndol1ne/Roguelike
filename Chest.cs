@@ -7,10 +7,10 @@ namespace Roguelike
     public class Chest
     {
         List<Item> items;
-        public Chest(int mapId, int x , int y, MapCollector collector)
+        public Chest(int mapId, int x , int y)
         {
             items = new List<Item>();
-            collector.addChest(mapId, this, x, y); 
+            Maps.SetChest(mapId,x,y,this); 
         }
         public void GenerateContents(List<Item> source)
         {
@@ -22,7 +22,7 @@ namespace Roguelike
                 items.Add(source[value]);
             }
         }
-        public string[] getItemNames()
+        public string[] GetItemNames()
         {
             string[] result = new string[items.Count];
             for(int i = 0; i < items.Count; i++)
@@ -35,9 +35,9 @@ namespace Roguelike
         {
             items.RemoveAt(index);
         }
-        public List<Item> GetItems()
+        public Item GetItemByIndex(int i)
         {
-            return items;
+            return items[i];
         }
     }
 }

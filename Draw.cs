@@ -25,10 +25,10 @@ namespace Roguelike
             Console.SetCursorPosition(x + xoffset, y + yoffset);
             Console.WriteLine(symbol);
         }
-        public static void ReDrawMap(Map map, int x, int y, char symbol)
+        public static void ReDrawMap(char[,] drawnMap, int x, int y, char symbol)
         {
             Console.Clear();
-            Draw.draw(map.drawnMap);
+            Draw.draw(drawnMap);
             Draw.DrawAtPos(x, y, symbol);
         }
     }
