@@ -6,13 +6,13 @@ namespace Roguelike
 {
     public class Player : Entity
     {
-        public Item[] EquippedItems { get; set; }
+        public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
 
         public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y) 
         {
-            EquippedItems = new Item[8];
+            EquippedItems = new PutOnItem[8];
         }
 
         public List<string> GetInventory() //ждет изменений максима - ничего менять не буду
@@ -78,6 +78,69 @@ namespace Roguelike
             {
                 AddItem(items[i]);
             }
+        }
+        public int CountDamage()
+        {
+            int damage = 0;
+            for(int i = 0; i < 2; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    Weapon weapon = EquippedItems[i] as Weapon;
+                    damage += weapon.Damage;
+                }
+            }
+            return damage;
+        }
+        public int CountDefense()
+        {
+            int defense = 0;
+            for (int i = 2; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    Armor armor = EquippedItems[i] as Armor;
+                    defense += armor.Defense;
+                }
+            }
+            return defense;
+        }
+        public int CountAgility()
+        {
+            int agility = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    agility += EquippedItems[i].Agility;
+                }
+            }
+            return agility;
+        }
+
+        public int CountStrength()
+        {
+            int strength = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    strength += EquippedItems[i].Strenght;
+                }
+            }
+            return strength;
+        }
+        public int CountIntelligence()
+        {
+            int intelligence = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                if (EquippedItems[i] != null)
+                {
+                    intelligence += EquippedItems[i].Intelligence;
+                }
+            }
+            return intelligence;
         }
     }
 }
