@@ -59,7 +59,7 @@ namespace Roguelike
         public int GetChoice(bool centre,string str)
         {
             cursor = 0;
-            Console.Clear();
+           
             ConsoleKeyInfo key;
             bool exit = false;
             
@@ -68,7 +68,7 @@ namespace Roguelike
             {
                 for (int i = 0; i < menuItems.Length; i++)
                 {
-                    Console.SetCursorPosition(centre ? (45 - ((menuItems[i].Length + 1) / 2)) : 4, centre ? (16 - ((menuItems.Length - 1) / 2) + i) : (2 + i));
+                    Console.SetCursorPosition(1,i+1);
                     if (cursor == i)
                     {
                         Console.ForegroundColor = ConsoleColor.Magenta;
@@ -93,6 +93,28 @@ namespace Roguelike
                 }
             } while (!exit);
             return cursor;
+        }
+        public int GetChoice(int r)
+        {
+            cursor = 0;
+            ConsoleKeyInfo key;
+            key = Console.ReadKey();
+            for (int i = 0; i < menuItems.Length; i++)
+            {
+                Console.SetCursorPosition(1, i + 1);
+                if (cursor == i)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+                Console.WriteLine(menuItems[i]);
+                Console.ResetColor();
+            }
+            if (key.Key == ConsoleKey.Enter)
+            {
+                return 1;
+            }
+            else return 0;
+      
         }
     }
 }

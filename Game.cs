@@ -41,14 +41,20 @@ namespace Roguelike
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
-            arr2[0] = "ytn";
-            arr2[1] = "lf";
-            arr2[2] = "nj";
+            arr2[0] = "Максим";
+            arr2[1] = "Иди нахуй";
+            arr2[2] = "Нет";
+            string[] arr3 = new string[3];
+            arr3[0] = "ОООО МЕНЯ ТОЖЕ";
+            arr3[1] = "уфуфуфк";
+            arr3[2] = "Лфдно";
             List<string> Message = new List<string>(arr);
             List<string> otwet = new List<string>(arr2);
-            Dialog dialog = new Dialog(Message, otwet);
+            List<string> reaction = new List<string>(arr3);
+            Dialog dialog = new Dialog(Message, otwet,reaction);
             Chest chest1 = new Chest(0, 1, 10);
             NPC npc1 = new NPC("Максим", 23, 22, 11, 33, 2, 0, 4, 32);
+            NPC npc2 = new NPC("Максм", 25, 21, 12, 3, 2, 0, 6, 30);
             chest1.GenerateContents(icollector.GetItemList);
             int gameStatus = (int)Status.StartMenu;
             int moveX = 0, moveY = 0;
@@ -84,6 +90,7 @@ namespace Roguelike
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
                             gameStatus = (int)Status.PauseMenu;
+                            npc1.X++;
                         }
                         else if (pressedKey.Key == ConsoleKey.I)
                         {
@@ -112,14 +119,6 @@ namespace Roguelike
                             }
                             if (!MovementManager.TryMove(player, moveX, moveY))
                             {
-
-
-               
-
-
-                             
-
-
                                 gameStatus = MovementManager.CantMoveDecider(player.MapId, player.X + moveX, player.Y + moveY);
 
                             }
@@ -203,14 +202,14 @@ namespace Roguelike
                     }
                     if (gameStatus==(int)Status.InDialog)
                     {
+                        
                         Console.Clear();
-                        dialog.GetDialog(npc1);
-                        ConsoleKeyInfo key;
-                        key = Console.ReadKey();
-                        if (key.Key == ConsoleKey.Enter)
+                        int leave =dialog.GetDialog(npc1);
+                        if (leave==1)
                         {
-
+                            gameStatus = (int)Status.InGame;
                         }
+                      
                     }
                 }
             } while (true);
