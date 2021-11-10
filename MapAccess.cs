@@ -99,16 +99,20 @@ namespace Roguelike
             allMaps[mapId].entities[y,x] = entity;
             allMaps[mapId].passable[y,x] = false;
         }
+        public static void DelEntity(int mapId, int x, int y)
+        {
+            allMaps[mapId].entities[y, x] = null;
+            allMaps[mapId].passable[y, x] = true;
+        }
         public static void MoveEntity(int mapId, int x, int y, int moveX, int moveY , Entity entity)
         {
-            allMaps[mapId].entities[y,x] = null;
-            allMaps[mapId].passable[y,x] = true;
-            SetEntity(mapId, x+moveX, y+moveY, entity);
+            DelEntity(mapId, x, y);
+            SetEntity(mapId, x + moveX, y + moveY, entity);
         }
         public static List<Entity> GetEntities(int mapId)
         {
             List<Entity> result = new List<Entity>();
-            foreach (Entity entity in allMaps[mapId].entities) if (entity != null) result.Add(entity);
+            foreach(Entity entity in allMaps[mapId].entities)if (entity != null) result.Add(entity);
             return result;
         }
     }

@@ -17,6 +17,7 @@ namespace Roguelike
             }
             return result;
         }
+
         static public char[,] mapSplitter(string[] baseMap, int sizeY, int[,] transitionToMap, int[] transitionsText, bool[,] passable) //переименуй как-нибудь понятно аргументы //готово
         {                                                                                      
             char[,] result = new char[baseMap.Length, sizeY];
