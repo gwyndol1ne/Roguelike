@@ -106,5 +106,9 @@ namespace Roguelike
             }
             return result;
         }
+        public static void SetEntity(int mapId, int x, int y , Entity entity)
+        {
+            allMaps[mapId].entities[y, x] = entity;
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace Roguelike
             currentHp = Hp;
             x = X;
             y = Y;
+            Maps.SetEntity(mapId, x, y, this);
         }
         public int HP
         {
@@ -78,6 +79,12 @@ namespace Roguelike
             set { y = value; }
         }
         
-        
+        public void Move(int dirX, int dirY)
+        {
+            if (!MovementManager.TryMove(this, dirX, dirY))
+            {
+                Game.SetStatus = MovementManager.CantMoveDecider(mapId, x + dirX, y + dirY);
+            }
+        }
     }
 }

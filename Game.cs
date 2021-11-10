@@ -7,6 +7,11 @@ namespace Roguelike
 
     class Game
     {
+        static int gameStatus = (int)Status.StartMenu;
+        static public int SetStatus
+        {
+            set { gameStatus = value; }
+        }
         public enum Status
         {
             ClassMenu = 0,
@@ -38,7 +43,7 @@ namespace Roguelike
             Menu chestMenu;
             Chest chest1 = new Chest(0, 1, 10);
             chest1.GenerateContents(icollector.GetItemList);
-            int gameStatus = (int)Status.StartMenu;
+            
             int moveX = 0, moveY = 0;
             do
             {
@@ -98,10 +103,7 @@ namespace Roguelike
                             {
                                 moveX = 2;
                             }
-                            if (!MovementManager.TryMove(player, moveX, moveY))
-                            {
-                                gameStatus = MovementManager.CantMoveDecider(player.MapId, player.X + moveX, player.Y + moveY);
-                            }
+                            player.Move(moveX, moveY);
                         }
                     } while (gameStatus == (int)Status.InGame);
 
