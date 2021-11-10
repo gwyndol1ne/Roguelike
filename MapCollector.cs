@@ -55,14 +55,14 @@ namespace Roguelike
             return false;
         }
         
-        public void addChest(int mapId, Chest chest, int x, int y)
+        public void AddChest(int mapId, Chest chest, int x, int y)
         {
             allMaps[mapId].chests[x, y] = chest;
             allMaps[mapId].passable[x, y] = false;
             allMaps[mapId].drawnMap[x, y] = 'C';
         }
         
-        public bool checkChest(int mapId, int x, int y)
+        public bool CheckChest(int mapId, int x, int y)
         {
             if (allMaps[mapId].chests[y,x] != null)
             {
@@ -74,7 +74,7 @@ namespace Roguelike
         public string[] GetChestItems(int mapId, int x, int y)
         {
             Chest chest = allMaps[mapId].chests[y, x];
-            string[] chestItems = chest.getItemNames();
+            string[] chestItems = chest.GetItemNames();
             string[] result = new string[chestItems.Length + 1];
             for(int i = 0; i < chestItems.Length; i++)
             {

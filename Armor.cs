@@ -4,21 +4,15 @@ using System.Text;
 
 namespace Roguelike
 {
-    public class Armor : Item
+    public class Armor : PutOnItem
     {
 
-        private int defense;
-        private char equipmentSlot; //head - 'h' body - 'b' legs - 'l' foot - 'f' ring - 'r' amulet - 'a'
-        private int strength;
-        private int agility;
-        private int intelligence;
+        public int Defense { get; }
 
-        public Armor(int Id, string Name, int Defense, Item.Slot Slot, int Strength, int Agility, int Intelligence) : base(Id, Name, Slot)
+        public Armor(int id, string name, PutOnItem.Slot equippmentSlot, int strength, int agility, int intelligence, int defense) : 
+                base(id, name, equippmentSlot, strength, agility, intelligence)
         {
-            defense = Defense;
-            strength = Strength;
-            agility = Agility;
-            intelligence = Intelligence;
+            Defense = defense;
         }
     }
 }

@@ -6,12 +6,14 @@ namespace Roguelike
 {
     public class Chest
     {
-        List<Item> items;
+        public List<Item> Items { get; }
+
         public Chest(int mapId, int x , int y, MapCollector collector)
         {
-            items = new List<Item>();
-            collector.addChest(mapId, this, x, y); 
+            Items = new List<Item>();
+            collector.AddChest(mapId, this, x, y); 
         }
+
         public void GenerateContents(List<Item> source)
         {
             Random rng = new Random();
@@ -19,25 +21,23 @@ namespace Roguelike
             for(int i = 0; i < 3; i++)
             {
                 value = rng.Next(source.Count);
-                items.Add(source[value]);
+                Items.Add(source[value]);
             }
         }
-        public string[] getItemNames()
+
+        public string[] GetItemNames()
         {
-            string[] result = new string[items.Count];
-            for(int i = 0; i < items.Count; i++)
+            string[] result = new string[Items.Count];
+            for(int i = 0; i < Items.Count; i++)
             {
-                result[i] = items[i].Name;
+                result[i] = Items[i].Name;
             }
             return result;
         }
+
         public void DeleteItem(int index)
         {
-            items.RemoveAt(index);
-        }
-        public List<Item> GetItems()
-        {
-            return items;
+            Items.RemoveAt(index);
         }
     }
 }

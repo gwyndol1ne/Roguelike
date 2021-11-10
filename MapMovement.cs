@@ -29,7 +29,7 @@ namespace Roguelike
         }
         public static int ChestTouched(int mapId, int x, int y , MapCollector collector)
         {
-            if(collector.checkChest(mapId, x, y))
+            if(collector.CheckChest(mapId, x, y))
             {
                 return (int)Game.Status.ChestOpened;
             }

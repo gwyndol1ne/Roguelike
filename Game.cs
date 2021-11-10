@@ -21,7 +21,6 @@ namespace Roguelike
         }
         public static void Start()
         {
-            ItemCollector icollector = new ItemCollector();
             MapCollector collector = new MapCollector();
             Player player = null;
             string[] startMenuItems = { "Новая игра", "Выход" };
@@ -36,7 +35,7 @@ namespace Roguelike
             string[] chestMenuItems;
             Menu chestMenu;
             Chest chest1 = new Chest(0, 1, 10, collector);
-            chest1.GenerateContents(icollector.GetItemList);
+            chest1.GenerateContents(ItemCollector.GetAllItems());
             int gameStatus = (int)Status.StartMenu;
             int moveX = 0, moveY = 0;
             do
@@ -58,7 +57,6 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.InGame)
                 {
-
                     ConsoleKeyInfo pressedKey;
                     Draw.ReDrawMap(collector.GetMapById(player.MapId), player.X, player.Y, '@');
 
@@ -131,11 +129,12 @@ namespace Roguelike
                                 gameStatus = (int)Status.InGame;
                                 break;
                             }
-                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice + 1));
+                            Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice));
                             int slotChoice = slotMenu.GetChoice(true);
                             if (slotChoice == 0)
                             {
-                                switch (inventoryChoice)
+                                player.EquippedItems[inventoryChoice] = null;
+                                /*switch (inventoryChoice)
                                 {
                                     case 0:
                                         player.EquippedLeftHand = null;
@@ -161,7 +160,7 @@ namespace Roguelike
                                     case 7:
                                         player.EquippedAmulet = null;
                                         break;
-                                }
+                                }*/
                             }
                             else player.ChangeItemByChoice(slotChoice, inventoryChoice);
                         } while (true);
@@ -173,7 +172,7 @@ namespace Roguelike
                         Chest chest = collector.GetChest(player.MapId, player.X + moveX, player.Y + moveY);
                         int choice = chestMenu.GetChoice(true);
                         if (choice != chestMenuItems.Length - 1){
-                            player.AddItem(chest.GetItems()[choice]); //сами думайте)
+                            player.AddItem(chest.Items[choice]); //сами думайте)
                             chest.DeleteItem(choice);
                         }
                         gameStatus = (int)Status.InGame;

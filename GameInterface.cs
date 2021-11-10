@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Roguelike
 {
-    public class GameInterface
+    static class GameInterface
     {
-       
         public static void GetGameInterface(Player player, MapCollector collector) 
         {
             Console.SetCursorPosition(53, 3);
