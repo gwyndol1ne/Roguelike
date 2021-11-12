@@ -15,7 +15,6 @@ namespace Roguelike
             Console.WriteLine("ЗДОРОВЬЕ:{0}", player.HP);
             Console.SetCursorPosition(53, 5);
             Console.WriteLine("УРОН:{0}", player.Damage + player.CountDamage());
-            //она не лишняя она не как все
             Console.SetCursorPosition(53, 6);
             Console.WriteLine("СИЛА:{0}", player.Strength + player.CountStrength());
             Console.SetCursorPosition(53, 7);

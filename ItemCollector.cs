@@ -33,27 +33,8 @@ namespace Roguelike
                 int laststat = Convert.ToInt32(identificators[7]);
                 if (identificators[6] == "w") allItems.Add(new Weapon(id, name, slot, strength, agility, intelligence, laststat));
                 if (identificators[6] == "a") allItems.Add(new Armor(id, name, slot, strength, agility, intelligence, laststat));
-                
-                //0:Sword:0:5:2:0:10
-                //1:Chainmail:3:5:0:0:10
             }
             return allItems;
         }
-        /*private Weapon WeaponResolver(string[] identificators, int id, string name, PutOnItem.Slot slot) //
-        {
-            int dmg = Convert.ToInt32(identificators[4]);
-            char scale = Convert.ToChar(identificators[5]);
-            Weapon result = new Weapon(id, name, dmg, slot, scale);
-            return result;
-        }
-        private Armor ArmorResolver(string[] identificators, int id, string name, PutOnItem.Slot slot)
-        {
-            int def = Convert.ToInt32(identificators[4]);
-            int s = Convert.ToInt32(identificators[5]);
-            int a = Convert.ToInt32(identificators[6]);
-            int i = Convert.ToInt32(identificators[7]);
-            Armor result = new Armor(id, name, def, slot, s, a, i);
-            return result;
-        }*/
     }
 }
