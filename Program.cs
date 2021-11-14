@@ -14,7 +14,7 @@ namespace Roguelike
             Console.SetWindowSize(90, 34);
             Console.SetBufferSize(90, 34);
             Maps.Initialise();
-            Player player = new Player("Maksim", 5, 5, 5, 5, 5, 5, 0, 5, 5);
+            Player player = new Player("Maksim", 5, 5, 5, 5, 5, 5, 0, 6, 6);
             Game.GameStatus = (int)Game.Status.StartMenu;
             Game.Start(player, new List<Entity>(), new List<Chest>());
         }
