@@ -58,14 +58,8 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(message, answer,reaction);
             Chest chest1 = new Chest(0, 1, 10);
-
-            NPC npc1 = new NPC("Максим",11, 23, 22, 11, 33, 2, 0, 4, 32);
-            NPC npc2 = new NPC("Максм", 11,25, 21, 12, 3, 2, 0, 6, 30);
-           
             chest1.GenerateContents(ItemCollector.GetAllItems());
-
             /*int gameStatus = (int)Status.StartMenu;*/
-
             int moveX = 0, moveY = 0;
             do
             {
@@ -75,7 +69,7 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);
+                    /*player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);*/
                     int choice = startMenu.GetChoice(true);
                     switch (choice)
                     {
@@ -99,8 +93,7 @@ namespace Roguelike
                 if (gameStatus == (int)Status.InGame)
                 {
                     ConsoleKeyInfo pressedKey;
-                    Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.X, player.Y, '@');
-
+                    Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                     do
                     {
                         moveX = 0;
@@ -110,7 +103,6 @@ namespace Roguelike
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
                             gameStatus = (int)Status.PauseMenu;
-                            npc1.X++;
                         }
                         else if (pressedKey.Key == ConsoleKey.I)
                         {
@@ -137,13 +129,7 @@ namespace Roguelike
                             {
                                 moveX = 2;
                             }
-
-                            if (!MovementManager.TryMove(player, moveX, moveY))
-                            {
-                                gameStatus = MovementManager.CantMoveDecider(player.MapId, player.X + moveX, player.Y + moveY);
-
-                            }
-
+                            if((moveX!=0)||(moveY!=0)) player.Move(moveX, moveY);
                         }
                     } while (gameStatus == (int)Status.InGame);
                 }
@@ -193,7 +179,7 @@ namespace Roguelike
                         {
                             List<string> inventoryItems = player.GetInventory();
                             Menu inventoryMenu = new Menu(inventoryItems);
-                            int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это?
+                            int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это? тот кто это писал з
                             if (inventoryChoice == 8)
                             {
                                 gameStatus = (int)Status.InGame;
@@ -226,8 +212,9 @@ namespace Roguelike
                     {
                         
                         Console.Clear();
-                        int leave =dialog.GetDialog(npc1);
-                        if (leave==1)
+                        ConsoleKeyInfo key;
+                        key = Console.ReadKey();
+                        if (key.Key == ConsoleKey.Enter)
                         {
                             gameStatus = (int)Status.InGame;
                         }
