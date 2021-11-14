@@ -50,7 +50,7 @@ namespace Roguelike
             }
             if (Maps.checkNpc(mapId, x, y))
             {
-                return (int)Game.Status.InDialog;
+                return (int)Game.Status.InNpc;
             }
             return (int)Game.Status.InGame;
         }

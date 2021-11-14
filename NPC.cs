@@ -11,5 +11,18 @@ namespace Roguelike
         {
             Maps.SetNpc(MapId, this, X, Y);
         }
+        public List<Item> TiefsBag = ItemCollector.GetAllItems();
+        public List<string> GetTiefsItemNames()
+        {
+            List<string> TiefsItemsName = new List<string>(); 
+            for (int i = 0; i < TiefsBag.Count; i++)
+            {
+                TiefsItemsName.Add(TiefsBag[i].Name);
+            }
+            TiefsItemsName.Add("Забрать все");
+            TiefsItemsName.Add("Выйти");
+            return TiefsItemsName;
+        }
+        
     }
 }

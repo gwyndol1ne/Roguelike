@@ -23,8 +23,11 @@ namespace Roguelike
             SlotChoice = 6,
             ItemChoice = 7,
             ChestOpened = 8,
-            InDialog = 9,
-            EntityCollided = 10
+            InNpc = 9,
+            EntityCollided = 10,
+            Theft=11,
+            InDialog=12
+
 
         }
         public static void Start()
@@ -34,7 +37,9 @@ namespace Roguelike
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
             string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
+            string[] NpcMenuItems = { "Обокрасть","Ударить","Поговорить" };
             Menu pauseMenu = new Menu(pauseMenuItems);
+            Menu NpcMenu = new Menu(NpcMenuItems);
             string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green",
                                        "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice",
                                        "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum",
@@ -60,7 +65,7 @@ namespace Roguelike
 
             NPC npc1 = new NPC("Максим",11, 23, 22, 11, 33, 2, 0, 4, 32);
             NPC npc2 = new NPC("Максм", 11,25, 21, 12, 3, 2, 0, 6, 30);
-           
+            NPC YourNpc;
             chest1.GenerateContents(ItemCollector.GetAllItems());
 
             int gameStatus = (int)Status.StartMenu;
@@ -128,7 +133,7 @@ namespace Roguelike
                             if (!MovementManager.TryMove(player, moveX, moveY))
                             {
                                 gameStatus = MovementManager.CantMoveDecider(player.MapId, player.X + moveX, player.Y + moveY);
-
+                                
                             }
 
                         }
@@ -183,16 +188,52 @@ namespace Roguelike
                         }
                         gameStatus = (int)Status.InGame;
                     }
-                    if (gameStatus==(int)Status.InDialog)
+                    if (gameStatus==(int)Status.InNpc)
                     {
                         
+                        int choice = NpcMenu.GetChoice(true);
+                        if (choice == 0)
+                        {
+                            gameStatus = (int)Status.Theft;
+
+                        }
+                        if (choice==1)
+                        {
+                            //становится злым хз
+                            gameStatus = (int)Status.InGame;
+
+                        }
+                        else if (choice == 2)
+                        {
+                            gameStatus = (int)Status.InDialog;
+                        }
+                       
+
+                    }
+                    if (gameStatus==(int)Status.InDialog)
+                    {
                         Console.Clear();
-                        int leave =dialog.GetDialog(npc1);
-                        if (leave==1)
+                        YourNpc = Maps.GetMyNpc(player.MapId, player.X + moveX, player.Y + moveY);
+                        int leave = dialog.GetDialog(YourNpc);
+                        if (leave == 0)
                         {
                             gameStatus = (int)Status.InGame;
                         }
-                      
+                    }
+                    if (gameStatus == (int)Status.Theft)
+                    {
+                        YourNpc = Maps.GetMyNpc(player.MapId, player.X + moveX, player.Y + moveY);
+                        Menu TiefsMenu = new Menu(YourNpc.GetTiefsItemNames());
+                        int choice = TiefsMenu.GetChoice(true);
+                        if (choice < YourNpc.GetTiefsItemNames().Count - 2)
+                        {
+                            player.AddItem(Maps.GetItemFromTiefsBag(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
+                        }
+                        else if (choice == YourNpc.GetTiefsItemNames().Count - 2)
+                        {
+                            player.AddItems(Maps.GetAllItemFromTiefsBag(player.MapId, player.X + moveX, player.Y + moveY));
+                        }
+                        gameStatus = (int)Status.InGame;
                     }
                 }
             } while (true);
