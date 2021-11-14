@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Roguelike
 {
+    [Serializable]
     public class Chest
     {
         public List<Item> Items { get; }
