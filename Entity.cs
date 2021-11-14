@@ -30,7 +30,7 @@ namespace Roguelike
         public int Agility { get; }
         public int Defense { get; }
         public int Intelligence { get; }
-        public int CurrentHP { get; }
+        public int CurrentHP { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int MapId { get; set; }
@@ -41,6 +41,18 @@ namespace Roguelike
             {
                 Game.SetStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
             }
+        }
+        public void MoveTowards(int x, int y)
+        {
+            point direction = Pathfinder.GetPath(Y,(X+1)/2,y,(x+1)/2, Maps.GetPassableForPathfinding(MapId))[0];
+            direction.y *= 2;
+            Move(direction.y, direction.x);
+        }
+        public int GetAttacked(int damage)
+        {
+            int damageRecieved = damage - Defense;
+            CurrentHP -= damageRecieved;
+            return damageRecieved;
         }
     }
 }

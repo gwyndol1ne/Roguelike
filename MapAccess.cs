@@ -10,7 +10,8 @@ namespace Roguelike
         {
             Wall = 0,
             Chest = 1,
-            Entity = 2,
+            Enemy = 2,
+            Friend = 3,
         }
 
         static private bool initialised = false;
@@ -40,14 +41,24 @@ namespace Roguelike
         static public int CantMoveBecause(int mapId, int x, int y)
         {
             if (allMaps[mapId].chests[y, x] != null) return (int)CantGoBecause.Chest;
-            else if (allMaps[mapId].entities[y, x] != null) return (int)CantGoBecause.Entity;
+            else if (allMaps[mapId].entities[y, x] != null)
+            {
+                if(allMaps[mapId].entities[y, x] is Enemy)
+                {
+                    return (int)Maps.CantGoBecause.Enemy;
+                }
+                else if (allMaps[mapId].entities[y, x] is Friend)
+                {
+                    return (int)Maps.CantGoBecause.Friend;
+                }
+            }
             return (int)CantGoBecause.Wall;
         }
         static public int[,] GetTransitionsTo(int mapId)
         {
             return allMaps[mapId].transitionTo;
         }
-        static public transition GetTransitionCoords(int fromMapId, int toMapId)
+        static public point GetTransitionCoords(int fromMapId, int toMapId)
         {
             return allMaps[fromMapId].transitionCoords[toMapId];
         }
@@ -97,7 +108,10 @@ namespace Roguelike
         public static void SetEntity(int mapId, int x, int y , Entity entity)
         {
             allMaps[mapId].entities[y,x] = entity;
-            allMaps[mapId].passable[y,x] = false;
+            if (!(entity is Player))
+            {
+                allMaps[mapId].passable[y, x] = false;
+            }
         }
         public static void DelEntity(int mapId, int x, int y)
         {
@@ -113,6 +127,42 @@ namespace Roguelike
         {
             List<Entity> result = new List<Entity>();
             foreach(Entity entity in allMaps[mapId].entities)if (entity != null) result.Add(entity);
+            return result;
+        }
+        public static Entity GetEntity(int mapId, int x, int y)
+        {
+            return allMaps[mapId].entities[y, x];
+        }
+        public static Entity[] GetEnemyEntities(int mapId, int x, int y)
+        {
+            List<Entity> pResult = new List<Entity>();
+            for(int i = -1; i < 2; i++)
+            {
+                for(int j = -1; j < 2; j++)
+                {
+                    if (allMaps[mapId].entities[y + i , x + j * 2] is Enemy)
+                    {
+                        pResult.Add(allMaps[mapId].entities[y + i, x + j * 2]);
+                    }
+                }
+            }
+            Entity[] result = new Entity[pResult.Count];
+            for(int i = 0; i < result.Length; i++)
+            {
+                result[i] = pResult[i];
+            }
+            return result;
+        }
+        public static bool[,] GetPassableForPathfinding(int mapId)
+        {
+            bool[,] source = allMaps[mapId].passable;
+            bool[,] longResult = new bool[source.GetLength(0), (source.GetLength(1) - 1) / 2 + 1];
+            for (int i = 0; i < source.GetLength(1); i++)
+            {
+                if (i % 2 == 0) for (int j = 0; j < source.GetLength(0); j++) longResult[j, i / 2] = source[j, i];
+            }
+            bool[,] result = new bool[longResult.GetLength(0) - 1, longResult.GetLength(1)];
+            for (int i = 0; i < result.GetLength(0); i++) for (int j = 0; j < result.GetLength(1); j++) result[i, j] = longResult[i, j];
             return result;
         }
     }

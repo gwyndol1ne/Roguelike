@@ -24,12 +24,13 @@ namespace Roguelike
             ItemChoice = 7,
             ChestOpened = 8,
             InDialog = 9,
+            InBattle = 10,
         }
         public static void Start()
         {
             Maps.Initialise();
             ItemCollector icollector = new ItemCollector();
-            Player player = new Player("a", 0, 10, 0, 0, 0, 0, 0, 10, 11);
+            Player player = new Player("a", 0, 10, 0, 0, 0, 0, 0, 2,1);
             string[] startMenuItems = { "Новая игра", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
             string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
@@ -41,6 +42,7 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
+            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 0, 10, 16);
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
@@ -66,7 +68,6 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);
                     gameStatus = startMenu.GetChoice(true);
                 }
                 if (gameStatus == (int)Status.ClassMenu)
@@ -83,7 +84,7 @@ namespace Roguelike
                     {
                         moveX = 0;
                         moveY = 0;
-                        GameInterface.GetGameInterface(player);
+                        GameInterface.DrawMapInterface(player, 53, 3);
                         pressedKey = Console.ReadKey(true);
                         if (pressedKey.Key == ConsoleKey.Escape)
                         {
@@ -114,7 +115,11 @@ namespace Roguelike
                             {
                                 moveX = 2;
                             }
-                            if((moveX!=0)||(moveY!=0)) player.Move(moveX, moveY);
+                            if ((moveX != 0) || (moveY != 0)) 
+                            { 
+                                player.Move(moveX, moveY);
+                                enemy0.MoveTowards(player.X, player.Y);
+                            }
                         }
                     } while (gameStatus == (int)Status.InGame);
                     
@@ -178,6 +183,11 @@ namespace Roguelike
                             gameStatus = (int)Status.InGame;
                         }
                       
+                    }
+                    if(gameStatus == (int)Game.Status.InBattle)
+                    {
+                        Console.Clear();
+                        Battle battle1 = new Battle(player, Maps.GetEnemyEntities(player.MapId,player.X,player.Y));
                     }
                 }
             } while (true);

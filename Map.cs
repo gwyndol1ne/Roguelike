@@ -10,7 +10,7 @@ namespace Roguelike
         public string name;
         public Chest[,] chests;
         public NPC[,] npcs;
-        public transition[] transitionCoords;
+        public point[] transitionCoords;
         public int[,] transitionTo;
         public char[,] drawnMap;
         public bool[,] passable;
@@ -20,7 +20,7 @@ namespace Roguelike
             int sizex = a.Length - 1;
             int sizey = 0;
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
-            transitionCoords = new transition[b];
+            transitionCoords = new point[b];
             chests = new Chest[sizex, sizey];
             npcs = new NPC[sizex, sizey];
             entities = new Entity[sizex, sizey];
