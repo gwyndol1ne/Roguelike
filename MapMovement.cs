@@ -57,7 +57,7 @@ namespace Roguelike
             }
             else if (cgb == (int)Maps.CantGoBecause.Friend)
             {
-                return (int)Game.Status.InDialog ;
+                return (int)Game.Status.InNpc;
             }
             else if(cgb == (int)Maps.CantGoBecause.Enemy)
             {

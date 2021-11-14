@@ -91,6 +91,11 @@ namespace Roguelike
             result[result.Length - 1] = "Вернуться в игру";
             return result;
         }
+        public static NPC GetMyNpc(int mapId, int x, int y)
+        {
+            NPC nPC = (NPC)allMaps[mapId].entities[y, x];
+            return nPC;
+        }
         public static Item GetItemFromChest(int mapId, int x, int y, int index)
         {
             Chest chest = allMaps[mapId].chests[y, x];
@@ -98,11 +103,28 @@ namespace Roguelike
             chest.DeleteItem(index);
             return result;
         }
+        public static Item GetItemFromTiefsBag(int mapId, int x, int y, int index)
+        {
+            NPC  nPC = (NPC)allMaps[mapId].entities[y, x];
+            Item result = nPC.TiefsBag[index];
+            nPC.TiefsBag.RemoveAt(index);
+            return result;
+        }
         public static Item[] GetAllItemsFromChest(int mapId,int x, int y)
         {
             Chest chest = allMaps[mapId].chests[y, x];
             Item[] result = new Item[chest.ChestItemsAmount()];
             for(int i = 0; i < result.Length; i++) result[i] = GetItemFromChest(mapId, x, y, 0);
+            return result;
+        }
+        public static Item[] GetAllItemFromTiefsBag(int mapId, int x, int y)
+        {
+            NPC  nPC = (NPC)allMaps[mapId].entities[y, x];
+            Item[] result =new Item[ nPC.TiefsBag.Count];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = GetItemFromTiefsBag(mapId, x, y, 0);
+            }
             return result;
         }
         public static void SetEntity(int mapId, int x, int y , Entity entity)

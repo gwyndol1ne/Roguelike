@@ -23,11 +23,13 @@ namespace Roguelike
             SlotChoice = 6,
             ItemChoice = 7,
             ChestOpened = 8,
-            InDialog = 9,
+            InNpc = 9,
             EntityCollided = 10,
-            Save = 11,
-            Load = 12,
-            InBattle = 13,
+            Theft = 11,
+            InDialog = 12,
+            Save = 13,
+            Load = 14,
+            InBattle = 15,
         }
         public static void Start(ref Player player, ref List<Entity> entities, ref List<Chest> chests)
         {
@@ -35,8 +37,14 @@ namespace Roguelike
             SaveAndLoad saveAndLoad = new SaveAndLoad();
             string[] startMenuItems = { "Новая игра", "Загрузить", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
+
+
+            string[] NpcMenuItems = { "Обокрасть", "Ударить", "Поговорить" };
+
             string[] pauseMenuItems = { "Продолжить игру ", "Сохранить", "Загрузить", "Выход в главное меню" };
+
             Menu pauseMenu = new Menu(pauseMenuItems);
+            Menu NpcMenu = new Menu(NpcMenuItems);
             string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green",
                                        "Lovers", "Silver Chariot", "Strength", "Hermit Purple", "Wheel of Fortune", "Justice",
                                        "Hanged Man", "Death Thirteen", "Yellow Temperance", "Ebony Devil", "Tower of Gray", "Star Platinum",
@@ -60,6 +68,8 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(message, answer, reaction);
             Chest chest1 = new Chest(0, 1, 10);
+            Friend npc1 = new Friend("Максим", 11, 23, 22, 11, 33, 2, 0, 4, 11);
+            NPC YourSodaEffect;
             chest1.GenerateContents(ItemCollector.GetAllItems());
             /*int gameStatus = (int)Status.StartMenu;*/
             int moveX = 0, moveY = 0;
@@ -132,8 +142,8 @@ namespace Roguelike
                             }
                             if ((moveX != 0) || (moveY != 0))
                             {
-                                player.Move(moveX, moveY);
                                 enemy0.MoveTowards(player.X, player.Y);
+                                player.Move(moveX, moveY);
                             }
                         }
                     } while (gameStatus == (int)Status.InGame);
@@ -215,17 +225,54 @@ namespace Roguelike
                     }
                     gameStatus = (int)Status.InGame;
                 }
-                if (gameStatus == (int)Status.InDialog)
+                if (gameStatus == (int)Status.InNpc)
                 {
 
+                    int choice = NpcMenu.GetChoice(true);
+                    if (choice == 0)
+                    {
+                        gameStatus = (int)Status.Theft;
+
+                    }
+                    if (choice == 1)
+                    {
+                        //становится злым хз
+                        gameStatus = (int)Status.InGame;
+
+                    }
+                    else if (choice == 2)
+                    {
+                        gameStatus = (int)Status.InDialog;
+                    }
+
+
+                }
+                if (gameStatus == (int)Status.InDialog)
+                {
                     Console.Clear();
-                    ConsoleKeyInfo key;
-                    key = Console.ReadKey();
-                    if (key.Key == ConsoleKey.Enter)
+
+                    YourSodaEffect = Maps.GetMyNpc(player.MapId, player.X + moveX, player.Y + moveY);
+                    int leave = dialog.GetDialog(YourSodaEffect);
+                    if (leave == 0)
+
                     {
                         gameStatus = (int)Status.InGame;
                     }
-
+                }
+                if (gameStatus == (int)Status.Theft)
+                {
+                    YourSodaEffect = Maps.GetMyNpc(player.MapId, player.X + moveX, player.Y + moveY);
+                    Menu TiefsMenu = new Menu(YourSodaEffect.GetTiefsItemNames());
+                    int choice = TiefsMenu.GetChoice(true);
+                    if (choice < YourSodaEffect.GetTiefsItemNames().Count - 2)
+                    {
+                        player.AddItem(Maps.GetItemFromTiefsBag(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
+                    }
+                    else if (choice == YourSodaEffect.GetTiefsItemNames().Count - 2)
+                    {
+                        player.AddItems(Maps.GetAllItemFromTiefsBag(player.MapId, player.X + moveX, player.Y + moveY));
+                    }
+                    gameStatus = (int)Status.InGame;
                 }
                 if (gameStatus == (int)Game.Status.InBattle)
                 {
