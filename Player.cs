@@ -8,10 +8,10 @@ namespace Roguelike
     {
         public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
-
         public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) :
-                 base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y) 
+                 base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@') 
         {
+            Draw.currentMapId = MapId;
             EquippedItems = new PutOnItem[8];
         }
 

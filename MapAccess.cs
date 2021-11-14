@@ -33,22 +33,14 @@ namespace Roguelike
         }
         static public int CanMoveTo(int mapId, int x, int y)
         {
-            if (allMaps[mapId].passable[y, x])
-            {
-                return 1;
-            }
+
+            if (allMaps[mapId].passable[y, x]) return 1;
             return 0;
         }
         static public int CantMoveBecause(int mapId, int x, int y)
         {
-            if (allMaps[mapId].chests[y, x] != null)
-            {
-                return (int)CantGoBecause.Chest;
-            }
-            else if (allMaps[mapId].entities[y, x] != null)
-            {
-                return (int)CantGoBecause.Entity;
-            }
+            if (allMaps[mapId].chests[y, x] != null) return (int)CantGoBecause.Chest;
+            else if (allMaps[mapId].entities[y, x] != null) return (int)CantGoBecause.Entity;
             return (int)CantGoBecause.Wall;
         }
         static public int[,] GetTransitionsTo(int mapId)
@@ -70,24 +62,12 @@ namespace Roguelike
         }
         static public bool ChestHere(int mapId, int x,int y)
         {
-            if (allMaps[mapId].chests[y, x] != null)
-            {
-                return true;
-            }
+            if (allMaps[mapId].chests[y, x] != null) return true;
             return false;
-        }
-        static public void SetNpc(int mapId, NPC npc, int x, int y)
-        {
-            allMaps[mapId].npcs[x, y] = npc;
-            allMaps[mapId].passable[x, y] = false;
-            allMaps[mapId].drawnMap[x, y] = 'N';
         }
         static public bool checkNpc(int mapId, int x, int y)
         {
-            if (allMaps[mapId].npcs[y, x] != null)
-            {
-                return true;
-            }
+            if (allMaps[mapId].npcs[y, x] != null) return true;
             return false;
         }
         public static string[] GetChestItems(int mapId, int x, int y)
@@ -95,17 +75,14 @@ namespace Roguelike
             string[] chestItems = allMaps[mapId].chests[y, x].GetItemNames();
             int emptyChest = chestItems.Length == 0 ? 0 : 1;
             string[] result = new string[chestItems.Length + 1 + emptyChest];
-            for(int i = 0; i < chestItems.Length; i++)
-            {
-                result[i] = chestItems[i];
-            }
+            for(int i = 0; i < chestItems.Length; i++) result[i] = chestItems[i];
             if (emptyChest == 1) result[result.Length - 2] = "Забрать все";
             result[result.Length - 1] = "Вернуться в игру";
             return result;
         }
         public static NPC GetMyNpc(int mapId, int x, int y)
         {
-            NPC nPC = allMaps[mapId].npcs[y, x];
+            NPC nPC = (NPC)allMaps[mapId].entities[y, x];
             return nPC;
         }
         public static Item GetItemFromChest(int mapId, int x, int y, int index)
@@ -117,7 +94,7 @@ namespace Roguelike
         }
         public static Item GetItemFromTiefsBag(int mapId, int x, int y, int index)
         {
-            NPC  nPC = allMaps[mapId].npcs[y, x];
+            NPC  nPC = (NPC)allMaps[mapId].entities[y, x];
             Item result = nPC.TiefsBag[index];
             nPC.TiefsBag.RemoveAt(index);
             return result;
@@ -126,15 +103,12 @@ namespace Roguelike
         {
             Chest chest = allMaps[mapId].chests[y, x];
             Item[] result = new Item[chest.ChestItemsAmount()];
-            for(int i = 0; i < result.Length; i++)
-            {
-                result[i] = GetItemFromChest(mapId, x, y, 0);
-            }
+            for(int i = 0; i < result.Length; i++) result[i] = GetItemFromChest(mapId, x, y, 0);
             return result;
         }
         public static Item[] GetAllItemFromTiefsBag(int mapId, int x, int y)
         {
-            NPC  nPC = allMaps[mapId].npcs[y, x];
+            NPC  nPC = (NPC)allMaps[mapId].entities[y, x];
             Item[] result =new Item[ nPC.TiefsBag.Count];
             for (int i = 0; i < result.Length; i++)
             {
@@ -144,7 +118,24 @@ namespace Roguelike
         }
         public static void SetEntity(int mapId, int x, int y , Entity entity)
         {
-            allMaps[mapId].entities[x, y] = entity;
+            allMaps[mapId].entities[y,x] = entity;
+            allMaps[mapId].passable[y,x] = false;
+        }
+        public static void DelEntity(int mapId, int x, int y)
+        {
+            allMaps[mapId].entities[y, x] = null;
+            allMaps[mapId].passable[y, x] = true;
+        }
+        public static void MoveEntity(int mapId, int x, int y, int moveX, int moveY , Entity entity)
+        {
+            DelEntity(mapId, x, y);
+            SetEntity(mapId, x + moveX, y + moveY, entity);
+        }
+        public static List<Entity> GetEntities(int mapId)
+        {
+            List<Entity> result = new List<Entity>();
+            foreach(Entity entity in allMaps[mapId].entities)if (entity != null) result.Add(entity);
+            return result;
         }
     }
 }
