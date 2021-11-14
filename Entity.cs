@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Roguelike
 {
+    [Serializable]
     public class Entity
     {
         public string Name { get ; }
@@ -38,7 +40,7 @@ namespace Roguelike
         {
             if (!MovementManager.TryMove(this, dirX, dirY))
             {
-                Game.SetStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
+                Game.GameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
             }
         }
     }

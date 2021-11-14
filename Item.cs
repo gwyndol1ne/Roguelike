@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
+    [Serializable]
     public class Item
     {
         /*public enum Slot
