@@ -14,15 +14,10 @@ namespace Roguelike
             Friend = 3,
         }
 
-        static private bool initialised = false;
         static private List<Map> allMaps;
         static public void Initialise()
         {
-            if (!initialised)
-            {
-                allMaps = MapSolver.MapCollector();
-                initialised = true;
-            }
+            allMaps = MapSolver.MapCollector();
         }
         static public char [,] GetDrawnMap(int mapId)
         {

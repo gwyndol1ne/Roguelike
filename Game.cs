@@ -34,15 +34,12 @@ namespace Roguelike
         public static void Start(ref Player player, ref List<Entity> entities, ref List<Chest> chests)
         {
             Maps.Initialise();
+            Maps.SetEntity(player.MapId, player.X, player.Y, player);
             SaveAndLoad saveAndLoad = new SaveAndLoad();
             string[] startMenuItems = { "Новая игра", "Загрузить", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
-
-
             string[] NpcMenuItems = { "Обокрасть", "Ударить", "Поговорить" };
-
             string[] pauseMenuItems = { "Продолжить игру ", "Сохранить", "Загрузить", "Выход в главное меню" };
-
             Menu pauseMenu = new Menu(pauseMenuItems);
             Menu NpcMenu = new Menu(NpcMenuItems);
             string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green",
@@ -52,7 +49,7 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
-            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 0, 10, 16);
+            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 1, 10, 16);
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
@@ -142,7 +139,7 @@ namespace Roguelike
                             }
                             if ((moveX != 0) || (moveY != 0))
                             {
-                                enemy0.MoveTowards(player.X, player.Y);
+                                if (enemy0.MapId == player.MapId) enemy0.MoveTowards(player.X, player.Y);
                                 player.Move(moveX, moveY);
                             }
                         }
@@ -179,8 +176,8 @@ namespace Roguelike
                 {
                     if (saveAndLoad.Load(ref player, ref entities, ref chests))
                     {
+                        Maps.Initialise();
                         Game.GameStatus = (int)Status.InGame;
-                        Console.Clear();
                         Game.Start(ref player, ref entities, ref chests);
                     }
                     else
