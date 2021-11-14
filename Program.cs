@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 using System.Media;
 namespace Roguelike
@@ -13,7 +13,12 @@ namespace Roguelike
             Console.CursorVisible = false;
             Console.SetWindowSize(90, 34);
             Console.SetBufferSize(90, 34);
-            Game.Start();
+            Maps.Initialise();
+            Player player = new Player("Maksim", 5, 5, 5, 5, 5, 5, 0, 6, 6);
+            List<Entity> entities = new List<Entity>();
+            List<Chest> chests = new List<Chest>();
+            Game.GameStatus = (int)Game.Status.StartMenu;
+            Game.Start(ref player, ref entities, ref chests);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
+    [Serializable]
     public class Weapon : PutOnItem
     {
         public int Damage { get; }

@@ -8,7 +8,7 @@ namespace Roguelike
     class Game
     {
         static int gameStatus = (int)Status.StartMenu;
-        static public int SetStatus
+        static public int GameStatus
         {
             set { gameStatus = value; }
         }
@@ -23,23 +23,32 @@ namespace Roguelike
             SlotChoice = 6,
             ItemChoice = 7,
             ChestOpened = 8,
+
             InNpc = 9,
             EntityCollided = 10,
             Theft=11,
-            InDialog=12
+            InDialog=12,
 
 
+
+
+           
+            Save = 13,
+            Load = 14
 
         }
-        public static void Start()
+        public static void Start(ref Player player, ref List<Entity> entities, ref List<Chest> chests)
         {
             Maps.Initialise();
-            ItemCollector icollector = new ItemCollector();
-            Player player = new Player("a", 0, 10, 0, 0, 0, 0, 0, 10, 11);
-            string[] startMenuItems = { "Новая игра", "Выход" };
+            SaveAndLoad saveAndLoad = new SaveAndLoad();
+            string[] startMenuItems = { "Новая игра", "Загрузить", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
-            string[] pauseMenuItems = { "Продолжить игру ", "Выход в главное меню" };
+
+           
             string[] NpcMenuItems = { "Обокрасть","Ударить","Поговорить" };
+
+            string[] pauseMenuItems = { "Продолжить игру ", "Сохранить", "Загрузить", "Выход в главное меню" };
+
             Menu pauseMenu = new Menu(pauseMenuItems);
             Menu NpcMenu = new Menu(NpcMenuItems);
             string[] tarotMenuItems = { "The Fool", "Magician's Red ", "High Priestess", "Empress ", "Emperor", "Hierophant Green",
@@ -59,10 +68,10 @@ namespace Roguelike
             arr3[0] = "ОООО МЕНЯ ТОЖЕ";
             arr3[1] = "уфуфуфк";
             arr3[2] = "Лфдно";
-            List<string> Message = new List<string>(arr);
-            List<string> otwet = new List<string>(arr2);
+            List<string> message = new List<string>(arr);
+            List<string> answer = new List<string>(arr2);
             List<string> reaction = new List<string>(arr3);
-            Dialog dialog = new Dialog(Message, otwet,reaction);
+            Dialog dialog = new Dialog(message, answer,reaction);
             Chest chest1 = new Chest(0, 1, 10);
 
 
@@ -71,6 +80,7 @@ namespace Roguelike
             NPC YourNpc;
 
             chest1.GenerateContents(ItemCollector.GetAllItems());
+            /*int gameStatus = (int)Status.StartMenu;*/
             int moveX = 0, moveY = 0;
             do
             {
@@ -80,8 +90,20 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);
-                    gameStatus = startMenu.GetChoice(true);
+                    /*player = new Player("a", 0, 10, 2, 0, 0, 0, 0, 10, 11);*/
+                    int choice = startMenu.GetChoice(true);
+                    switch (choice)
+                    {
+                        case 0:
+                            gameStatus = (int)Status.ClassMenu;
+                            break;
+                        case 1:
+                            gameStatus = (int)Status.Load;
+                            break;
+                        case 2:
+                            gameStatus = (int)Status.Closed;
+                            break;
+                    }
                 }
                 if (gameStatus == (int)Status.ClassMenu)
                 {
@@ -139,18 +161,44 @@ namespace Roguelike
 
                         }
                     } while (gameStatus == (int)Status.InGame);
-                    
+                }
                     if (gameStatus == (int)Status.PauseMenu)
                     {
                         int choice = pauseMenu.GetChoice(true);
-                        if (choice == 0)
+                        switch (choice)
                         {
-                            gameStatus = (int)Status.InGame;
-
+                            case 0:
+                                gameStatus = (int)Status.InGame;
+                                break;
+                            case 1:
+                                gameStatus = (int)Status.Save;
+                                break;
+                            case 2:
+                                gameStatus = (int)Status.Load;
+                                break;
+                            case 3:
+                                gameStatus = (int)Status.StartMenu;
+                                break;
                         }
-                        else if (choice == 1)
+                    }
+
+                    if (gameStatus == (int)Status.Save)
+                    {
+                        
+                        saveAndLoad.Save(ref player, ref entities, ref chests);
+                        gameStatus = (int)Status.PauseMenu;
+                    }
+
+                    if (gameStatus == (int)Status.Load)
+                    {
+                        if (saveAndLoad.Load(ref player, ref entities, ref chests))
                         {
-                            gameStatus = (int)Status.StartMenu;
+                            Game.GameStatus = (int)Status.InGame;
+                            Game.Start(ref player,ref entities, ref chests);
+                        }
+                        else
+                        {
+                            gameStatus = (int)Status.PauseMenu;
                         }
                     }
 
@@ -238,7 +286,7 @@ namespace Roguelike
                         }
                         gameStatus = (int)Status.InGame;
                     }
-                }
+                
             } while (true);
         }
     }
