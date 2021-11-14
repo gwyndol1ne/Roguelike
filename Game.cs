@@ -28,7 +28,7 @@ namespace Roguelike
             Save = 11,
             Load = 12,
         }
-        public static void Start(Player player, List<Entity> entities, List<Chest> chests)
+        public static void Start(ref Player player, ref List<Entity> entities, ref List<Chest> chests)
         {
             Maps.Initialise();
             SaveAndLoad saveAndLoad = new SaveAndLoad();
@@ -165,7 +165,7 @@ namespace Roguelike
                         if (saveAndLoad.Load(ref player, ref entities, ref chests))
                         {
                             Game.GameStatus = (int)Status.InGame;
-                            Game.Start(player, entities, chests);
+                            Game.Start(ref player,ref entities, ref chests);
                         }
                         else
                         {
