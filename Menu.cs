@@ -8,17 +8,14 @@ namespace Roguelike
     {
         private string[] menuItems;
         private int cursor;
-
         public Menu(string[] MenuItems)
         {
             menuItems = MenuItems;
         }
-
         public Menu(List<string> MenuItems)
         {
             menuItems = MenuItems.ToArray();
         }
-
         public int GetChoice(bool centre)
         {
             cursor = 0;
@@ -93,6 +90,5 @@ namespace Roguelike
             } while (!exit);
             return cursor;
         }
-        
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-    public struct transition
+    public struct point
     {
         public int x, y;
     }
@@ -18,7 +18,7 @@ namespace Roguelike
                 Maps.DelEntity(entity.MapId, entity.X, entity.Y);
                 int moveToMap = transitionTo[entity.Y, entity.X];
                 Draw.currentMapId = moveToMap;
-                transition transitionCoords = Maps.GetTransitionCoords(moveToMap,entity.MapId);
+                point transitionCoords = Maps.GetTransitionCoords(moveToMap,entity.MapId);
                 entity.Y = transitionCoords.x;
                 entity.X = transitionCoords.y;
                 entity.MapId = moveToMap;
@@ -55,9 +55,13 @@ namespace Roguelike
             {
                 return (int)Game.Status.ChestOpened;
             }
-            else if (cgb == (int)Maps.CantGoBecause.Entity)
+            else if (cgb == (int)Maps.CantGoBecause.Friend)
             {
                 return (int)Game.Status.InNpc;
+            }
+            else if(cgb == (int)Maps.CantGoBecause.Enemy)
+            {
+                return (int)Game.Status.InBattle;
             }
             return (int)Game.Status.InGame;
         }

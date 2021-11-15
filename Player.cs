@@ -17,7 +17,7 @@ namespace Roguelike
             EquippedItems = new PutOnItem[8];
         }
 
-        public List<string> GetInventory() //ждет изменений максима - ничего менять не буду
+        public List<string> GetInventory() //ждет изменений максима -ничего менять не буду
         {
             List<string> result = new List<string>();
             for (int i = 0; i < 8; i++)
