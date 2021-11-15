@@ -108,10 +108,10 @@ namespace Roguelike
                     Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                     do
                     {
-                        if (player.GetQest().trigger==true)
+                        if (player.Quests[player.QuestNumber].trigger==true)
                         {
-                            player.QestNummbet++;
-                            player.GetQest().trigger = false;
+                            player.QuestNumber++;
+                            player.Quests[player.QuestNumber].trigger = false;
                         }
                         moveX = 0;
                         moveY = 0;

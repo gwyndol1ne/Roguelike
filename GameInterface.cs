@@ -25,7 +25,7 @@ namespace Roguelike
             Console.SetCursorPosition(x, y+6);
             Console.WriteLine("ЛОВКОСТЬ:{0}", player.Agility + player.CountAgility());
             Console.SetCursorPosition(x, y + 7);
-            Console.WriteLine("КВЕСТ:{0}", player.GetQest().qestValue);
+            Console.WriteLine("КВЕСТ:{0}", player.Quests[player.QuestNumber].questValue);
 
         }
         public static void DrawBattleInterface(Entity[] enemy, Entity friend)
