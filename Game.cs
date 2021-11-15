@@ -32,7 +32,7 @@ namespace Roguelike
             InBattle = 15,
             InBattleForEntity = 16,
         }
-        public static void Start(ref Player player, ref List<Entity> entities, ref List<Chest> chests)
+        public static void Start(Player player, List<Entity> entities, List<Chest> chests)
         {
             Maps.Initialise();
             Maps.SetEntity(player.MapId, player.X, player.Y, player);
@@ -183,7 +183,7 @@ namespace Roguelike
                     {
                         Maps.Initialise();
                         Game.GameStatus = (int)Status.InGame;
-                        Game.Start(ref player, ref entities, ref chests);
+                        Game.Start(player, entities, chests);
                     }
                     else
                     {

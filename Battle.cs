@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-    public class Battle
+    class Battle
     {
         private Entity[] friend;
         private Entity[] enemy;
@@ -47,5 +47,7 @@ namespace Roguelike
 
             Console.ReadKey();
         }
+
+
     }
 }

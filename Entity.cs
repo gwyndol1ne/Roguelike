@@ -24,6 +24,7 @@ namespace Roguelike
             Symbol = symb;
             Alive = true;
             Maps.SetEntity(mapId, x, y, this);
+            Stuned = 0;
         }
         public bool Alive { get; set; }
         public char Symbol { get; }
@@ -38,6 +39,7 @@ namespace Roguelike
         public int X { get; set; }
         public int Y { get; set; }
         public int MapId { get; set; }
+        public int Stuned { get; set; }
 
         public bool Move(int dirX, int dirY)
         {
@@ -64,7 +66,7 @@ namespace Roguelike
             direction.y *= 2;
             Move(direction.y, direction.x);
         }
-        public int GetAttacked(int damage)
+        public int GetDamaged(int damage)
         {
             int damageRecieved = damage - Defense;
             CurrentHP -= damageRecieved;

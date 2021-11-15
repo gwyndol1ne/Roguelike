@@ -6,15 +6,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Roguelike
 {
     [Serializable]
-    public class Player : Entity
+    class Player : Entity
     {
         public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
-        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) :
+        private Tarot tarot;
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, Tarot Tarot) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@') 
         {
             Draw.currentMapId = MapId;
             EquippedItems = new PutOnItem[8];
+            tarot = Tarot;
         }
 
         public List<string> GetInventory() //ждет изменений максима -ничего менять не буду
@@ -91,6 +93,7 @@ namespace Roguelike
                     damage += weapon.Damage;
                 }
             }
+            damage += tarot.Damage;
             return damage;
         }
         public int CountDefense()
@@ -104,6 +107,7 @@ namespace Roguelike
                     defense += armor.Defense;
                 }
             }
+            defense += tarot.Defense;
             return defense;
         }
         public int CountAgility()
@@ -116,6 +120,7 @@ namespace Roguelike
                     agility += EquippedItems[i].Agility;
                 }
             }
+            agility += tarot.Agility;
             return agility;
         }
 
@@ -129,6 +134,7 @@ namespace Roguelike
                     strength += EquippedItems[i].Strenght;
                 }
             }
+            strength += tarot.Strength;
             return strength;
         }
         public int CountIntelligence()
@@ -141,6 +147,7 @@ namespace Roguelike
                     intelligence += EquippedItems[i].Intelligence;
                 }
             }
+            intelligence += tarot.Intelligence;
             return intelligence;
         }
     }
