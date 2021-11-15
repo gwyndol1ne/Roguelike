@@ -37,7 +37,8 @@ namespace Roguelike
         }
         private void Start()
         {
-            while ((aliveEnemies.Length != 0)&&(friend[0].Alive))
+            int target;
+            while ((aliveEnemies.Length != 0)&&(friend[0].Alive)) 
             {
                 enemyChoice = GetAliveEnemyNames();
                 enemyChoiceMenu = new Menu(enemyChoice);
@@ -47,10 +48,14 @@ namespace Roguelike
                 {
                     case 0:
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
-                        int target = enemyChoiceMenu.GetChoice(false, false);
-                        aliveEnemies[target].GetDamaged(friend[0].Damage);
+                        target = enemyChoiceMenu.GetChoice(false, false);
+                        aliveEnemies[target].GetDamaged(friend[0].Damage+((Player)friend[0]).CountDamage());
                         UpdateAliveEnemies();
                         for(int i = 0; i < aliveEnemies.Length; i++) friend[0].GetDamaged(aliveEnemies[i].Damage);
+                        break;
+                    case 1:
+                        GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
+                        target = enemyChoiceMenu.GetChoice(false, false);
                         break;
                 }
             }

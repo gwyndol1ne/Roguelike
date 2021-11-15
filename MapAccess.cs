@@ -16,7 +16,7 @@ namespace Roguelike
         }
 
         static private List<Map> allMaps; //Список всех карт в порядке, в котором их пути идут в string[] paths из MapSolver.MapCollector
-        static public void Initialise() //Запись всех карт в allMaps (!!!стирает всю информацию с них, которая была записана во время выполнения)
+        static public void Initialise() //Запись всех карт в allMaps (!!! стирает всю информацию с них, которая была записана во время выполнения)
         {
             allMaps = MapSolver.MapCollector();
         }
@@ -24,7 +24,7 @@ namespace Roguelike
         {
             return allMaps[mapId].drawnMap;
         }
-        static public string GetMapName(int mapId) //Возвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
+        static public string GetMapName(int mapId) //Не возвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
         {
             return allMaps[mapId].name;
         }
@@ -39,7 +39,7 @@ namespace Roguelike
             else if (allMaps[mapId].entities[y, x] != null)                           //Потом идут проверки самих Entity
             {
                 if(allMaps[mapId].entities[y, x] is Enemy) return (int)Maps.CantGoBecause.Enemy;
-                else if (allMaps[mapId].entities[y, x] is Friend) return (int)Maps.CantGoBecause.Friend;
+                else if (allMaps[mapId].entities[y, x] is NPC) return (int)Maps.CantGoBecause.Friend;
                 else if (allMaps[mapId].entities[y, x] is Player) return (int)Maps.CantGoBecause.Player;
             }
             return (int)CantGoBecause.Wall;                                           //Иначе причиной становится стена
@@ -102,10 +102,12 @@ namespace Roguelike
         {
             NPC  Npc = (NPC)allMaps[mapId].entities[y, x];
             Item[] result =new Item[Npc.NPCInventory.Count];
+
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = GetItemFromNPC(mapId, x, y, 0);
             }
+            Npc.GetTiefsItemNames().RemoveAt(0);
             return result;
         }
         public static void SetEntity(int mapId, int x, int y , Entity entity)
@@ -133,14 +135,14 @@ namespace Roguelike
         {
             return allMaps[mapId].entities[y, x];
         }
-        public static Entity[] GetEnemyEntities(int mapId, int x, int y)
+        public static Entity[] GetNearEntities(int mapId, int x, int y)
         {
             List<Entity> pResult = new List<Entity>();
             for(int i = -1; i < 2; i++)
             {
                 for(int j = -1; j < 2; j++)
                 {
-                    if (allMaps[mapId].entities[y + i , x + j * 2] is Enemy)
+                    if (allMaps[mapId].entities[y + i , x + j * 2] is /* я индус */ Enemy)
                     {
                         pResult.Add(allMaps[mapId].entities[y + i, x + j * 2]);
                     }
