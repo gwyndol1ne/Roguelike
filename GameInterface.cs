@@ -28,7 +28,8 @@ namespace Roguelike
         }
         public static void DrawBattleInterface(Entity[] enemy, Entity friend)
         {
-            for(int i = enemy.Length-1; i >-1; i--)
+            Console.Clear();
+            for (int i = enemy.Length-1; i >-1; i--)
             {
                 Console.SetCursorPosition(53, 30 - i * 5);
                 Console.WriteLine(enemy[i].Name);

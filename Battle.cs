@@ -18,6 +18,7 @@ namespace Roguelike
         private void Begin()
         {
             GameInterface.DrawBattleInterface(enemy, friend[0]);
+
         }
     }
 }

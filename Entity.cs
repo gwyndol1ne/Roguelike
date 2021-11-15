@@ -37,12 +37,16 @@ namespace Roguelike
         public int Y { get; set; }
         public int MapId { get; set; }
 
-        public void Move(int dirX, int dirY)
+        public bool Move(int dirX, int dirY)
         {
+            int startingMapId = MapId;
             if (!MovementManager.TryMove(this, dirX, dirY))
             {
                 Game.GameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
+                return false;
             }
+            if (startingMapId != MapId) return false;
+            return true;
         }
         public void MoveTowards(int x, int y)
         {

@@ -35,6 +35,7 @@ namespace Roguelike
         {
             Maps.Initialise();
             Maps.SetEntity(player.MapId, player.X, player.Y, player);
+            Draw.currentMapId = player.MapId;
             SaveAndLoad saveAndLoad = new SaveAndLoad();
             string[] startMenuItems = { "Новая игра", "Загрузить", "Выход" };
             Menu startMenu = new Menu(startMenuItems);
@@ -66,7 +67,7 @@ namespace Roguelike
             Dialog dialog = new Dialog(message, answer, reaction);
             Chest chest1 = new Chest(0, 1, 10);
             Friend npc1 = new Friend("Максим", 11, 23, 22, 11, 33, 2, 0, 4, 11);
-            NPC YourSodaEffect;
+            NPC NPC1;
             chest1.GenerateContents(ItemCollector.GetAllItems());
             /*int gameStatus = (int)Status.StartMenu;*/
             int moveX = 0, moveY = 0;
@@ -139,8 +140,7 @@ namespace Roguelike
                             }
                             if ((moveX != 0) || (moveY != 0))
                             {
-                                if (enemy0.MapId == player.MapId) enemy0.MoveTowards(player.X, player.Y);
-                                player.Move(moveX, moveY);
+                                if(player.Move(moveX, moveY)) Maps.EnemyMovement(player.MapId, player.X, player.Y);
                             }
                         }
                     } while (gameStatus == (int)Status.InGame);
@@ -241,39 +241,35 @@ namespace Roguelike
                     {
                         gameStatus = (int)Status.InDialog;
                     }
-
-
                 }
                 if (gameStatus == (int)Status.InDialog)
                 {
                     Console.Clear();
 
-                    YourSodaEffect = Maps.GetMyNpc(player.MapId, player.X + moveX, player.Y + moveY);
-                    int leave = dialog.GetDialog(YourSodaEffect);
+                    NPC1 = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
+                    int leave = dialog.GetDialog(NPC1);
                     if (leave == 0)
-
                     {
                         gameStatus = (int)Status.InGame;
                     }
                 }
                 if (gameStatus == (int)Status.Theft)
                 {
-                    YourSodaEffect = Maps.GetMyNpc(player.MapId, player.X + moveX, player.Y + moveY);
-                    Menu TiefsMenu = new Menu(YourSodaEffect.GetTiefsItemNames());
+                    NPC1 = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
+                    Menu TiefsMenu = new Menu(NPC1.GetTiefsItemNames());
                     int choice = TiefsMenu.GetChoice(true);
-                    if (choice < YourSodaEffect.GetTiefsItemNames().Count - 2)
+                    if (choice < NPC1.GetTiefsItemNames().Count - 2)
                     {
-                        player.AddItem(Maps.GetItemFromTiefsBag(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
+                        player.AddItem(Maps.GetItemFromNPC(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
                     }
-                    else if (choice == YourSodaEffect.GetTiefsItemNames().Count - 2)
+                    else if (choice == NPC1.GetTiefsItemNames().Count - 2)
                     {
-                        player.AddItems(Maps.GetAllItemFromTiefsBag(player.MapId, player.X + moveX, player.Y + moveY));
+                        player.AddItems(Maps.GetAllItemsFromNPC(player.MapId, player.X + moveX, player.Y + moveY));
                     }
                     gameStatus = (int)Status.InGame;
                 }
                 if (gameStatus == (int)Game.Status.InBattle)
                 {
-                    Console.Clear();
                     Battle battle1 = new Battle(player, Maps.GetEnemyEntities(player.MapId, player.X, player.Y));
                 }
 

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+//Класс для создания карт и использования информации с них, включая некоторые обработчики
 namespace Roguelike
 {
     static class Maps
     {
-        public enum CantGoBecause
+        public enum CantGoBecause //Причина невозможности движения
         {
             Wall = 0,
             Chest = 1,
@@ -14,29 +14,28 @@ namespace Roguelike
             Friend = 3,
         }
 
-        static private List<Map> allMaps;
-        static public void Initialise()
+        static private List<Map> allMaps; //Список всех карт в порядке, в котором их пути идут в string[] paths из MapSolver.MapCollector
+        static public void Initialise() //Запись всех карт в allMaps (!!!стирает всю информацию с них, которая была записана во время выполнения)
         {
             allMaps = MapSolver.MapCollector();
         }
-        static public char [,] GetDrawnMap(int mapId)
+        static public char [,] GetDrawnMap(int mapId) //Возвращает карту в удобном для отображения в консоли формате
         {
             return allMaps[mapId].drawnMap;
         }
-        static public string GetMapName(int mapId)
+        static public string GetMapName(int mapId) //Возвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
         {
             return allMaps[mapId].name;
         }
-        static public int CanMoveTo(int mapId, int x, int y)
+        static public int CanMoveTo(int mapId, int x, int y) //Проверяет возможность Entity передвинуться в какую-либо клетку (клетка может быть занята другим Entity)
         {
-
             if (allMaps[mapId].passable[y, x]) return 1;
             return 0;
         }
-        static public int CantMoveBecause(int mapId, int x, int y)
+        static public int CantMoveBecause(int mapId, int x, int y) //Возвращает причину, по которой Entity не может передвинуться в клетку
         {
-            if (allMaps[mapId].chests[y, x] != null) return (int)CantGoBecause.Chest;
-            else if (allMaps[mapId].entities[y, x] != null)
+            if (allMaps[mapId].chests[y, x] != null) return (int)CantGoBecause.Chest; //Так как Chest не является Entity, сначала проверяется он
+            else if (allMaps[mapId].entities[y, x] != null)                           //Потом идут проверки самих Entity
             {
                 if(allMaps[mapId].entities[y, x] is Enemy)
                 {
@@ -47,78 +46,69 @@ namespace Roguelike
                     return (int)Maps.CantGoBecause.Friend;
                 }
             }
-            return (int)CantGoBecause.Wall;
+            return (int)CantGoBecause.Wall;                                           //Иначе причиной становится стена
         }
-        static public int[,] GetTransitionsTo(int mapId)
-        {
+                                                        
+        static public int[,] GetTransitionsTo(int mapId)//Возвращает массив с номерами карт, на которые осуществляется переход в каждой клетке
+        {                                               //Если в какой-то клетке нет перехода, ее значение будет равно -1
             return allMaps[mapId].transitionTo;
         }
-        static public point GetTransitionCoords(int fromMapId, int toMapId)
+        static public point GetTransitionCoords(int fromMapId, int toMapId) //Возвращает точку перехода
         {
             return allMaps[fromMapId].transitionCoords[toMapId];
         }
-        static public void SetChest(int mapId ,int x, int y, Chest chest)
+        static public void SetChest(int mapId ,int x, int y, Chest chest) //Ставит сундук по координатам, если они еще не заняты
         {
-            if (allMaps[mapId].chests[x, y] == null)
+            if (!Maps.ChestHere(mapId,x,y))
             {
                 allMaps[mapId].chests[x, y] = chest;
                 allMaps[mapId].passable[x, y] = false;
                 allMaps[mapId].drawnMap[x, y] = 'C';
             }
         }
-        static public bool ChestHere(int mapId, int x,int y)
+        static public bool ChestHere(int mapId, int x,int y) //Возвращает true, если по указанным координатам находится сундук
         {
             if (allMaps[mapId].chests[y, x] != null) return true;
             return false;
         }
-        static public bool checkNpc(int mapId, int x, int y)
-        {
-            if (allMaps[mapId].npcs[y, x] != null) return true;
-            return false;
-        }
-        public static string[] GetChestItems(int mapId, int x, int y)
+        public static string[] GetChestItems(int mapId, int x, int y) //Возвращает имена всех предметов в сундуке и некоторые дополнительные строки
         {
             string[] chestItems = allMaps[mapId].chests[y, x].GetItemNames();
-            int emptyChest = chestItems.Length == 0 ? 0 : 1;
-            string[] result = new string[chestItems.Length + 1 + emptyChest];
-            for(int i = 0; i < chestItems.Length; i++) result[i] = chestItems[i];
-            if (emptyChest == 1) result[result.Length - 2] = "Забрать все";
-            result[result.Length - 1] = "Вернуться в игру";
+            int emptyChest = chestItems.Length == 0 ? 0 : 1;                      //Если в сундуке нет предметов, то emptyChest = 0 (не логично, но удобней для следующей строки)
+            string[] result = new string[chestItems.Length + 1 + emptyChest];     //Длина возвращаемого массива на 1 больше количества предметов в сундуке и еще на 1 больше, если в сундуке есть предметы
+            for(int i = 0; i < chestItems.Length; i++) result[i] = chestItems[i];   
+            if (emptyChest == 1) result[result.Length - 2] = "Забрать все";       //Если в сундуке есть предметы, предпоследняя строка будет "Забрать все"
+            result[result.Length - 1] = "Вернуться в игру";                       //В любом случае последняя строка - "Вернуться в игру"
             return result;
         }
-        public static NPC GetMyNpc(int mapId, int x, int y)
-        {
-            NPC nPC = (NPC)allMaps[mapId].entities[y, x];
-            return nPC;
-        }
-        public static Item GetItemFromChest(int mapId, int x, int y, int index)
+        public static Item GetItemFromChest(int mapId, int x, int y, int index) //Получить предмет по индексу из сундука
         {
             Chest chest = allMaps[mapId].chests[y, x];
             Item result = chest.GetItemByIndex(index);
             chest.DeleteItem(index);
             return result;
         }
-        public static Item GetItemFromTiefsBag(int mapId, int x, int y, int index)
+        public static Item GetItemFromNPC(int mapId, int x, int y, int index) //Получить предмет NPC по индексу, желательно совместить с GetItemFromChest(GetItemFromInventory?)
         {
-            NPC  nPC = (NPC)allMaps[mapId].entities[y, x];
-            Item result = nPC.TiefsBag[index];
-            nPC.TiefsBag.RemoveAt(index);
+            NPC  Npc = (NPC)allMaps[mapId].entities[y, x];
+            Item result = Npc.NPCInventory[index];
+            Npc.NPCInventory.RemoveAt(index);
             return result;
         }
-        public static Item[] GetAllItemsFromChest(int mapId,int x, int y)
+        public static Item[] GetAllItemsFromChest(int mapId,int x, int y) //Получить все предметы из сундука
         {
             Chest chest = allMaps[mapId].chests[y, x];
             Item[] result = new Item[chest.ChestItemsAmount()];
             for(int i = 0; i < result.Length; i++) result[i] = GetItemFromChest(mapId, x, y, 0);
             return result;
         }
-        public static Item[] GetAllItemFromTiefsBag(int mapId, int x, int y)
+        public static Item[] GetAllItemsFromNPC(int mapId, int x, int y) //Получить все предметы NPC, также желательно совместить с GetAllItemsFromChest
         {
-            NPC  nPC = (NPC)allMaps[mapId].entities[y, x];
-            Item[] result =new Item[ nPC.TiefsBag.Count];
+            NPC  Npc = (NPC)allMaps[mapId].entities[y, x];
+            Item[] result =new Item[Npc.NPCInventory.Count];
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = GetItemFromTiefsBag(mapId, x, y, 0);
+                result[i] = GetItemFromNPC(mapId, x, y, 0);
             }
             return result;
         }
@@ -181,6 +171,11 @@ namespace Roguelike
             bool[,] result = new bool[longResult.GetLength(0) - 1, longResult.GetLength(1)];
             for (int i = 0; i < result.GetLength(0); i++) for (int j = 0; j < result.GetLength(1); j++) result[i, j] = longResult[i, j];
             return result;
+        }
+        public static void EnemyMovement(int mapId, int x, int y)
+        {
+            Entity[,] currentMapEntities = allMaps[mapId].entities;
+            for (int i = 0; i < currentMapEntities.GetLength(0); i++) for (int j = 0; j < currentMapEntities.GetLength(1); j++) if (currentMapEntities[i, j] is Enemy) currentMapEntities[i, j].MoveTowards(x, y);
         }
     }
 }

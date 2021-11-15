@@ -9,7 +9,6 @@ namespace Roguelike
         public Entity[,] entities;
         public string name;
         public Chest[,] chests;
-        public NPC[,] npcs;
         public point[] transitionCoords;
         public int[,] transitionTo;
         public char[,] drawnMap;
@@ -22,7 +21,6 @@ namespace Roguelike
             for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
             transitionCoords = new point[b];
             chests = new Chest[sizex, sizey];
-            npcs = new NPC[sizex, sizey];
             entities = new Entity[sizex, sizey];
             transitionTo = new int[sizex, sizey];
             for (int i = 0; i < sizex; i++)
