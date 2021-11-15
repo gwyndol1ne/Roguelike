@@ -52,7 +52,7 @@ namespace Roguelike
             string[] chestMenuItems;
             Menu chestMenu;
             Enemy enemy1 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 2, 4, 5);
-            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 2, 2, 5);
+            Enemy enemy0 = new Enemy("Калиста", 100, 1, 1, 1, 1, 3, 2, 2, 5);
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";

@@ -69,7 +69,12 @@ namespace Roguelike
         public int GetDamaged(int damage)
         {
             int damageRecieved = damage - Defense;
-            CurrentHP -= damageRecieved;
+            if (damageRecieved >= CurrentHP)
+            {
+                CurrentHP = 0;
+                Alive = false;
+            }
+            else CurrentHP -= damageRecieved;
             return damageRecieved;
         }
     }
