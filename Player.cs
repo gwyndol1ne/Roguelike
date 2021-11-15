@@ -48,7 +48,6 @@ namespace Roguelike
             }
             return result;
         }
-
         public void ChangeItemByChoice(int slot/*slot*/, int choice/*inventory*/) //.....
         {
             List<Item> slotItems = new List<Item>();

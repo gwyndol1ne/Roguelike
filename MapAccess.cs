@@ -12,6 +12,7 @@ namespace Roguelike
             Chest = 1,
             Enemy = 2,
             Friend = 3,
+            Player = 4,
         }
 
         static private List<Map> allMaps; //Список всех карт в порядке, в котором их пути идут в string[] paths из MapSolver.MapCollector
@@ -37,14 +38,9 @@ namespace Roguelike
             if (allMaps[mapId].chests[y, x] != null) return (int)CantGoBecause.Chest; //Так как Chest не является Entity, сначала проверяется он
             else if (allMaps[mapId].entities[y, x] != null)                           //Потом идут проверки самих Entity
             {
-                if(allMaps[mapId].entities[y, x] is Enemy)
-                {
-                    return (int)Maps.CantGoBecause.Enemy;
-                }
-                else if (allMaps[mapId].entities[y, x] is Friend)
-                {
-                    return (int)Maps.CantGoBecause.Friend;
-                }
+                if(allMaps[mapId].entities[y, x] is Enemy) return (int)Maps.CantGoBecause.Enemy;
+                else if (allMaps[mapId].entities[y, x] is Friend) return (int)Maps.CantGoBecause.Friend;
+                else if (allMaps[mapId].entities[y, x] is Player) return (int)Maps.CantGoBecause.Player;
             }
             return (int)CantGoBecause.Wall;                                           //Иначе причиной становится стена
         }
@@ -115,10 +111,7 @@ namespace Roguelike
         public static void SetEntity(int mapId, int x, int y , Entity entity)
         {
             allMaps[mapId].entities[y,x] = entity;
-            if (!(entity is Player))
-            {
-                allMaps[mapId].passable[y, x] = false;
-            }
+            allMaps[mapId].passable[y, x] = false;
         }
         public static void DelEntity(int mapId, int x, int y)
         {
@@ -164,10 +157,7 @@ namespace Roguelike
         {
             bool[,] source = allMaps[mapId].passable;
             bool[,] longResult = new bool[source.GetLength(0), (source.GetLength(1) - 1) / 2 + 1];
-            for (int i = 0; i < source.GetLength(1); i++)
-            {
-                if (i % 2 == 0) for (int j = 0; j < source.GetLength(0); j++) longResult[j, i / 2] = source[j, i];
-            }
+            for (int i = 0; i < source.GetLength(1); i++) if (i % 2 == 0) for (int j = 0; j < source.GetLength(0); j++) longResult[j, i / 2] = source[j, i];
             bool[,] result = new bool[longResult.GetLength(0) - 1, longResult.GetLength(1)];
             for (int i = 0; i < result.GetLength(0); i++) for (int j = 0; j < result.GetLength(1); j++) result[i, j] = longResult[i, j];
             return result;
@@ -175,7 +165,9 @@ namespace Roguelike
         public static void EnemyMovement(int mapId, int x, int y)
         {
             Entity[,] currentMapEntities = allMaps[mapId].entities;
-            for (int i = 0; i < currentMapEntities.GetLength(0); i++) for (int j = 0; j < currentMapEntities.GetLength(1); j++) if (currentMapEntities[i, j] is Enemy) currentMapEntities[i, j].MoveTowards(x, y);
+            List<Entity> entitiesToMove = new List<Entity>();
+            for (int i = 0; i < currentMapEntities.GetLength(0); i++) for (int j = 0; j < currentMapEntities.GetLength(1); j++) if (currentMapEntities[i, j] is Enemy) entitiesToMove.Add(currentMapEntities[i, j]);
+            foreach(Entity entity in entitiesToMove) entity.MoveTowards(x, y);
         }
     }
 }

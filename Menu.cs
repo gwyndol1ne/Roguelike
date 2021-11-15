@@ -16,10 +16,10 @@ namespace Roguelike
         {
             menuItems = MenuItems.ToArray();
         }
-        public int GetChoice(bool centre)
+        public int GetChoice(bool centre, bool clearConsole)
         {
             cursor = 0;
-            Console.Clear();
+            if(clearConsole) Console.Clear();
             ConsoleKeyInfo key;
             bool exit = false;
             do
@@ -55,7 +55,6 @@ namespace Roguelike
         public int GetChoice(bool centre,string str,int r)
         {
             cursor = 0;
-           
             ConsoleKeyInfo key;
             bool exit = false;
           

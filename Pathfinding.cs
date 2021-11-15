@@ -18,19 +18,19 @@ namespace Roguelike
         {
             for(int i = -1; i < 2; i += 2)
             {
-                if (sx + i == ex && sy == ey) return returnEdgeCase();
-                if(sx == ex && sy+i == ey) return returnEdgeCase();
+                if (sx + i == ex && sy == ey) return returnEdgeCase(i,0);
+                if(sx == ex && sy+i == ey) return returnEdgeCase(0,i);
             }
-            if(sx==ex && sy == ey) return returnEdgeCase();
+            if(sx==ex && sy == ey) return returnEdgeCase(0,0);
             Setup(sx, sy, ex, ey, pass);
             CalculatePath();
             return CalculateMovement();
         }
-        private static point[] returnEdgeCase()
+        private static point[] returnEdgeCase(int x, int y)
         {
             point[] equalResult = new point[1];
-            equalResult[0].x = 0;
-            equalResult[0].y = 0;
+            equalResult[0].x = x;
+            equalResult[0].y = y;
             return equalResult;
         }
         private static void Setup(int sx, int sy, int ex, int ey, bool[,] pass)
@@ -46,6 +46,7 @@ namespace Roguelike
                     nodes[i, j].x = i;
                     nodes[i, j].y = j;
                 }
+            nodes[ex, ey].wasChecked = false;
             nodes[sx, sy].dist = 0;
             nodes[sx, sy].prevX = sx;
             nodes[sx, sy].prevY = sy;
