@@ -15,7 +15,7 @@ namespace Roguelike
         }
 
         static private List<Map> allMaps; //Список всех карт в порядке, в котором их пути идут в string[] paths из MapSolver.MapCollector
-        static public void Initialise() //Запись всех карт в allMaps (!!!стирает всю информацию с них, которая была записана во время выполнения)
+        static public void Initialise() //Запись всех карт в allMaps (!!! не стирает всю информацию с них, которая была записана во время выполнения)
         {
             allMaps = MapSolver.MapCollector();
         }
@@ -23,7 +23,7 @@ namespace Roguelike
         {
             return allMaps[mapId].drawnMap;
         }
-        static public string GetMapName(int mapId) //Возвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
+        static public string GetMapName(int mapId) //Не озвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
         {
             return allMaps[mapId].name;
         }
@@ -106,10 +106,12 @@ namespace Roguelike
         {
             NPC  Npc = (NPC)allMaps[mapId].entities[y, x];
             Item[] result =new Item[Npc.NPCInventory.Count];
+
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = GetItemFromNPC(mapId, x, y, 0);
             }
+            Npc.GetTiefsItemNames().RemoveAt(0);
             return result;
         }
         public static void SetEntity(int mapId, int x, int y , Entity entity)

@@ -10,13 +10,22 @@ namespace Roguelike
     {
         public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
-        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y) :
+        public  int QestNummbet { get; set; } = 0;
+        
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y,Qests urQest) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@') 
         {
+          
+            Qests=urQest;
             Draw.currentMapId = MapId;
             EquippedItems = new PutOnItem[8];
-        }
 
+        }
+        public Qests Qests { get; set; }
+        public Qest GetQest() 
+        {
+            return Qests.Yests[QestNummbet];
+        }
         public List<string> GetInventory() //ждет изменений максима -ничего менять не буду
         {
             List<string> result = new List<string>();

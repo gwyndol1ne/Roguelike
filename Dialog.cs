@@ -16,7 +16,7 @@ namespace Roguelike
             otwet = Otwet;
             reactionmsg = Reactionmsg;
         }
-        public int GetDialog(NPC nPC)
+        public int GetDialog(NPC nPC,Player player,NPC nPC1)
         {
 
             Console.Write(nPC.Name + ":");
@@ -24,7 +24,10 @@ namespace Roguelike
             reaction = DialogOtwet.GetChoice(true, message[0],1);
             Console.Clear();
             string dialogVAlue = nPC.Name + ":"+message[0]+'\n' +"Вы:" + otwet[reaction]+ '\n' + nPC.Name + ":" + reactionmsg[reaction]+'\n';
-
+            if (reaction==nPC.TrigerNummber&player.QestNummbet==0&nPC==nPC1)
+            {
+                player.GetQest().trigger = true;
+            }
             string[] leaVe = new string[1];
             leaVe[0] = "Я пожалуй пойду ";
          

@@ -53,7 +53,7 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
-            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 1, 10, 16);
+            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 1, 10, 16, 0);
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
@@ -69,7 +69,7 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(message, answer, reaction);
             Chest chest1 = new Chest(0, 1, 10);
-            Friend npc1 = new Friend("Максим", 11, 23, 22, 11, 33, 2, 0, 4, 11);
+            Friend npc1 = new Friend("Максим", 11, 23, 22, 11, 33, 2, 0, 4, 11, 1);
             NPC NPC1;
             chest1.GenerateContents(ItemCollector.GetAllItems());
             /*int gameStatus = (int)Status.StartMenu;*/
@@ -108,6 +108,11 @@ namespace Roguelike
                     Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                     do
                     {
+                        if (player.GetQest().trigger==true)
+                        {
+                            player.QestNummbet++;
+                            player.GetQest().trigger = false;
+                        }
                         moveX = 0;
                         moveY = 0;
                         GameInterface.DrawMapInterface(player, 53, 3);
@@ -217,7 +222,7 @@ namespace Roguelike
                     int choice = chestMenu.GetChoice(true);
                     if (choice < chestMenuItems.Length - 2)
                     {
-                        player.AddItem(Maps.GetItemFromChest(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
+                        player.AddItem(Maps.GetItemFromChest(player.MapId, player.X + moveX, player.Y + moveY, choice));
                     }
                     else if (choice == chestMenuItems.Length - 2)
                     {
@@ -236,8 +241,8 @@ namespace Roguelike
                     }
                     if (choice == 1)
                     {
-                        //становится злым хз
-                        gameStatus = (int)Status.InGame;
+
+                        gameStatus = (int)Status.InBattle;
 
                     }
                     else if (choice == 2)
@@ -250,7 +255,7 @@ namespace Roguelike
                     Console.Clear();
 
                     NPC1 = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
-                    int leave = dialog.GetDialog(NPC1);
+                    int leave = dialog.GetDialog(NPC1, player, npc1);
                     if (leave == 0)
                     {
                         gameStatus = (int)Status.InGame;
@@ -258,18 +263,47 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.Theft)
                 {
+
                     NPC1 = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
                     Menu TiefsMenu = new Menu(NPC1.GetTiefsItemNames());
                     int choice = TiefsMenu.GetChoice(true);
+                    if (choice == NPC1.GetTiefsItemNames().Count - 1)
+                    {
+                        gameStatus = (int)Status.InGame;
+                    }
+
                     if (choice < NPC1.GetTiefsItemNames().Count - 2)
                     {
-                        player.AddItem(Maps.GetItemFromNPC(player.MapId, player.X + moveX, player.Y + moveY, choice)); //сами думайте)
+                        Random rnd = new Random();
+                        int Luck = rnd.Next(0, 2);
+                        if (Luck==1)
+                        {
+                            player.AddItem(Maps.GetItemFromNPC(player.MapId, player.X + moveX, player.Y + moveY, choice));
+                            gameStatus = (int)Status.InGame;
+                        }
+                        else
+                        {
+                            gameStatus = (int)Status.InBattle;                            
+                        }
+                        
                     }
                     else if (choice == NPC1.GetTiefsItemNames().Count - 2)
                     {
-                        player.AddItems(Maps.GetAllItemsFromNPC(player.MapId, player.X + moveX, player.Y + moveY));
+                        Random rnd = new Random();
+                        int Luck = rnd.Next(0, NPC1.NPCInventory.Count);
+                        if (Luck == 1)
+                        {
+                            player.AddItems(Maps.GetAllItemsFromNPC(player.MapId, player.X + moveX, player.Y + moveY));
+                            gameStatus = (int)Status.InGame;
+                        }
+                        else
+                        {
+                            gameStatus = (int)Status.InBattle;
+                        }
+                      
                     }
-                    gameStatus = (int)Status.InGame;
+                  
+
                 }
                 if (gameStatus == (int)Game.Status.InBattle)
                 {
