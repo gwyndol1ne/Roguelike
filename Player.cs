@@ -6,13 +6,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Roguelike
 {
     [Serializable]
-    public class Player : Entity
+    class Player : Entity
     {
         public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
+
         public  int QestNummbet { get; set; } = 0;
         
-        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y,Qests urQest) :
+
+
+        private Tarot tarot;
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, Qests urQest, Tarot Tarot) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@') 
         {
           
@@ -20,7 +24,11 @@ namespace Roguelike
             Draw.currentMapId = MapId;
             EquippedItems = new PutOnItem[8];
 
+            tarot = Tarot;
         }
+
+
+        
         public Qests Qests { get; set; }
         public Qest GetQest() 
         {
@@ -101,6 +109,7 @@ namespace Roguelike
                     damage += weapon.Damage;
                 }
             }
+            damage += tarot.Damage;
             return damage;
         }
         public int CountDefense()
@@ -114,6 +123,7 @@ namespace Roguelike
                     defense += armor.Defense;
                 }
             }
+            defense += tarot.Defense;
             return defense;
         }
         public int CountAgility()
@@ -126,6 +136,7 @@ namespace Roguelike
                     agility += EquippedItems[i].Agility;
                 }
             }
+            agility += tarot.Agility;
             return agility;
         }
 
@@ -139,6 +150,7 @@ namespace Roguelike
                     strength += EquippedItems[i].Strenght;
                 }
             }
+            strength += tarot.Strength;
             return strength;
         }
         public int CountIntelligence()
@@ -151,6 +163,7 @@ namespace Roguelike
                     intelligence += EquippedItems[i].Intelligence;
                 }
             }
+            intelligence += tarot.Intelligence;
             return intelligence;
         }
     }
