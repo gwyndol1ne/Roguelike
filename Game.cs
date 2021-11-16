@@ -30,6 +30,7 @@ namespace Roguelike
             Save = 13,
             Load = 14,
             InBattle = 15,
+            InBattleForEntity = 16,
         }
         public static void Start(Player player, List<Entity> entities, List<Chest> chests)
         {
@@ -53,7 +54,8 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
-            Enemy enemy0 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 1, 10, 16, 0);
+            Enemy enemy1 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 2, 4, 5, 0);
+            Enemy enemy0 = new Enemy("Калиста", 100, 1, 1, 1, 1, 3, 2, 2, 5, 0);
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
@@ -69,7 +71,7 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(message, answer, reaction);
             Chest chest1 = new Chest(0, 1, 10);
-            Friend npc1 = new Friend("Максим", 11, 23, 22, 11, 33, 2, 0, 4, 11, 1);
+            NPC npc1 = new NPC("Максим", 2000, 1, 22, 11, 33, 2, 0, 4, 11, 'N', 0);
             NPC NPC1;
             chest1.GenerateContents(ItemCollector.GetAllItems());
             /*int gameStatus = (int)Status.StartMenu;*/
@@ -82,7 +84,7 @@ namespace Roguelike
                 }
                 if (gameStatus == (int)Status.StartMenu)
                 {
-                    int choice = startMenu.GetChoice(true);
+                    int choice = startMenu.GetChoice(true,true);
                     switch (choice)
                     {
                         case 0:
@@ -99,7 +101,7 @@ namespace Roguelike
                 if (gameStatus == (int)Status.ClassMenu)
                 {
                     Console.Clear();
-                    tarotMenu.GetChoice(true);
+                    tarotMenu.GetChoice(true,true);
                     gameStatus = (int)Status.InGame;
                 }
                 if (gameStatus == (int)Status.InGame)
@@ -148,14 +150,17 @@ namespace Roguelike
                             }
                             if ((moveX != 0) || (moveY != 0))
                             {
-                                if(player.Move(moveX, moveY)) Maps.EnemyMovement(player.MapId, player.X, player.Y);
+                                if (player.Move(moveX, moveY))
+                                {
+                                    Maps.EnemyMovement(player.MapId, player.X, player.Y);
+                                }
                             }
                         }
                     } while (gameStatus == (int)Status.InGame);
                 }
                 if (gameStatus == (int)Status.PauseMenu)
                 {
-                    int choice = pauseMenu.GetChoice(true);
+                    int choice = pauseMenu.GetChoice(true,true);
                     switch (choice)
                     {
                         case 0:
@@ -200,14 +205,14 @@ namespace Roguelike
                     {
                         List<string> inventoryItems = player.GetInventory();
                         Menu inventoryMenu = new Menu(inventoryItems);
-                        int inventoryChoice = inventoryMenu.GetChoice(true); //3 что это? тот кто это писал з
+                        int inventoryChoice = inventoryMenu.GetChoice(true,true); //3 что это? тот кто это писал з
                         if (inventoryChoice == 8)
                         {
                             gameStatus = (int)Status.InGame;
                             break;
                         }
                         Menu slotMenu = new Menu(player.GetNamesBySlot(inventoryChoice));
-                        int slotChoice = slotMenu.GetChoice(true);
+                        int slotChoice = slotMenu.GetChoice(true,true);
                         if (slotChoice == 0)
                         {
                             player.EquippedItems[inventoryChoice] = null;
@@ -219,7 +224,7 @@ namespace Roguelike
                 {
                     chestMenuItems = Maps.GetChestItems(player.MapId, player.X + moveX, player.Y + moveY);
                     chestMenu = new Menu(chestMenuItems);
-                    int choice = chestMenu.GetChoice(true);
+                    int choice = chestMenu.GetChoice(true,true);
                     if (choice < chestMenuItems.Length - 2)
                     {
                         player.AddItem(Maps.GetItemFromChest(player.MapId, player.X + moveX, player.Y + moveY, choice));
@@ -233,7 +238,7 @@ namespace Roguelike
                 if (gameStatus == (int)Status.InNpc)
                 {
 
-                    int choice = NpcMenu.GetChoice(true);
+                    int choice = NpcMenu.GetChoice(true,true);
                     if (choice == 0)
                     {
                         gameStatus = (int)Status.Theft;
@@ -241,7 +246,9 @@ namespace Roguelike
                     }
                     if (choice == 1)
                     {
-
+                        NPC1 = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
+                        NPC1 = new Enemy(NPC1.Name, NPC1.HP, NPC1.Damage, NPC1.Strength, NPC1.Agility, NPC1.Intelligence,
+                            NPC1.Defense, NPC1.MapId, NPC1.X, NPC1.Y, NPC1.TrigerNummber); //ничего не ужасно все дозволено
                         gameStatus = (int)Status.InBattle;
 
                     }
@@ -266,12 +273,11 @@ namespace Roguelike
 
                     NPC1 = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
                     Menu TiefsMenu = new Menu(NPC1.GetTiefsItemNames());
-                    int choice = TiefsMenu.GetChoice(true);
+                    int choice = TiefsMenu.GetChoice(true,true);
                     if (choice == NPC1.GetTiefsItemNames().Count - 1)
                     {
                         gameStatus = (int)Status.InGame;
                     }
-
                     if (choice < NPC1.GetTiefsItemNames().Count - 2)
                     {
                         Random rnd = new Random();
@@ -300,14 +306,11 @@ namespace Roguelike
                         {
                             gameStatus = (int)Status.InBattle;
                         }
-                      
                     }
-                  
-
                 }
                 if (gameStatus == (int)Game.Status.InBattle)
                 {
-                    Battle battle1 = new Battle(player, Maps.GetEnemyEntities(player.MapId, player.X, player.Y));
+                    Battle battle1 = new Battle(player, Maps.GetNearEntities(player.MapId, player.X, player.Y));
                 }
 
             } while (true);

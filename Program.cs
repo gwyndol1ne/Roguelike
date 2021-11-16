@@ -9,7 +9,7 @@ namespace Roguelike
 
         static void Main(string[] args)
         {
-            Tarot theFool = new Tarot(0, 5, 0, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) => 
+            Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) => 
             {
                 entities[numberOfEnemy].CurrentHP -= 300;
                 entities[numberOfEnemy].Stuned = 1;

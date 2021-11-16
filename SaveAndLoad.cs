@@ -37,7 +37,7 @@ namespace Roguelike
             List<string> saveMenuItems = new List<string>(saves);
             saveMenuItems.Add("Выйти");
             Menu saveMenu = new Menu(saveMenuItems);
-            int choice = saveMenu.GetChoice(true);
+            int choice = saveMenu.GetChoice(true,true);
             if (choice != saveMenuItems.Count - 1)
             {
                 BinaryFormatter formatter = new BinaryFormatter();
@@ -55,7 +55,6 @@ namespace Roguelike
                 }
             }
         }
-
         public bool Load(ref Player player, ref List<Entity> entities, ref List<Chest> chests)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -69,7 +68,7 @@ namespace Roguelike
             }
             loadMenuItems.Add("Выйти");
             Menu loadMenu = new Menu(loadMenuItems);
-            int choice = loadMenu.GetChoice(true);
+            int choice = loadMenu.GetChoice(true,true);
             if (choice == loadMenuItems.Count - 1)
             {
                 return false;

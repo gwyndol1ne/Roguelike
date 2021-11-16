@@ -51,20 +51,11 @@ namespace Roguelike
         public static int CantMoveDecider(int mapId, int x, int y)
         {
             int cgb = Maps.CantMoveBecause(mapId, x, y);
-            if (cgb == (int)Maps.CantGoBecause.Chest)
-            {
-                return (int)Game.Status.ChestOpened;
-            }
-            else if (cgb == (int)Maps.CantGoBecause.Friend)
-            {
-                return (int)Game.Status.InNpc;
-            }
-            else if(cgb == (int)Maps.CantGoBecause.Enemy)
-            {
-                return (int)Game.Status.InBattle;
-            }
+            if (cgb == (int)Maps.CantGoBecause.Chest) return (int)Game.Status.ChestOpened;
+            else if (cgb == (int)Maps.CantGoBecause.Friend) return (int)Game.Status.InNpc;
+            else if (cgb == (int)Maps.CantGoBecause.Enemy) return (int)Game.Status.InBattle;
+            else if (cgb == (int)Maps.CantGoBecause.Player) return (int)Game.Status.InBattleForEntity;
             return (int)Game.Status.InGame;
         }
-
     }
 }

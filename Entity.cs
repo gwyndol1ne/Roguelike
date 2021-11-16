@@ -22,9 +22,11 @@ namespace Roguelike
             X = x;
             Y = y;
             Symbol = symb;
+            Alive = true;
             Maps.SetEntity(mapId, x, y, this);
             Stuned = 0;
         }
+        public bool Alive { get; set; }
         public char Symbol { get; }
         public string Name { get ; }
         public int HP { get; }
@@ -44,7 +46,15 @@ namespace Roguelike
             int startingMapId = MapId;
             if (!MovementManager.TryMove(this, dirX, dirY))
             {
-                Game.GameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
+                int gameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
+                if (this is Player)
+                {
+                    Game.GameStatus = gameStatus;
+                }
+                else if (this is Enemy)
+                {
+                    if (gameStatus == (int)Game.Status.InBattleForEntity) Game.GameStatus = (int)Game.Status.InBattle;
+                }
                 return false;
             }
             if (startingMapId != MapId) return false;
@@ -59,7 +69,12 @@ namespace Roguelike
         public int GetDamaged(int damage)
         {
             int damageRecieved = damage - Defense;
-            CurrentHP -= damageRecieved;
+            if (damageRecieved >= CurrentHP)
+            {
+                CurrentHP = 0;
+                Alive = false;
+            }
+            else CurrentHP -= damageRecieved;
             return damageRecieved;
         }
     }

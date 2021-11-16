@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="537660f1-09b4-4c5d-b2ec-c14defd1a2f9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Battle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Battle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Entity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Entity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GameInterface.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GameInterface.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Map.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Map.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MapAccess.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MapAccess.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Menu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Menu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NPC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/NPC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Player.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="20xZNLcg7uJbH9Ky9Cn4L58lYQ9" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="537660f1-09b4-4c5d-b2ec-c14defd1a2f9" name="Changes" comment="" />
+      <created>1636988162638</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1636988162638</updated>
+    </task>
+    <servers />
+  </component>
+</project>
