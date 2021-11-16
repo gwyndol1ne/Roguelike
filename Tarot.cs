@@ -14,7 +14,7 @@ namespace Roguelike
         public int Strength { get; set; }
         public int Agility { get; set; }
         public int Intelligence { get; set; }
-        private Ability Ability;
+        public Ability Ability { get; }
 
         public Tarot (int hP, int defense, int damage, int strength, int agility, int intelligence, Ability ability)
         {

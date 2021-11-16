@@ -16,7 +16,7 @@ namespace Roguelike
 
 
         public Tarot Tarot { get; }
-        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, Qests urQest, Tarot tarot) :
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, Quests urQest, Tarot tarot) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@') 
         {
           
@@ -26,11 +26,8 @@ namespace Roguelike
 
             Tarot = tarot;
         }
-
-
-        
-        public Qests Qests { get; set; }
-        public Qest GetQest() 
+        public Quests Qests { get; set; }
+        public Quest GetQest() 
         {
             return Qests.Yests[QestNummbet];
         }

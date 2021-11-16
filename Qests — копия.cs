@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Roguelike
 {
-    public class Qests
+    public class Quests
     {
-   public    List<Qest> Yests = new List<Qest>();
-public Qests(List<Qest> yests)
+   public    List<Quest> Yests = new List<Quest>();
+public Quests(List<Quest> yests)
         {
             Yests = yests;
         }

@@ -43,11 +43,11 @@ namespace Roguelike
                 Console.WriteLine("ЗАЩИТА:{0}", enemy[i].Defense);
             }
             Console.SetCursorPosition(1,30);
-            Console.WriteLine("УРОН:{0}", friend.Damage                   +                                                 ((Player)friend).CountDamage());
+            Console.WriteLine("УРОН:{0}", friend.Damage+((Player)friend).CountDamage());
             Console.SetCursorPosition(1,31);
             Console.WriteLine("ЗДОРОВЬЕ:{0}", friend.CurrentHP);
             Console.SetCursorPosition(1,32);
-            Console.WriteLine("ЗАЩИТА:{0}", friend.Defense);
+            Console.WriteLine("ЗАЩИТА:{0}", friend.Defense+((Player)friend).CountDefense());
         }
     }
 }

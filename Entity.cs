@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Roguelike
 {
@@ -24,7 +21,7 @@ namespace Roguelike
             Symbol = symb;
             Alive = true;
             Maps.SetEntity(mapId, x, y, this);
-            Stuned = 0;
+            Stunned = 0;
         }
         public bool Alive { get; set; }
         public char Symbol { get; }
@@ -39,7 +36,7 @@ namespace Roguelike
         public int X { get; set; }
         public int Y { get; set; }
         public int MapId { get; set; }
-        public int Stuned { get; set; }
+        public int Stunned { get; set; }
 
         public bool Move(int dirX, int dirY)
         {

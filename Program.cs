@@ -11,8 +11,9 @@ namespace Roguelike
         {
             Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) => 
             {
-                entities[numberOfEnemy].CurrentHP -= 300;
-                entities[numberOfEnemy].Stuned = 1;
+                entities[numberOfEnemy].GetDamaged(300);
+                entities[numberOfEnemy].Stunned = 1;                 //вынести нахуй отсюда
+                                                                     //класс не выбирается а просто так
             });
 
             Console.Title = "Roguelike";
@@ -21,11 +22,11 @@ namespace Roguelike
             Console.SetBufferSize(90, 34);
             Maps.Initialise();
 
-            List<Qest> qest = new List<Qest>();
+            List<Quest> qest = new List<Quest>();
 
-            Qests qests = new Qests(qest);
-            Qest StartQest = new Qest("Узнайте имя Максима и пошлите его нахуй");
-            Qest qest1 = new Qest("Он зол бегите в яму");
+            Quests qests = new Quests(qest);
+            Quest StartQest = new Quest("Узнайте имя Максима и пошлите его нахуй");
+            Quest qest1 = new Quest("Он зол бегите в яму");
             qest.Add(StartQest);
             qest.Add(qest1);
             Player player = new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, qests,theFool);
