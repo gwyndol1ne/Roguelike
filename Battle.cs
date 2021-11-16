@@ -61,8 +61,15 @@ namespace Roguelike
                 UpdateAliveEnemies();
                 for (int i = 0; i < aliveEnemies.Length; i++) friend[0].GetDamaged(aliveEnemies[i].Damage);
             }
-            Game.GameStatus = (int)Game.Status.InGame;
-            for (int i = 0; i < enemy.Length; i++) Maps.DelEntity(enemy[i].MapId, enemy[i].X, enemy[i].Y);
+            if (friend[0].Alive)
+            {
+                Game.GameStatus = (int)Game.Status.InGame;
+                for (int i = 0; i < enemy.Length; i++) Maps.DelEntity(enemy[i].MapId, enemy[i].X, enemy[i].Y);
+            }
+            else
+            {
+                Game.GameStatus = (int)Game.Status.StartMenu;
+            }
         }
     }
 }

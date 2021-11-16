@@ -54,8 +54,8 @@ namespace Roguelike
             Menu tarotMenu = new Menu(tarotMenuItems);
             string[] chestMenuItems;
             Menu chestMenu;
-            Enemy enemy1 = new Enemy("Волибир", 100, 1, 1, 1, 1, 3, 2, 4, 5, 0);
-            Enemy enemy0 = new Enemy("Калиста", 100, 1, 1, 1, 1, 3, 2, 2, 5, 0);
+            Enemy enemy1 = new Enemy("Волибир", 10000, int.MaxValue, 1, 1, 1, 1000, 2, 4, 5, 0);
+            Enemy enemy0 = new Enemy("Калиста", 10000, 1, 1, 1, 1, 100, 2, 2, 5, 0);
             string[] arr = new string[2];
             string[] arr2 = new string[3];
             arr[0] = "Привет как тебя зовут ?";
@@ -110,10 +110,10 @@ namespace Roguelike
                     Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                     do
                     {
-                        if (player.GetQest().trigger==true)
+                        if (player.Quests[player.QuestNumber].trigger==true) //вылетай вылетай мы же богатые заново запустим
                         {
-                            player.QestNummbet++;
-                            player.GetQest().trigger = false;
+                            player.QuestNumber++;
+                            player.Quests[player.QuestNumber].trigger = false;
                         }
                         moveX = 0;
                         moveY = 0;

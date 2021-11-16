@@ -65,7 +65,8 @@ namespace Roguelike
         }
         public int GetDamaged(int damage)
         {
-            int damageRecieved = damage - Defense;
+            double percentBlocked = (Defense * 0.01) / (1 + Defense * 0.01);
+            int damageRecieved = (int)Math.Round(Convert.ToDouble(damage) * (1 - percentBlocked)); //да да давай говори я же понимаю все
             if (damageRecieved >= CurrentHP)
             {
                 CurrentHP = 0;
