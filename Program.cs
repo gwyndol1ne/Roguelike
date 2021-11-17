@@ -9,7 +9,7 @@ namespace Roguelike
 
         static void Main(string[] args)
         {
-            Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) => 
+            /*Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) => 
             {
                 entities[numberOfEnemy].CurrentHP -= 300;
                 entities[numberOfEnemy].Stuned = 1;
@@ -22,7 +22,7 @@ namespace Roguelike
             Tarot empress = new Tarot(800, 0, 0, 0, 0, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
             {
                 entities[numberOfEnemy].CurrentHP -= (300 + (entities[numberOfEnemy].HP / 100));
-            });
+            });*/
 
             List<Quest> quests = new List<Quest>();
             quests.Add(new Quest("Узнайте имя Максима и пошлите его нахуй"));
@@ -32,7 +32,7 @@ namespace Roguelike
             Console.SetWindowSize(90, 34);
             Console.SetBufferSize(90, 34);
             Maps.Initialise();
-            Player player = new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, quests, theFool);
+            Player player = new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, quests, 0);
             List<Entity> entities = new List<Entity>();
             List<Chest> chests = new List<Chest>();
             Game.GameStatus = (int)Game.Status.StartMenu;
