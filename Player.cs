@@ -16,7 +16,6 @@ namespace Roguelike
         public int TarotNumber { get; set; }
         public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, List<Quest> quests, int tarotNumber) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@')
-
         {
             Quests = quests;
             Draw.currentMapId = MapId;
@@ -24,9 +23,6 @@ namespace Roguelike
             QuestNumber = 0;
             TarotNumber = tarotNumber;
         }
-
-
-        
         public List<string> GetInventory() //ждет изменений максима -ничего менять не буду
         {
             List<string> result = new List<string>();
@@ -89,6 +85,11 @@ namespace Roguelike
             {
                 AddItem(items[i]);
             }
+        }
+        public void SetHP()
+        {
+            HP = 2000 + Tarot.Tarots[TarotNumber].HP;
+            CurrentHP = 2000 + Tarot.Tarots[TarotNumber].HP;
         }
         public int CountDamage()
         {

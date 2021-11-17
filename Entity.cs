@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Roguelike
 {
@@ -24,12 +21,12 @@ namespace Roguelike
             Symbol = symb;
             Alive = true;
             Maps.SetEntity(mapId, x, y, this);
-            Stuned = 0;
+            Stunned = 0;
         }
         public bool Alive { get; set; }
         public char Symbol { get; }
         public string Name { get ; }
-        public int HP { get; }
+        public int HP { get; set; }
         public int Damage { get; }
         public int Strength { get; }
         public int Agility { get; }
@@ -39,7 +36,7 @@ namespace Roguelike
         public int X { get; set; }
         public int Y { get; set; }
         public int MapId { get; set; }
-        public int Stuned { get; set; }
+        public int Stunned { get; set; }
 
         public bool Move(int dirX, int dirY)
         {
@@ -49,11 +46,11 @@ namespace Roguelike
                 int gameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
                 if (this is Player)
                 {
-                    Game.GameStatus = gameStatus;
+                    Game.GameStatus = (Game.Status)gameStatus;
                 }
                 else if (this is Enemy)
                 {
-                    if (gameStatus == (int)Game.Status.InBattleForEntity) Game.GameStatus = (int)Game.Status.InBattle;
+                    if (gameStatus == (int)Game.Status.InBattleForEntity) Game.GameStatus = Game.Status.InBattle;
                 }
                 return false;
             }
@@ -68,7 +65,8 @@ namespace Roguelike
         }
         public int GetDamaged(int damage)
         {
-            int damageRecieved = damage - Defense;
+            double percentBlocked = (Defense * 0.01) / (1 + Defense * 0.01);
+            int damageRecieved = (int)Math.Round(Convert.ToDouble(damage) * (1 - percentBlocked)); //да да давай говори я же понимаю все
             if (damageRecieved >= CurrentHP)
             {
                 CurrentHP = 0;
