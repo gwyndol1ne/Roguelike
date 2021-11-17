@@ -10,9 +10,9 @@ namespace Roguelike
         public string questValue { get; set; }
         public bool trigger { get; set; }
 
-        public Quest(string QestValue) 
+        public Quest(string QuestValue) 
         { 
-            questValue = QestValue;
+            questValue = QuestValue;
             trigger = false;
         }
     }

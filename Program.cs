@@ -6,14 +6,13 @@ namespace Roguelike
 {
     class Program
     {
-
-        static void Main(string[] args)
+        static public void Restart()
         {
-            Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) => 
+            Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
             {
                 entities[numberOfEnemy].GetDamaged(300);
-                entities[numberOfEnemy].Stunned = 1;                 
-                                                                     
+                entities[numberOfEnemy].Stunned = 1;
+
             });
             Tarot magician = new Tarot(0, 0, 0, 0, 0, 7, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
             {
@@ -22,7 +21,7 @@ namespace Roguelike
             });
             Tarot empress = new Tarot(800, 0, 0, 0, 0, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
             {
-                entities[numberOfEnemy].GetDamaged(300+(int)Math.Round(entities[numberOfEnemy].HP*0.1)); //давай ты нормально сделаешь
+                entities[numberOfEnemy].GetDamaged(300 + (int)Math.Round(entities[numberOfEnemy].HP * 0.1)); //давай ты нормально сделаешь
             });
             List<Quest> quests = new List<Quest>();
             quests.Add(new Quest("Узнайте имя Максима и пошлите его нахуй"));
@@ -37,6 +36,10 @@ namespace Roguelike
             List<Chest> chests = new List<Chest>();
             Game.GameStatus = (int)Game.Status.StartMenu;
             Game.Start(player, entities, chests);
+        }
+        static void Main(string[] args)
+        {
+            Restart();
         }
     }
 }
