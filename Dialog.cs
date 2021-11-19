@@ -24,7 +24,7 @@ namespace Roguelike
             reaction = DialogOtwet.GetChoice(true, message[0],1);
             Console.Clear();
             string dialogVAlue = nPC.Name + ":"+message[0]+'\n' +"Вы:" + otwet[reaction]+ '\n' + nPC.Name + ":" + reactionmsg[reaction]+'\n';
-            if (reaction==nPC.TrigerNummber&player.QuestNumber==0&nPC==nPC1)
+            if (reaction==nPC.TrigerNummber&player.QuestNumber==0&nPC==nPC1) 
             {
                 player.Quests[player.QuestNumber].trigger = true;
             }

@@ -10,20 +10,18 @@ namespace Roguelike
     {
         public PutOnItem[] EquippedItems { get; set; }
         private List<Item> items = new List<Item>();
-
         public int QuestNumber { get; set; }
         public List<Quest> Quests { get; set; }
-
-
-        public Tarot Tarot { get; }
-        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, List<Quest> quests, Tarot tarot) :
+        /*public Tarot Tarot { get; }*/
+        public int TarotNumber { get; set; }
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, List<Quest> quests, int tarotNumber) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@')
         {
             Quests = quests;
             Draw.currentMapId = MapId;
             EquippedItems = new PutOnItem[8];
             QuestNumber = 0;
-            Tarot = tarot;
+            TarotNumber = tarotNumber;
         }
         public List<string> GetInventory() //ждет изменений максима -ничего менять не буду
         {
@@ -88,6 +86,11 @@ namespace Roguelike
                 AddItem(items[i]);
             }
         }
+        public void SetHP()
+        {
+            HP = 2000 + Tarot.Tarots[TarotNumber].HP;
+            CurrentHP = 2000 + Tarot.Tarots[TarotNumber].HP;
+        }
         public int CountDamage()
         {
             int damage = 0;
@@ -99,7 +102,7 @@ namespace Roguelike
                     damage += weapon.Damage;
                 }
             }
-            damage += Tarot.Damage;
+            damage += Tarot.Tarots[TarotNumber].Damage;
             return damage;
         }
         public int CountDefense()
@@ -113,7 +116,7 @@ namespace Roguelike
                     defense += armor.Defense;
                 }
             }
-            defense += Tarot.Defense;
+            defense += Tarot.Tarots[TarotNumber].Defense;
             return defense;
         }
         public int CountAgility()
@@ -126,7 +129,7 @@ namespace Roguelike
                     agility += EquippedItems[i].Agility;
                 }
             }
-            agility += Tarot.Agility;
+            agility += Tarot.Tarots[TarotNumber].Agility;
             return agility;
         }
 
@@ -140,7 +143,7 @@ namespace Roguelike
                     strength += EquippedItems[i].Strenght;
                 }
             }
-            strength += Tarot.Strength;
+            strength += Tarot.Tarots[TarotNumber].Strength;
             return strength;
         }
         public int CountIntelligence()
@@ -153,7 +156,7 @@ namespace Roguelike
                     intelligence += EquippedItems[i].Intelligence;
                 }
             }
-            intelligence += Tarot.Intelligence;
+            intelligence += Tarot.Tarots[TarotNumber].Intelligence;
             return intelligence;
         }
     }

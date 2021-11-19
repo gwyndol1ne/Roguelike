@@ -55,20 +55,20 @@ namespace Roguelike
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
                         target = enemyChoiceMenu.GetChoice(false, false);
                         Player player = friend[0] as Player;
-                        ((Player)friend[0]).Tarot.Ability(ref player, ref aliveEnemies, target);
+                        Tarot.Tarots[player.TarotNumber].Ability(ref player, ref aliveEnemies, target);
                         break;
                 }
                 UpdateAliveEnemies();
-                for (int i = 0; i < aliveEnemies.Length; i++) friend[0].GetDamaged(aliveEnemies[i].Damage);
+                for (int i = 0; i < aliveEnemies.Length; i++) if(aliveEnemies[i].Effects[0].duration==0)friend[0].GetDamaged(aliveEnemies[i].Damage+aliveEnemies[i].DamageBuff);
             }
             if (friend[0].Alive)
             {
-                Game.GameStatus = (int)Game.Status.InGame;
+                Game.GameStatus = Game.Status.InGame;
                 for (int i = 0; i < enemy.Length; i++) Maps.DelEntity(enemy[i].MapId, enemy[i].X, enemy[i].Y);
             }
             else
             {
-                Game.GameStatus = (int)Game.Status.StartMenu;
+                Program.Restart();
             }
         }
     }

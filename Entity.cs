@@ -21,22 +21,20 @@ namespace Roguelike
             Symbol = symb;
             Alive = true;
             Maps.SetEntity(mapId, x, y, this);
-            Stunned = 0;
         }
         public bool Alive { get; set; }
         public char Symbol { get; }
-        public string Name { get ; }
-        public int HP { get; }
-        public int Damage { get; }
-        public int Strength { get; }
-        public int Agility { get; }
-        public int Defense { get; }
-        public int Intelligence { get; }
+        public string Name { get; }
+        public int HP { get; set; } 
+        public int Damage { get; } 
+        public int Strength { get; } 
+        public int Agility { get; } 
+        public int Defense { get; } 
+        public int Intelligence { get; } 
         public int CurrentHP { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int MapId { get; set; }
-        public int Stunned { get; set; }
 
         public bool Move(int dirX, int dirY)
         {
@@ -46,11 +44,11 @@ namespace Roguelike
                 int gameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
                 if (this is Player)
                 {
-                    Game.GameStatus = gameStatus;
+                    Game.GameStatus = (Game.Status)gameStatus;
                 }
                 else if (this is Enemy)
                 {
-                    if (gameStatus == (int)Game.Status.InBattleForEntity) Game.GameStatus = (int)Game.Status.InBattle;
+                    if (gameStatus == (int)Game.Status.InBattleForEntity) Game.GameStatus = Game.Status.InBattle;
                 }
                 return false;
             }
@@ -59,7 +57,7 @@ namespace Roguelike
         }
         public void MoveTowards(int x, int y)
         {
-            point direction = Pathfinder.GetPath(Y,(X+1)/2,y,(x+1)/2, Maps.GetPassableForPathfinding(MapId))[0];
+            point direction = Pathfinder.GetPath(Y, (X + 1) / 2, y, (x + 1) / 2, Maps.GetPassableForPathfinding(MapId))[0];
             direction.y *= 2;
             Move(direction.y, direction.x);
         }

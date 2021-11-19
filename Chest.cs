@@ -9,12 +9,17 @@ namespace Roguelike
     public class Chest
     {
         public List<Item> Items { get; }
+        public int MapId{get;}
+        public int X { get; }
+        public int Y { get; }
         public Chest(int mapId, int x , int y)
         {
             Items = new List<Item>();
+            MapId = mapId;
+            X = x;
+            Y = y;
             Maps.SetChest(mapId,x,y,this); 
         }
-
         public void GenerateContents(List<Item> source)
         {
             Random rng = new Random();

@@ -8,21 +8,6 @@ namespace Roguelike
     {
         static public void Restart()
         {
-            Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
-            {
-                entities[numberOfEnemy].GetDamaged(300);
-                entities[numberOfEnemy].Stunned = 1;
-
-            });
-            Tarot magician = new Tarot(0, 0, 0, 0, 0, 7, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
-            {
-                for (int i = 0; i < entities.Length; i++)
-                    entities[i].GetDamaged(200);
-            });
-            Tarot empress = new Tarot(800, 0, 0, 0, 0, 0, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
-            {
-                entities[numberOfEnemy].GetDamaged(300 + (int)Math.Round(entities[numberOfEnemy].HP * 0.1)); //давай ты нормально сделаешь
-            });
             List<Quest> quests = new List<Quest>();
             quests.Add(new Quest("Узнайте имя Максима и пошлите его нахуй"));
             quests.Add(new Quest("Он зол бегите в яму"));
@@ -31,10 +16,19 @@ namespace Roguelike
             Console.SetWindowSize(90, 34);
             Console.SetBufferSize(90, 34);
             Maps.Initialise();
-            Player player = new Player("Maksim", 2000, 100, 10, 10, 10, int.MaxValue, 0, 6, 6, quests, empress);
+            Chest chest1 = new Chest(0, 1, 10);
+            chest1.GenerateContents(ItemCollector.GetAllItems());
+            NPC npc1 = new NPC("Максим", 2000, 1, 22, 11, 33, 2, 0, 4, 11, 'N', 0);
+            Enemy enemy1 = new Enemy("Волибир", 10000, 50, 1, 1, 1, 1000, 2, 4, 5, 0);
+            Enemy enemy0 = new Enemy("Калиста", 10000, 100, 1, 1, 1, 100, 2, 2, 5, 0);
+            Player player = new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, quests, 0);
             List<Entity> entities = new List<Entity>();
+            entities.Add(npc1);
+            entities.Add(enemy0);
+            entities.Add(enemy1);
             List<Chest> chests = new List<Chest>();
-            Game.GameStatus = (int)Game.Status.StartMenu;
+            chests.Add(chest1);
+            Game.GameStatus = Game.Status.StartMenu;
             Game.Start(player, entities, chests);
         }
         static void Main(string[] args)

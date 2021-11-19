@@ -15,15 +15,14 @@ namespace Roguelike
             Console.WriteLine("ЗДОРОВЬЕ:{0}/{1}", player.CurrentHP, player.HP);
             Console.SetCursorPosition(x, y+2);
             Console.WriteLine("УРОН:{0}", player.Damage + player.CountDamage());
-            //она не лишняя она не как все  -сам убери
             Console.SetCursorPosition(x, y+3);
-            Console.WriteLine("СИЛА:{0}", player.Strength + player.CountStrength());
-            Console.SetCursorPosition(x, y+4);
-            Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Intelligence + player.CountIntelligence());
-            Console.SetCursorPosition(x, y+5);
             Console.WriteLine("ЗАЩИТА:{0}", player.Defense + player.CountDefense());
-            Console.SetCursorPosition(x, y+6);
+            Console.SetCursorPosition(x, y+4);
+            Console.WriteLine("СИЛА:{0}", player.Strength + player.CountStrength());
+            Console.SetCursorPosition(x, y+5);
             Console.WriteLine("ЛОВКОСТЬ:{0}", player.Agility + player.CountAgility());
+            Console.SetCursorPosition(x, y+6);
+            Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Intelligence + player.CountIntelligence());
             Console.SetCursorPosition(x, y + 7);
             Console.WriteLine("КВЕСТ:{0}", player.Quests[player.QuestNumber].questValue);
 
