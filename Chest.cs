@@ -24,7 +24,7 @@ namespace Roguelike
         {
             Random rng = new Random();
             int value;
-            for(int i = 0; i < 3; i++)
+            for(int i = 0; i < 10; i++)
             {
                 value = rng.Next(source.Count);
                 Items.Add(source[value]);

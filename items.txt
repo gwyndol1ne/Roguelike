@@ -1,9 +1,10 @@
-﻿id:name:slot:strenght:agility:intelligence:type
+﻿id:name:slot:strength:agility:intelligence:type
 										   (a)armor:def
 										   (w)weapon:dmg
-										   (c)consumable:?
+										   (c)consumable:(field:time:value)
 e.g. 0:Sword:1:w:3:t:s
 	 1:Chainmail:4:a:10:10:0:-1
 ;;
 0:Sword:0:5:2:0:w:10
 1:Chainmail:3:5:0:0:a:10
+2:Potion:8:0:0:0:c:intelligence:10:3

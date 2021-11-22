@@ -128,6 +128,7 @@ namespace Roguelike
                             if (((moveX != 0) || (moveY != 0)) && (player.Move(moveX, moveY)))
                             {
                                 Maps.EnemyMovement(player.MapId, player.X, player.Y);
+                                player.UpdateEffects();
                             }
                         } while (gameStatus == Status.InGame);
                         break;
@@ -167,7 +168,7 @@ namespace Roguelike
                             List<string> inventoryItems = player.GetInventory();
                             Menu inventoryMenu = new Menu(inventoryItems);
                             int inventoryChoice = inventoryMenu.GetChoice(true, true); //3 что это? тот кто это писал з
-                            if (inventoryChoice == 8)
+                            if (inventoryChoice == inventoryItems.Count-1)
                             {
                                 gameStatus = Status.InGame;
                                 break;
@@ -176,7 +177,7 @@ namespace Roguelike
                             int slotChoice = slotMenu.GetChoice(true, true);
                             if (slotChoice == 0)
                             {
-                                player.EquippedItems[inventoryChoice] = null;
+                                if(inventoryChoice!=inventoryItems.Count-2) player.EquippedItems[inventoryChoice] = null;
                             }
                             else player.ChangeItemByChoice(slotChoice, inventoryChoice);
                         } while (true);
@@ -203,8 +204,9 @@ namespace Roguelike
                                 break;
                             case 1:
                                 currentNPC = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
-                                currentNPC = new Enemy(currentNPC.Name, currentNPC.HP, currentNPC.Damage, currentNPC.Strength, currentNPC.Agility, currentNPC.Intelligence,
-                                    currentNPC.Defense, currentNPC.MapId, currentNPC.X, currentNPC.Y, currentNPC.TrigerNummber); //ничего не ужасно все дозволено
+                                currentNPC = new Enemy(currentNPC.Name, currentNPC.Stats["hp"][0], currentNPC.Stats["damage"][0],
+                                    currentNPC.Stats["strength"][0], currentNPC.Stats["agility"][0],currentNPC.Stats["intelligence"][0],
+                                    currentNPC.Stats["defense"][0], currentNPC.MapId, currentNPC.X, currentNPC.Y, currentNPC.TrigerNummber); //ничего не ужасно все дозволено
                                 gameStatus = Status.InBattle;
                                 break;
                             case 2:

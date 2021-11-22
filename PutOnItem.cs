@@ -29,16 +29,17 @@ namespace Roguelike
             Foot = 5,
             Ring = 6,
             Amulet = 7,
+            Consumables = 8,
         }
         public PutOnItem.Slot EquippmentSlot { get; }
-        public int Strenght { get; }
+        public int Strength { get; }
         public int Agility { get; }
         public int Intelligence { get; }
 
         public PutOnItem (int id, string name, PutOnItem.Slot equippmentSlot, int strenght, int agility, int intelligence) : base(id, name)
         {
             EquippmentSlot = equippmentSlot;
-            Strenght = strenght;
+            Strength = strenght;
             Agility = agility;
             Intelligence = intelligence;
         }

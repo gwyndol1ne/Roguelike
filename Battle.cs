@@ -49,7 +49,8 @@ namespace Roguelike
                     case 0:
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
                         target = enemyChoiceMenu.GetChoice(false, false);
-                        aliveEnemies[target].GetDamaged(friend[0].Damage+((Player)friend[0]).CountDamage());
+                        Effect.AddEffect(new EntireEffect(null,new EffectBuff[] { new EffectBuff(2, 10, "defense") }), friend[0]);
+                        aliveEnemies[target].GetDamaged(friend[0].Stats["damage"][1]+((Player)friend[0]).CountDamage());
                         break;
                     case 1:
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
@@ -58,8 +59,10 @@ namespace Roguelike
                         Tarot.Tarots[player.TarotNumber].Ability(ref player, ref aliveEnemies, target);
                         break;
                 }
+                for (int i = 0; i < aliveEnemies.Length; i++) aliveEnemies[i].UpdateEffects();
+                for (int i = 0; i < friend.Length; i++) friend[i].UpdateEffects();
                 UpdateAliveEnemies();
-                for (int i = 0; i < aliveEnemies.Length; i++) if(aliveEnemies[i].Effects[0].duration==0)friend[0].GetDamaged(aliveEnemies[i].Damage+aliveEnemies[i].DamageBuff);
+                for (int i = 0; i < aliveEnemies.Length; i++) friend[0].GetDamaged(aliveEnemies[i].Stats["damage"][1]);
             }
             if (friend[0].Alive)
             {

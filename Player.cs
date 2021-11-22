@@ -30,6 +30,7 @@ namespace Roguelike
             {
                 result.Add((PutOnItem.Slot)i + ": " + (EquippedItems[i] != null ? EquippedItems[i].Name : "None"));
             }
+            result.Add("Consumables");
             result.Add("Вернуться к игре");
             return result;
         }
@@ -42,7 +43,7 @@ namespace Roguelike
             {
                 foreach (Item item in items)
                 {
-                    if (item is Weapon || item is Armor)
+                    if (item is Weapon || item is Armor || item is Consumable)
                     {
                         PutOnItem putOnItem = item as PutOnItem;
                         if ((int)putOnItem.EquippmentSlot == Slot)
@@ -61,7 +62,7 @@ namespace Roguelike
             {
                 foreach (Item item in items)
                 {
-                    if (item is Weapon || item is Armor)
+                    if (item is Weapon || item is Armor || item is Consumable)
                     {
                         PutOnItem putOnItem = item as PutOnItem;
                         if ((int)putOnItem.EquippmentSlot == choice)
@@ -72,9 +73,17 @@ namespace Roguelike
                 }
             }
             if (choice < 3) EquippedItems[choice] = (Weapon)slotItems[slot - 1];
+            else if (choice == (int)PutOnItem.Slot.Consumables)
+            {
+                ((Consumable)slotItems[slot - 1]).UseConsumable(this);
+                DeleteItem(slotItems[slot - 1]);
+            }
             else EquippedItems[choice] = (Armor)slotItems[slot - 1];
         }
-
+        public void DeleteItem(Item item)
+        {
+            items.Remove(item);
+        }
         public void AddItem(Item item)
         {
             items.Add(item);
@@ -88,8 +97,8 @@ namespace Roguelike
         }
         public void SetHP()
         {
-            HP = 2000 + Tarot.Tarots[TarotNumber].HP;
-            CurrentHP = 2000 + Tarot.Tarots[TarotNumber].HP;
+            Stats["hp"][0] = 2000 + Tarot.Tarots[TarotNumber].HP;
+            Stats["hp"][1] = 2000 + Tarot.Tarots[TarotNumber].HP;
         }
         public int CountDamage()
         {
@@ -140,7 +149,7 @@ namespace Roguelike
             {
                 if (EquippedItems[i] != null)
                 {
-                    strength += EquippedItems[i].Strenght;
+                    strength += EquippedItems[i].Strength;
                 }
             }
             strength += Tarot.Tarots[TarotNumber].Strength;

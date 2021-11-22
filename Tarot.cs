@@ -32,7 +32,6 @@ namespace Roguelike
         static Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
             entities[numberOfEnemy].GetDamaged(300);
-            entities[numberOfEnemy].Effects[0].duration = 1;
         });
         static Tarot magician = new Tarot(0, 0, 0, 0, 0, 7, false, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
@@ -41,7 +40,7 @@ namespace Roguelike
         });
         static Tarot empress = new Tarot(800, 0, 0, 0, 0, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-            entities[numberOfEnemy].GetDamaged(300 + (int)Math.Round(entities[numberOfEnemy].HP * 0.1)); //давай ты нормально сделаешь
+            entities[numberOfEnemy].GetDamaged(300 + (int)Math.Round(entities[numberOfEnemy].Stats["hp"][0] * 0.1)); //давай ты нормально сделаешь
         });
         static Tarot emperor = new Tarot(0, 0, 0, 0, 5, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {

@@ -30,9 +30,22 @@ namespace Roguelike
                 int agility = Convert.ToInt32(identificators[3]);
                 int strength = Convert.ToInt32(identificators[4]);
                 int intelligence = Convert.ToInt32(identificators[5]);
-                int laststat = Convert.ToInt32(identificators[7]);
-                if (identificators[6] == "w") allItems.Add(new Weapon(id, name, slot, strength, agility, intelligence, laststat));
-                if (identificators[6] == "a") allItems.Add(new Armor(id, name, slot, strength, agility, intelligence, laststat));
+                if (identificators[6] == "w") allItems.Add(new Weapon(id, name, slot, strength, agility, intelligence, Convert.ToInt32(identificators[7])));
+                else if (identificators[6] == "a") allItems.Add(new Armor(id, name, slot, strength, agility, intelligence, Convert.ToInt32(identificators[7])));
+                else if (identificators[6] == "c")
+                {
+                    int length = (identificators.Length - 7) / 3;
+                    string[] fields = new string[length];
+                    int[] durations = new int[length];
+                    int[] values = new int[length];
+                    for(int j = 0; j < fields.Length; j ++)
+                    {
+                        fields[j] = identificators[j * 3 + 7];
+                        durations[j] = Convert.ToInt32(identificators[j * 3 + 8]);
+                        values[j] = Convert.ToInt32(identificators[j * 3 + 9]);
+                    }
+                    allItems.Add(new Consumable(id, name, ConsumableType.Buff, fields, values, durations));
+                }
             }
             return allItems;
         }
