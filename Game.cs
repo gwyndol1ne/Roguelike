@@ -31,7 +31,6 @@ namespace Roguelike
         }
         public static void Start(Player player, List<Entity> entities, List<Chest> chests)
         {
-            Maps.Initialise();
             Maps.SetEntity(player.MapId, player.X, player.Y, player);
             foreach (Entity entity in entities) Maps.SetEntity(entity.MapId, entity.X, entity.Y, entity);
             foreach (Chest chest in chests) Maps.SetChest(chest.MapId, chest.X, chest.Y, chest);
@@ -63,7 +62,6 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(message, answer, reaction);
             NPC currentNPC;
-            
             int moveX = 0, moveY = 0;
             do
             {
@@ -145,6 +143,7 @@ namespace Roguelike
                                 gameStatus = Status.Load;
                                 break;
                             case 3:
+                                Program.Restart();
                                 gameStatus = Status.StartMenu;
                                 break;
                         }
