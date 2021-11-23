@@ -71,7 +71,7 @@ namespace Roguelike
             }
             else
             {
-                Program.Restart();
+                Game.Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
             }
         }
     }

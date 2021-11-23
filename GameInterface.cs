@@ -14,15 +14,15 @@ namespace Roguelike
             Console.SetCursorPosition(x, y+1);
             Console.WriteLine("ЗДОРОВЬЕ:{0}/{1}", player.Stats["hp"][1], player.Stats["hp"][0]);
             Console.SetCursorPosition(x, y+2);
-            Console.WriteLine("УРОН:{0}", player.Stats["damage"][1] + player.CountDamage());
+            Console.WriteLine("УРОН:{0}", player.Stats["damage"][1]);
             Console.SetCursorPosition(x, y+3);
-            Console.WriteLine("ЗАЩИТА:{0}", player.Stats["defense"][1] + player.CountDefense());
+            Console.WriteLine("ЗАЩИТА:{0}", player.Stats["defense"][1]);
             Console.SetCursorPosition(x, y+4);
-            Console.WriteLine("СИЛА:{0}", player.Stats["strength"][1] + player.CountStrength());
+            Console.WriteLine("СИЛА:{0}", player.Stats["strength"][1]);
             Console.SetCursorPosition(x, y+5);
-            Console.WriteLine("ЛОВКОСТЬ:{0}", player.Stats["agility"][1] + player.CountAgility());
+            Console.WriteLine("ЛОВКОСТЬ:{0}", player.Stats["agility"][1]);
             Console.SetCursorPosition(x, y+6);
-            Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Stats["intelligence"][1] + player.CountIntelligence());
+            Console.WriteLine("ИНТЕЛЕКТ:{0}", player.Stats["intelligence"][1]);
             Console.SetCursorPosition(x, y + 7);
             Console.WriteLine("КВЕСТ:{0}", player.Quests[player.QuestNumber].questValue);
 

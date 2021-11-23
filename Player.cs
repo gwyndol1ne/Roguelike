@@ -14,7 +14,7 @@ namespace Roguelike
         public List<Quest> Quests { get; set; }
         /*public Tarot Tarot { get; }*/
         public int TarotNumber { get; set; }
-        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, List<Quest> quests, int tarotNumber) :
+        public Player(string Name, int Hp, int Damage, int Strength, int Agility, int Intelligence, int Defense, int MapId, int X, int Y, List<Quest> quests, int tarotNumber = 0) :
                  base(Name, Hp, Damage, Strength, Agility, Intelligence, Defense, MapId, X, Y, '@')
         {
             Quests = quests;
@@ -95,10 +95,18 @@ namespace Roguelike
                 AddItem(items[i]);
             }
         }
-        public void SetHP()
+        /*public void SetHP()
         {
             Stats["hp"][0] = 2000 + Tarot.Tarots[TarotNumber].HP;
             Stats["hp"][1] = 2000 + Tarot.Tarots[TarotNumber].HP;
+        }*/
+        public void CountStatsByItems()
+        {
+            Stats["damage"][1] += CountDamage();
+            Stats["defense"][1] += CountDefense();
+            Stats["agility"][1] += CountAgility();
+            Stats["strength"][1] += CountStrength();
+            Stats["intelligence"][1] += CountIntelligence();
         }
         public int CountDamage()
         {

@@ -31,6 +31,7 @@ namespace Roguelike
         }
         public static void Start(Player player, List<Entity> entities, List<Chest> chests)
         {
+            GameStatus = Status.StartMenu;
             Maps.Initialise();
             Maps.SetEntity(player.MapId, player.X, player.Y, player);
             foreach (Entity entity in entities) Maps.SetEntity(entity.MapId, entity.X, entity.Y, entity);
@@ -89,7 +90,8 @@ namespace Roguelike
                     case Status.ClassMenu:
                         int choice = tarotMenu.GetChoice(true, true);
                         player.TarotNumber = choice;
-                        player.SetHP();
+                        player.ChangeStatsByTarot(player.TarotNumber);
+                        player.UpdateEffects();
                         gameStatus = Status.InGame;
                         break;
                     case Status.InGame:
@@ -145,7 +147,7 @@ namespace Roguelike
                                 gameStatus = Status.Load;
                                 break;
                             case 3:
-                                gameStatus = Status.StartMenu;
+                                Game.Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
                                 break;
                         }
                         break;

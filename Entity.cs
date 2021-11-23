@@ -30,9 +30,18 @@ namespace Roguelike
         public int MapId { get; set; }
         public Dictionary<string, int[]> Stats { get; } //иди нахуй (с)программа
         public Dictionary<string, List<EffectBuff>> EffectBuffs { get; }
-        public List<EffectAction> EffectActions { get; }
+        public List<EffectAction> EffectActions { get; set; }
         private string[] statNames = { "hp", "damage", "strength", "agility", "intelligence", "defense" };
         private string[] buffNames = { "hp", "damage", "strength", "agility", "intelligence", "defense", "stun" };
+        public void ChangeStatsByTarot(int tarotNumber)
+        {
+            Stats["hp"][0] += Tarot.Tarots[tarotNumber].HP;
+            Stats["damage"][0] += Tarot.Tarots[tarotNumber].Damage;
+            Stats["strength"][0] += Tarot.Tarots[tarotNumber].Strength;
+            Stats["agility"][0] += Tarot.Tarots[tarotNumber].Agility;
+            Stats["intelligence"][0] += Tarot.Tarots[tarotNumber].Intelligence;
+            Stats["defense"][0] += Tarot.Tarots[tarotNumber].Defense;
+        }
         private void SetupEffects(int[] stats)
         {
             for (int i = 0; i < statNames.Length; i++) AddFieldToStats(statNames[i], stats[i]);
@@ -86,9 +95,9 @@ namespace Roguelike
         }
         public void UpdateEffects()
         {
-            foreach(string key in statNames)
+            foreach (string key in statNames)
             {
-                if(key!="hp") Stats[key][1] = Stats[key][0];
+                if (key != "hp") Stats[key][1] = Stats[key][0];
                 foreach (EffectBuff buff in EffectBuffs[key])
                 {
                     Stats[key][1] += buff.value;
