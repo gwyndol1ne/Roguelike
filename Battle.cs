@@ -58,6 +58,11 @@ namespace Roguelike
                         Player player = friend[0] as Player;
                         Tarot.Tarots[player.TarotNumber].Ability(ref player, ref aliveEnemies, target);
                         break;
+                    case 2:
+                        List<string> items = ((Player)friend[0]).GetNamesBySlot((int)PutOnItem.Slot.Consumables);
+                        Menu consumableMenu = new Menu(items);
+                        choice = consumableMenu.GetChoice(false, false);
+                        break;
                 }
                 for (int i = 0; i < aliveEnemies.Length; i++) aliveEnemies[i].UpdateEffects();
                 for (int i = 0; i < friend.Length; i++) friend[i].UpdateEffects();

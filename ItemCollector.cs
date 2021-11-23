@@ -44,7 +44,7 @@ namespace Roguelike
                         durations[j] = Convert.ToInt32(identificators[j * 3 + 8]);
                         values[j] = Convert.ToInt32(identificators[j * 3 + 9]);
                     }
-                    allItems.Add(new Consumable(id, name, ConsumableType.Buff, fields, values, durations));
+                    allItems.Add(new Consumable(id, name, fields, values, durations));
                 }
             }
             return allItems;

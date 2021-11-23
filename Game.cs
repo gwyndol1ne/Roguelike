@@ -64,7 +64,6 @@ namespace Roguelike
             List<string> reaction = new List<string>(arr3);
             Dialog dialog = new Dialog(message, answer, reaction);
             NPC currentNPC;
-            
             int moveX = 0, moveY = 0;
             do
             {
