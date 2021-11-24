@@ -9,15 +9,14 @@ namespace Roguelike
         int width, height;
         int[,] maze;
         int nuli;
-
         public void createDungeon()
         {
 
 
 
-            int iterations = 1000;
-            width = 23;
-            height = 20;
+            int iterations = 1125;
+            width = 22;
+            height = 19;
             maze = new int[height, width];
 
             int currentY = height - 1;
@@ -37,8 +36,7 @@ namespace Roguelike
 
             Random rng = new Random();
 
-            int currentY1 = 0;
-            int currentX1 = 0;
+
             for (int i = 0; i < iterations; i++)
             {
 
@@ -58,11 +56,7 @@ namespace Roguelike
                         break;
                 }
                 maze[currentY, currentX] = 0;
-                if (i == rng.Next(75, 999))
-                {
-                    currentX1 = currentX;
-                    currentY1 = currentY;
-                }
+
 
             }
             // maze[currentY1, currentX1] = 3;
@@ -78,7 +72,7 @@ namespace Roguelike
                 }
 
             }
-            if (nuli < height * width / 2)
+            if (nuli < height * width)
             {
                 createDungeon();
             }
@@ -131,38 +125,61 @@ namespace Roguelike
 
             }
         }
-        public void GetDungeon()
+        public char[,] GetDungeon()
         {
+            char[,] vs = new char[height + 1, width + 1]; ;
             for (int i = 0; i < height; i++)
             {
                 for (int f = 0; f < width; f++)
                 {
                     if (maze[i, f] == 0)
                     {
-                        Console.Write("." + " ");
+                        vs[i, f] = '.';
                     }
                     if (maze[i, f] == 1)
                     {
-                        Console.Write("#" + " ");
+
+                        vs[i, f] = '#';
                     }
                     if (maze[i, f] == 2)
                     {
-                        Console.Write("E" + " ");
+                        vs[i, f] = 'E';
                     }
                     if (maze[i, f] == 3)
                     {
-                        Console.Write("С" + " ");
+                        vs[i, f] = 'C';
                     }
                     if (maze[i, f] == 5)
                     {
-                        Console.Write("$" + " ");
+                        vs[i, f] = '$';
                     }
 
                 }
-                Console.WriteLine();
+
             }
+
+            for (int i = 0; i < width + 1; i++)
+            {
+                vs[height, i] = '#';
+            }
+
+            for (int i = 0; i < height; i++)
+            {
+                vs[i, width] = '#';
+            }
+            return vs;
+        }
+        public char[,] GetFullDungeon(int EntityValue)
+        {
+            this.createDungeon();
+            this.GetExit();
+            this.GetChest();
+            for (int i = 0; i < EntityValue; i++)
+            {
+                this.GetEntity();
+            }
+            return this.GetDungeon();
         }
     }
-
 
 }

@@ -17,7 +17,7 @@ namespace Roguelike
         }
         static public void CalculateEffects(Entity entity)
         {
-            for()
+           
         }
     }
 }

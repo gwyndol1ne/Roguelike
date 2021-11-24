@@ -59,7 +59,7 @@ namespace Roguelike
                         break;
                 }
                 UpdateAliveEnemies();
-                for (int i = 0; i < aliveEnemies.Length; i++) if(aliveEnemies[i].Effects[0].duration==0)friend[0].GetDamaged(aliveEnemies[i].Damage+aliveEnemies[i].DamageBuff);
+                
             }
             if (friend[0].Alive)
             {
