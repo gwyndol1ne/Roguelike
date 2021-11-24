@@ -13,14 +13,20 @@ namespace Roguelike
             Console.SetWindowSize(90, 34);
             Console.SetBufferSize(90, 34);
             Maps.Initialise();
+            Game.GameStatus = Game.Status.StartMenu;
             Game.Start(GenerateStartPlayer(), GenerateStartEntities(), GenerateStartChests());
         }
-        public static Player GenerateStartPlayer()
+        public static Player GenerateStartPlayer(int tarotNumber = 0, bool needUpdate = false)
         {
             List<Quest> quests = new List<Quest>();
             quests.Add(new Quest("Узнайте имя Максима и пошлите его нахуй"));
             quests.Add(new Quest("Он зол бегите в яму"));
-            return new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, quests, 0);
+            Player player = new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, quests, tarotNumber);
+            if(needUpdate)
+            {
+                player.ChangeStatsByTarot(tarotNumber);
+            }
+            return player;
         }
 
         public static List<Chest> GenerateStartChests()

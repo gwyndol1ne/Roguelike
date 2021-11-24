@@ -76,6 +76,7 @@ namespace Roguelike
             }
             else
             {
+                Game.GameStatus = Game.Status.StartMenu;
                 Game.Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
             }
         }

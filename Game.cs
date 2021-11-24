@@ -28,10 +28,10 @@ namespace Roguelike
             Load = 14,
             InBattle = 15,
             InBattleForEntity = 16,
+            CheatConsole = 17,
         }
         public static void Start(Player player, List<Entity> entities, List<Chest> chests)
         {
-            GameStatus = Status.StartMenu;
             Maps.Initialise();
             Maps.SetEntity(player.MapId, player.X, player.Y, player);
             foreach (Entity entity in entities) Maps.SetEntity(entity.MapId, entity.X, entity.Y, entity);
@@ -90,10 +90,10 @@ namespace Roguelike
                         int choice = tarotMenu.GetChoice(true, true);
                         player.TarotNumber = choice;
                         player.ChangeStatsByTarot(player.TarotNumber);
-                        player.UpdateEffects();
                         gameStatus = Status.InGame;
                         break;
                     case Status.InGame:
+                        player.UpdateEffects();
                         Draw.ReDrawMap(Maps.GetDrawnMap(player.MapId), player.MapId);
                         do
                         {
@@ -109,6 +109,9 @@ namespace Roguelike
                             {
                                 case ConsoleKey.Escape:
                                     gameStatus = Status.PauseMenu;
+                                    break;
+                                case ConsoleKey.C:
+                                    gameStatus = Status.CheatConsole;
                                     break;
                                 case ConsoleKey.I:
                                     gameStatus = Status.Inventory;
@@ -146,6 +149,7 @@ namespace Roguelike
                                 gameStatus = Status.Load;
                                 break;
                             case 3:
+                                Game.GameStatus = Game.Status.StartMenu;
                                 Game.Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
                                 break;
                         }
@@ -169,7 +173,7 @@ namespace Roguelike
                             List<string> inventoryItems = player.GetInventory();
                             Menu inventoryMenu = new Menu(inventoryItems);
                             int inventoryChoice = inventoryMenu.GetChoice(true, true); //3 что это? тот кто это писал з
-                            if (inventoryChoice == inventoryItems.Count-1)
+                            if (inventoryChoice == inventoryItems.Count - 1)
                             {
                                 gameStatus = Status.InGame;
                                 break;
@@ -178,7 +182,7 @@ namespace Roguelike
                             int slotChoice = slotMenu.GetChoice(true, true);
                             if (slotChoice == 0)
                             {
-                                if(inventoryChoice!=inventoryItems.Count-2) player.EquippedItems[inventoryChoice] = null;
+                                if (inventoryChoice != inventoryItems.Count - 2) player.EquippedItems[inventoryChoice] = null;
                             }
                             else player.ChangeItemByChoice(slotChoice, inventoryChoice);
                         } while (true);
@@ -206,7 +210,7 @@ namespace Roguelike
                             case 1:
                                 currentNPC = (NPC)Maps.GetEntity(player.MapId, player.X + moveX, player.Y + moveY);
                                 currentNPC = new Enemy(currentNPC.Name, currentNPC.Stats["hp"][0], currentNPC.Stats["damage"][0],
-                                    currentNPC.Stats["strength"][0], currentNPC.Stats["agility"][0],currentNPC.Stats["intelligence"][0],
+                                    currentNPC.Stats["strength"][0], currentNPC.Stats["agility"][0], currentNPC.Stats["intelligence"][0],
                                     currentNPC.Stats["defense"][0], currentNPC.MapId, currentNPC.X, currentNPC.Y, currentNPC.TrigerNummber); //ничего не ужасно все дозволено
                                 gameStatus = Status.InBattle;
                                 break;
@@ -256,6 +260,100 @@ namespace Roguelike
                         break;
                     case Status.InBattle:
                         Battle battle1 = new Battle(player, Maps.GetNearEntities(player.MapId, player.X, player.Y));
+                        break;
+                    case Status.CheatConsole:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Введите команду: ");
+                        Console.CursorVisible = true;
+                        while (gameStatus == Status.CheatConsole) 
+                        {
+                            string input = Console.ReadLine();
+                            string[] strings = input.Split(' ');
+                            switch (strings.Length)
+                            {
+                                case 0:
+                                case 1:
+                                    switch (strings[0])
+                                    {
+                                        case "help":
+                                            Console.WriteLine("help - список команд \n " +
+                                                          "kill - убить игрока \n" +
+                                                          "restart - запустить игру с самого начала \n" +
+                                                          "exit - выйти из консоли \n" +
+                                                          "closeapp - выйти из игры \n" +
+                                                          "give {id} - получить предмет по id \n " +
+                                                          "set {stat} {number} - изменить значение данной характеристики \n" +
+                                                          "invincible {value} - изменить параметр неуязвимости");
+                                            break;
+                                        case "kill":
+                                            Console.ResetColor();
+                                            Console.CursorVisible = false;
+                                            gameStatus = Status.StartMenu;
+                                            Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                            break;
+                                        case "restart":
+                                            int tarotNumber = player.TarotNumber;
+                                            Console.ResetColor();
+                                            Console.CursorVisible = false;
+                                            gameStatus = Status.InGame;
+                                            Start(Program.GenerateStartPlayer(tarotNumber, true), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                            break;
+                                        case "exit":
+                                            Console.ResetColor();
+                                            Console.CursorVisible = false;
+                                            gameStatus = Status.InGame;
+                                            break;
+                                        case "closeapp":
+                                            Environment.Exit(0);
+                                            break;
+                                        default:
+                                            Console.WriteLine("Неизвестная команда. Введите help для просмотра списка команд.");
+                                            break;
+                                    }
+                                    break;
+                                case 2:
+                                    switch (strings[0])
+                                    {
+                                        case "give":
+                                            if (int.TryParse(strings[1], out int id) && id >= 0 && id <= 3)
+                                            {
+                                                player.AddItem(ItemCollector.Items[id]);
+                                                Console.WriteLine("Успешно.");
+                                            }
+                                            else Console.WriteLine("Неверный id предмета. введите целое число от 0 до {0}.", ItemCollector.Items.Count - 1);
+                                            break;
+                                        case "invincible":
+                                            if (bool.TryParse(strings[1], out bool invincible))
+                                            {
+                                                //...
+                                            }
+                                            else Console.WriteLine("Неверное значение для invincible. Возможные значения: true и false.");
+                                            break;
+                                        default:
+                                            Console.WriteLine("Неизвестная команда. Введите help для просмотра списка команд.");
+                                            break;
+                                    }
+                                    break;
+                                case 3:
+                                    if (strings[0] == "set")
+                                    {
+                                        bool error = true;
+                                        for (int i = 0; i < player.StatNames.Length; i++)
+                                        {
+                                            if (strings[1] == player.StatNames[i] && int.TryParse(strings[2], out int value) && player.ChangeStat(i, value))
+                                            {
+                                                Console.WriteLine("Успешно");
+                                                error = false;
+                                                break;
+                                            }
+                                        }
+                                        if (error) Console.WriteLine("Произошла ошибка. Проверьте правильность данных.");
+                                    }
+                                    else Console.WriteLine("Неизвестная команда. Введите help для просмотра списка команд.");
+                                    break;
+                            }
+                        }
                         break;
                 }
             } while (true);

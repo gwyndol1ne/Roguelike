@@ -31,20 +31,33 @@ namespace Roguelike
         public Dictionary<string, int[]> Stats { get; } //иди нахуй (с)программа
         public Dictionary<string, List<EffectBuff>> EffectBuffs { get; }
         public List<EffectAction> EffectActions { get; set; }
-        private string[] statNames = { "hp", "damage", "strength", "agility", "intelligence", "defense" };
+        public string[] StatNames = { "hp", "damage", "strength", "agility", "intelligence", "defense" };
         private string[] buffNames = { "hp", "damage", "strength", "agility", "intelligence", "defense", "stun" };
         public void ChangeStatsByTarot(int tarotNumber)
         {
             Stats["hp"][0] += Tarot.Tarots[tarotNumber].HP;
+            Stats["hp"][1] += Tarot.Tarots[tarotNumber].HP;
             Stats["damage"][0] += Tarot.Tarots[tarotNumber].Damage;
             Stats["strength"][0] += Tarot.Tarots[tarotNumber].Strength;
             Stats["agility"][0] += Tarot.Tarots[tarotNumber].Agility;
             Stats["intelligence"][0] += Tarot.Tarots[tarotNumber].Intelligence;
             Stats["defense"][0] += Tarot.Tarots[tarotNumber].Defense;
         }
+        public bool ChangeStat(int statNumber, int value)
+        {
+            if (statNumber == 0 && value <= 0) return false;
+            if (statNumber == 0)
+            {
+                Stats["hp"][0] = value;
+                Stats["hp"][1] = value;
+                return true;
+            }
+            Stats[StatNames[statNumber]][0] = value;
+            return true;
+        }
         private void SetupEffects(int[] stats)
         {
-            for (int i = 0; i < statNames.Length; i++) AddFieldToStats(statNames[i], stats[i]);
+            for (int i = 0; i < StatNames.Length; i++) AddFieldToStats(StatNames[i], stats[i]);
             for (int i = 0; i < buffNames.Length; i++) AddEffectField(buffNames[i]);
         }
         private void AddFieldToStats(string name, int value)
@@ -95,7 +108,7 @@ namespace Roguelike
         }
         public void UpdateEffects()
         {
-            foreach (string key in statNames)
+            foreach (string key in StatNames)
             {
                 if (key != "hp") Stats[key][1] = Stats[key][0];
                 foreach (EffectBuff buff in EffectBuffs[key])
@@ -116,6 +129,7 @@ namespace Roguelike
                 for (int i = toDelete.Count - 1; i > -1; i--) EffectBuffs[key].RemoveAt(toDelete[i]);
                 toDelete.Clear();
             }
+            if(this is Player) ((Player)this).CountStatsByItems();
         }
     }
 }

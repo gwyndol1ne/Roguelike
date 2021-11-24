@@ -5,6 +5,7 @@ using System.Text;
 namespace Roguelike
 {
     public delegate void effectAction(Entity entity);
+    [Serializable]
     public class Effect
     {
         public int duration { get; set; }
@@ -18,6 +19,7 @@ namespace Roguelike
             if (effect.action != null) target.EffectActions.Add(effect.action);
         }
     }
+    [Serializable]
     public class EffectAction : Effect
     {
         public effectAction action { get; }
@@ -33,6 +35,7 @@ namespace Roguelike
             target = targets;
         }
     }
+    [Serializable]
     public class EffectBuff : Effect
     {
         public int value { get; }

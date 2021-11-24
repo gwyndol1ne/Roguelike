@@ -95,11 +95,6 @@ namespace Roguelike
                 AddItem(items[i]);
             }
         }
-        /*public void SetHP()
-        {
-            Stats["hp"][0] = 2000 + Tarot.Tarots[TarotNumber].HP;
-            Stats["hp"][1] = 2000 + Tarot.Tarots[TarotNumber].HP;
-        }*/
         public void CountStatsByItems()
         {
             Stats["damage"][1] += CountDamage();
@@ -113,13 +108,12 @@ namespace Roguelike
             int damage = 0;
             for (int i = 0; i < 2; i++)
             {
-                if (EquippedItems[i] != null)
+                if (EquippedItems != null && EquippedItems[i] != null)
                 {
                     Weapon weapon = EquippedItems[i] as Weapon;
                     damage += weapon.Damage;
                 }
             }
-            damage += Tarot.Tarots[TarotNumber].Damage;
             return damage;
         }
         public int CountDefense()
@@ -127,7 +121,7 @@ namespace Roguelike
             int defense = 0;
             for (int i = 2; i < 8; i++)
             {
-                if (EquippedItems[i] != null)
+                if (EquippedItems != null && EquippedItems[i] != null)
                 {
                     Armor armor = EquippedItems[i] as Armor;
                     defense += armor.Defense;
@@ -141,7 +135,7 @@ namespace Roguelike
             int agility = 0;
             for (int i = 0; i < 8; i++)
             {
-                if (EquippedItems[i] != null)
+                if (EquippedItems != null && EquippedItems[i] != null)
                 {
                     agility += EquippedItems[i].Agility;
                 }
@@ -155,7 +149,7 @@ namespace Roguelike
             int strength = 0;
             for (int i = 0; i < 8; i++)
             {
-                if (EquippedItems[i] != null)
+                if (EquippedItems != null && EquippedItems[i] != null)
                 {
                     strength += EquippedItems[i].Strength;
                 }
@@ -168,7 +162,7 @@ namespace Roguelike
             int intelligence = 0;
             for (int i = 0; i < 8; i++)
             {
-                if (EquippedItems[i] != null)
+                if (EquippedItems != null && EquippedItems[i] != null)
                 {
                     intelligence += EquippedItems[i].Intelligence;
                 }

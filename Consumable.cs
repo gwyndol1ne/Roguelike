@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
+    [Serializable]
     class Consumable : PutOnItem
     {
         private string[] fields;

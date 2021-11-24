@@ -9,6 +9,7 @@ namespace Roguelike
         private static string[] lines;
         private static int readFrom;
         private static List<Item> allItems;
+        public static List<Item> Items { get { return allItems; } }
         public static List<Item> GetAllItems()
         {
             allItems = new List<Item>();
