@@ -9,6 +9,18 @@ namespace Roguelike
         public static int xoffset = 5;
         public static int yoffset = 2;
         public static int currentMapId;
+        public static void drawBool(bool[,] screen)
+        {
+            for (int i = 0; i < screen.GetLength(0); i++)
+            {
+                Console.SetCursorPosition(xoffset, yoffset + i);
+                for (int j = 0; j < screen.GetLength(1); j++)
+                {
+                    Console.Write("{0} ", screen[i, j]?".":"#");
+                }
+                Console.WriteLine();
+            }
+        }
         public static void draw(char[,] screen)
         {
             for (int i = 0; i < screen.GetLength(0); i++)

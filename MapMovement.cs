@@ -7,6 +7,11 @@ namespace Roguelike
     public struct point
     {
         public int x, y;
+        public point(int X, int Y)
+        {
+            x = X;
+            y = Y;
+        }
     }
     static class MovementManager
     {

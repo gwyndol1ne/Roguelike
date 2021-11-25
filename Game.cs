@@ -29,6 +29,7 @@ namespace Roguelike
             InBattle = 15,
             InBattleForEntity = 16,
             CheatConsole = 17,
+            ShowGeneration = 18,
         }
         private Player player;
         private List<Entity> entities;
@@ -60,6 +61,7 @@ namespace Roguelike
             Menu chestMenu;
             string[] arr = new string[2];
             string[] arr2 = new string[3];
+            bool generated = false;
             arr[0] = "Привет как тебя зовут ?";
             arr2[0] = "Максим";
             arr2[1] = "Иди нахуй";
@@ -320,6 +322,11 @@ namespace Roguelike
                                         case "closeapp":
                                             Environment.Exit(0);
                                             break;
+                                        case "gen":
+                                            Console.ResetColor();
+                                            Console.CursorVisible = false;
+                                            gameStatus = Status.ShowGeneration;
+                                            break;
                                         default:
                                             Console.WriteLine("Неизвестная команда. Введите help для просмотра списка команд.");
                                             break;
@@ -367,6 +374,16 @@ namespace Roguelike
                                     break;
                             }
                         }
+                        break;
+                    case Status.ShowGeneration:
+                        
+                        //if (!generated)
+                        //{
+                            bool[,] screen = Gen.Generate(20,23);
+                            Draw.drawBool(screen);
+                            //generated = true;
+                            Console.ReadKey();
+                        //}
                         break;
                 }
             } while (true);

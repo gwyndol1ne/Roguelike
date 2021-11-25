@@ -11,9 +11,6 @@ namespace Roguelike
         int nuli;
         public void createDungeon()
         {
-
-
-
             int iterations = 1125;
             width = 22;
             height = 19;
@@ -21,7 +18,6 @@ namespace Roguelike
 
             int currentY = height - 1;
             int currentX = width - 1;
-
 
             for (int y = 0; y < height; y++)
             {
@@ -31,15 +27,12 @@ namespace Roguelike
                 }
             }
 
-
             maze[currentY, currentX] = 0;
 
             Random rng = new Random();
 
-
             for (int i = 0; i < iterations; i++)
             {
-
                 switch (rng.Next(1, 5))
                 {
                     case 1:
@@ -56,8 +49,6 @@ namespace Roguelike
                         break;
                 }
                 maze[currentY, currentX] = 0;
-
-
             }
             // maze[currentY1, currentX1] = 3;
             for (int i = 0; i < height; i++)
