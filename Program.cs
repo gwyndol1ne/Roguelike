@@ -6,6 +6,7 @@ namespace Roguelike
 {
     class Program
     {
+        public static Game currentGame = new Game(GenerateStartPlayer(), GenerateStartEntities(), GenerateStartChests());
         static void Main(string[] args)
         {
             Console.Title = "Roguelike";
@@ -13,8 +14,8 @@ namespace Roguelike
             Console.SetWindowSize(90, 34);
             Console.SetBufferSize(90, 34);
             Maps.Initialise();
-            Game.GameStatus = Game.Status.StartMenu;
-            Game.Start(GenerateStartPlayer(), GenerateStartEntities(), GenerateStartChests());
+            currentGame.GameStatus = Game.Status.StartMenu;
+            currentGame.Start();
         }
         public static Player GenerateStartPlayer(int tarotNumber = 0, bool needUpdate = false)
         {

@@ -49,7 +49,12 @@ namespace Roguelike
                     case 0:
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
                         target = enemyChoiceMenu.GetChoice(false, false);
+<<<<<<< HEAD
                         aliveEnemies[target].GetDamaged(friend[0].Stats["damage"][1]+((Player)friend[0]).CountDamage());
+=======
+                        Effect.AddEffect(new EntireEffect(null,new EffectBuff[] { new EffectBuff(2, 10, "defense") }), friend[0]);
+                        aliveEnemies[target].GetDamaged(friend[0].Stats["damage"][1]);
+>>>>>>> 5f876686369681ada871e2ea1f225607fb6731f9
                         break;
                     case 1:
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
@@ -70,13 +75,14 @@ namespace Roguelike
             }
             if (friend[0].Alive)
             {
-                Game.GameStatus = Game.Status.InGame;
+                Program.currentGame.GameStatus = Game.Status.InGame;
                 for (int i = 0; i < enemy.Length; i++) Maps.DelEntity(enemy[i].MapId, enemy[i].X, enemy[i].Y);
             }
             else
             {
-                Game.GameStatus = Game.Status.StartMenu;
-                Game.Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                Program.currentGame = new Game(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                Program.currentGame.GameStatus = Game.Status.StartMenu;
+                Program.currentGame.Start();
             }
         }
     }

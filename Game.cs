@@ -7,8 +7,8 @@ namespace Roguelike
 
     class Game
     {
-        static Status gameStatus;
-        public static Status GameStatus { get { return gameStatus; } set { gameStatus = value; } }
+        Status gameStatus;
+        public Status GameStatus { get { return gameStatus; } set { gameStatus = value; } }
         public enum Status
         {
             ClassMenu = 0,
@@ -30,7 +30,16 @@ namespace Roguelike
             InBattleForEntity = 16,
             CheatConsole = 17,
         }
-        public static void Start(Player player, List<Entity> entities, List<Chest> chests)
+        private Player player;
+        private List<Entity> entities;
+        private List<Chest> chests;
+        public Game (Player Player, List<Entity> Entities, List<Chest> Chests)
+        {
+            player = Player;
+            entities = Entities;
+            chests = Chests;
+        }
+        public void Start(/*Player player, List<Entity> entities, List<Chest> chests*/)
         {
             Maps.Initialise();
             Maps.SetEntity(player.MapId, player.X, player.Y, player);
@@ -149,8 +158,9 @@ namespace Roguelike
                                 gameStatus = Status.Load;
                                 break;
                             case 3:
-                                Game.GameStatus = Game.Status.StartMenu;
-                                Game.Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                Program.currentGame = new Game(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                Program.currentGame.GameStatus = Game.Status.StartMenu;
+                                Program.currentGame.Start();
                                 break;
                         }
                         break;
@@ -162,8 +172,9 @@ namespace Roguelike
                         if (saveAndLoad.Load(ref player, ref entities, ref chests))
                         {
                             Maps.Initialise();
-                            GameStatus = Status.InGame;
-                            Start(player, entities, chests);
+                            Program.currentGame = new Game(player, entities, chests);
+                            Program.currentGame.GameStatus = Status.InGame;
+                            Program.currentGame.Start();
                         }
                         else gameStatus = Status.PauseMenu;
                         break;
@@ -277,27 +288,29 @@ namespace Roguelike
                                     switch (strings[0])
                                     {
                                         case "help":
-                                            Console.WriteLine("help - список команд \n " +
+                                            Console.WriteLine("help - список команд \n" +
                                                           "kill - убить игрока \n" +
                                                           "restart - запустить игру с самого начала \n" +
                                                           "exit - выйти из консоли \n" +
                                                           "closeapp - выйти из игры \n" +
-                                                          "give {id} - получить предмет по id \n " +
+                                                          "give {id} - получить предмет по id \n" +
                                                           "set {stat} {number} - изменить значение данной характеристики \n" +
                                                           "invincible {value} - изменить параметр неуязвимости");
                                             break;
                                         case "kill":
                                             Console.ResetColor();
                                             Console.CursorVisible = false;
-                                            gameStatus = Status.StartMenu;
-                                            Start(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                            Program.currentGame = new Game(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                            Program.currentGame.GameStatus = Game.Status.StartMenu;
+                                            Program.currentGame.Start();
                                             break;
                                         case "restart":
                                             int tarotNumber = player.TarotNumber;
                                             Console.ResetColor();
                                             Console.CursorVisible = false;
-                                            gameStatus = Status.InGame;
-                                            Start(Program.GenerateStartPlayer(tarotNumber, true), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                            Program.currentGame = new Game(Program.GenerateStartPlayer(), Program.GenerateStartEntities(), Program.GenerateStartChests());
+                                            Program.currentGame.GameStatus = Game.Status.StartMenu;
+                                            Program.currentGame.Start();
                                             break;
                                         case "exit":
                                             Console.ResetColor();

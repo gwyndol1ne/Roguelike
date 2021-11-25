@@ -78,11 +78,11 @@ namespace Roguelike
                 int gameStatus = MovementManager.CantMoveDecider(MapId, X + dirX, Y + dirY);
                 if (this is Player)
                 {
-                    Game.GameStatus = (Game.Status)gameStatus;
+                    Program.currentGame.GameStatus = (Game.Status)gameStatus;
                 }
                 else if (this is Enemy)
                 {
-                    if (gameStatus == (int)Game.Status.InBattleForEntity) Game.GameStatus = Game.Status.InBattle;
+                    if (gameStatus == (int)Game.Status.InBattleForEntity) Program.currentGame.GameStatus = Game.Status.InBattle;
                 }
                 return false;
             }
