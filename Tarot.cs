@@ -64,7 +64,7 @@ namespace Roguelike
         });
         static Tarot tower = new Tarot(-1500, 0, 900, 0, 0, 0, false, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-
+            for (int i = 0; i < entities.Length; i++) Effect.AddEffect(new EntireEffect(null, new EffectBuff[] { new EffectBuff(1, 0, "stun") }), entities[i]);
         });
         static Tarot ZAWARUDO = new Tarot(200, 2, 20, 2, 2, 8, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
