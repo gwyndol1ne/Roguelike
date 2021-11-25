@@ -32,10 +32,7 @@ namespace Roguelike
                         transitionToMap[i, j] = transitionsText[Convert.ToInt32(baseMap[i][j]) - 48];
                         result[i, j] = 'E';
                     }
-                    else
-                    {
-                        result[i, j] = baseMap[i][j];
-                    }
+                    else result[i, j] = baseMap[i][j];
                     passable[i, j] = unpassable.Contains(baseMap[i][j]) ? false : true; // да.
                 }
             }

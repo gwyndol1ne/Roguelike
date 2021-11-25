@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Roguelike
 {
-    public delegate void effectAction(Entity entity);
+    public delegate void effectAction(Entity[] entity, int number);
     [Serializable]
     public class Effect
     {
@@ -26,6 +26,7 @@ namespace Roguelike
         public Entity[] target { get; }
         public EffectAction(int dur, effectAction Action, Entity tg):base(dur)
         {
+            target = new Entity[1];
             action = Action;
             target[0] = tg;
         }
@@ -33,6 +34,10 @@ namespace Roguelike
         {
             action = Action;
             target = targets;
+        }
+        public static void LoversEffect(Entity[] entities, int damage)
+        {
+            if (entities != null) entities[0].GetDamaged(damage*3);
         }
     }
     [Serializable]
@@ -56,4 +61,5 @@ namespace Roguelike
             buffs = buff;
         }
     }
+    
 }

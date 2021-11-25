@@ -21,7 +21,7 @@ namespace Roguelike
             List<Quest> quests = new List<Quest>();
             quests.Add(new Quest("Узнайте имя Максима и пошлите его нахуй"));
             quests.Add(new Quest("Он зол бегите в яму"));
-            Player player = new Player("Maksim", 2000, 100, 10, 10, 10, 0, 0, 6, 6, quests, tarotNumber);
+            Player player = new Player("Maksim", 2000, 0, 10, 10, 10, 0, 0, 6, 6, quests, tarotNumber);
             if(needUpdate)
             {
                 player.ChangeStatsByTarot(tarotNumber);
@@ -40,7 +40,7 @@ namespace Roguelike
 
         public static List<Entity> GenerateStartEntities()
         {
-            NPC npc1 = new NPC("Максим", 2000, 1, 22, 11, 33, 2, 0, 4, 11, 'N', 0);
+            NPC npc1 = new NPC("Максим", 2000, 100, 22, 11, 33, 2, 0, 4, 11, 'N', 0);
             Enemy enemy1 = new Enemy("Волибир", 10000, 50, 1, 1, 1, 1000, 2, 4, 5, 0);
             Enemy enemy0 = new Enemy("Калиста", 10000, 100, 1, 1, 1, 100, 2, 2, 5, 0);
             List<Entity> entities = new List<Entity>();

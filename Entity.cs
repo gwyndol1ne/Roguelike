@@ -16,6 +16,7 @@ namespace Roguelike
             Alive = true;
             Stats = new Dictionary<string, int[]>();
             EffectBuffs = new Dictionary<string, List<EffectBuff>>();
+            EffectActions = new List<EffectAction>();
             SetupEffects(new int[] { hp, damage, strength, agility, intelligence, defense });
             UpdateEffects();
             Stats["hp"][1] = Stats["hp"][0];
@@ -90,20 +91,32 @@ namespace Roguelike
         }
         public void MoveTowards(int x, int y)
         {
-            point direction = Pathfinder.GetPath(Y, (X + 1) / 2, y, (x + 1) / 2, Maps.GetPassableForPathfinding(MapId))[0];
+            point direction = Pathfinder.GetPath(Y, (X + 1) / 2, y, (x + 1) / 2, Maps.GetPassable(MapId))[0];
             direction.y *= 2;
             Move(direction.y, direction.x);
         }
-        public int GetDamaged(int damage)
+        public int GetDamaged(int damage, bool ignoreArmor = false, Entity[] enemies = null)
         {
-            double percentBlocked = (Stats["defense"][1] * 0.01) / (1 + Stats["defense"][1] * 0.01);
-            int damageRecieved = (int)Math.Round(Convert.ToDouble(damage) * (1 - percentBlocked)); //да да давай говори я же понимаю все
+            int damageRecieved;
+            if (!ignoreArmor) {
+                double percentBlocked = (Stats["defense"][1] * 0.01) / (1 + Stats["defense"][1] * 0.01);
+                damageRecieved = (int)Math.Round(Convert.ToDouble(damage) * (1 - percentBlocked));
+            }
+            else damageRecieved = damage;
+            //да да давай говори я же понимаю все
             if (damageRecieved >= Stats["hp"][1])
             {
                 Stats["hp"][1] = 0;
                 Alive = false;
             }
             else Stats["hp"][1] -= damageRecieved;
+            if (EffectActions != null)
+            {
+                for (int i = 0; i < EffectActions.Count; i++)
+                {
+                    if (EffectActions[i].action == EffectAction.LoversEffect) EffectActions[i].action(enemies, damage);
+                }
+            }
             return damageRecieved;
         }
         public void UpdateEffects()
@@ -129,6 +142,13 @@ namespace Roguelike
                 for (int i = toDelete.Count - 1; i > -1; i--) EffectBuffs[key].RemoveAt(toDelete[i]);
                 toDelete.Clear();
             }
+            for(int i = 0; i < EffectActions.Count; i++)
+            {
+                EffectActions[i].duration--;
+                if (EffectActions[i].duration == 0) toDelete.Add(i);
+            }
+            for (int i = toDelete.Count - 1; i > -1; i--) EffectActions.RemoveAt(toDelete[i]);
+            toDelete.Clear();
             if(this is Player) ((Player)this).CountStatsByItems();
         }
     }

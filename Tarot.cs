@@ -32,11 +32,11 @@ namespace Roguelike
         static Tarot theFool = new Tarot(0, 5, -20, 0, -3, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
             entities[numberOfEnemy].GetDamaged(300);
+            Effect.AddEffect(new EntireEffect(null, new EffectBuff[] { new EffectBuff(1, 0, "stun") }), entities[numberOfEnemy]);
         });
         static Tarot magician = new Tarot(0, 0, 0, 0, 0, 7, false, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-            for (int i = 0; i < entities.Length; i++)
-                entities[i].GetDamaged(200);
+            for (int i = 0; i < entities.Length; i++) entities[i].GetDamaged(200);
         });
         static Tarot empress = new Tarot(800, 0, 0, 0, 0, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
@@ -44,19 +44,19 @@ namespace Roguelike
         });
         static Tarot emperor = new Tarot(0, 0, 0, 0, 5, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-            
+            entities[numberOfEnemy].GetDamaged(500, true);
         });
         static Tarot hierophant = new Tarot(0, 0, 0, 0, 0, 7, false, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-            
+            for (int i = 0; i < entities.Length; i++) entities[i].GetDamaged(300); //отсоси у тракториста
         });
         static Tarot lovers = new Tarot(0, 0, 0, 0, 0, 5, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-            
+        Effect.AddEffect(new EntireEffect(new EffectAction(5, EffectAction.LoversEffect, entities[numberOfEnemy]), null), player);
         });
         static Tarot silverChariot = new Tarot(0, 0, 70, 0, 5, 0, true, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {
-
+            entities[numberOfEnemy].GetDamaged(700);
         });
         static Tarot starPlatinum = new Tarot(400, 4, 40, 4, 4, 4, false, (ref Player player, ref Entity[] entities, int numberOfEnemy) =>
         {

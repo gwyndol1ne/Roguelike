@@ -13,13 +13,13 @@ namespace Roguelike
         public int[,] transitionTo;
         public char[,] drawnMap;
         public bool[,] passable;
-        public Map(string[] a, int b)
+        public Map(string[] map, int numberOfMaps)
         {
-            int[] connections = MapSolver.ConnectionSolver(a[a.Length - 2]);
-            int sizex = a.Length - 1;
+            int[] connections = MapSolver.ConnectionSolver(map[map.Length - 2]);
+            int sizex = map.Length - 1;
             int sizey = 0;
-            for (int i = 0; i < sizex - 1; i++) sizey = sizey < a[i].Length ? a[i].Length : sizey;
-            transitionCoords = new point[b];
+            for (int i = 0; i < sizex - 1; i++) sizey = sizey < map[i].Length ? map[i].Length : sizey;
+            transitionCoords = new point[numberOfMaps+1];
             chests = new Chest[sizex, sizey];
             entities = new Entity[sizex, sizey];
             transitionTo = new int[sizex, sizey];
@@ -32,8 +32,8 @@ namespace Roguelike
             }
             drawnMap = new char[sizex, sizey];
             passable = new bool[sizex, sizey];
-            name = a[a.Length - 1];
-            drawnMap = MapSolver.mapSplitter(a, sizey, transitionTo, connections, passable);
+            name = map[map.Length - 1];
+            drawnMap = MapSolver.mapSplitter(map, sizey, transitionTo, connections, passable);
         }
     }
 }

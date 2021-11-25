@@ -14,7 +14,6 @@ namespace Roguelike
             Friend = 3,
             Player = 4,
         }
-
         static private List<Map> allMaps; //Список всех карт в порядке, в котором их пути идут в string[] paths из MapSolver.MapCollector
         static public void Initialise() //Запись всех карт в allMaps (!!! стирает всю информацию с них, которая была записана во время выполнения)
         {
@@ -128,7 +127,7 @@ namespace Roguelike
         public static List<Entity> GetEntities(int mapId)
         {
             List<Entity> result = new List<Entity>();
-            foreach(Entity entity in allMaps[mapId].entities)if (entity != null) result.Add(entity);
+            foreach(Entity entity in allMaps[mapId].entities) if(entity != null) result.Add(entity);
             return result;
         }
         public static Entity GetEntity(int mapId, int x, int y)
@@ -142,9 +141,9 @@ namespace Roguelike
             {
                 for(int j = -1; j < 2; j++)
                 {
-                    if (allMaps[mapId].entities[y + i , x + j * 2] is /* я индус */ Enemy)
+                    if (allMaps[mapId].entities[y + i , x + j] is /* я индус everybody wants to be my*/ Enemy )
                     {
-                        pResult.Add(allMaps[mapId].entities[y + i, x + j * 2]);
+                        pResult.Add(allMaps[mapId].entities[y + i, x + j]);
                     }
                 }
             }
@@ -155,14 +154,9 @@ namespace Roguelike
             }
             return result;
         }
-        public static bool[,] GetPassableForPathfinding(int mapId)
+        public static bool[,] GetPassable(int mapId)
         {
-            bool[,] source = allMaps[mapId].passable;
-            bool[,] longResult = new bool[source.GetLength(0), (source.GetLength(1) - 1) / 2 + 1];
-            for (int i = 0; i < source.GetLength(1); i++) if (i % 2 == 0) for (int j = 0; j < source.GetLength(0); j++) longResult[j, i / 2] = source[j, i];
-            bool[,] result = new bool[longResult.GetLength(0) - 1, longResult.GetLength(1)];
-            for (int i = 0; i < result.GetLength(0); i++) for (int j = 0; j < result.GetLength(1); j++) result[i, j] = longResult[i, j];
-            return result;
+            return allMaps[mapId].passable;
         }
         public static void EnemyMovement(int mapId, int x, int y)
         {

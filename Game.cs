@@ -120,13 +120,13 @@ namespace Roguelike
                                     moveY = -1;
                                     break;
                                 case ConsoleKey.A:
-                                    moveX = -2;
+                                    moveX = -1;
                                     break;
                                 case ConsoleKey.S:
                                     moveY = 1;
                                     break;
                                 case ConsoleKey.D:
-                                    moveX = 2;
+                                    moveX = 1;
                                     break;
                             }
                             if (((moveX != 0) || (moveY != 0)) && (player.Move(moveX, moveY)))

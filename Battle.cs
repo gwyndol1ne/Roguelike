@@ -49,7 +49,6 @@ namespace Roguelike
                     case 0:
                         GameInterface.DrawBattleInterface(aliveEnemies, friend[0]);
                         target = enemyChoiceMenu.GetChoice(false, false);
-                        Effect.AddEffect(new EntireEffect(null,new EffectBuff[] { new EffectBuff(2, 10, "defense") }), friend[0]);
                         aliveEnemies[target].GetDamaged(friend[0].Stats["damage"][1]+((Player)friend[0]).CountDamage());
                         break;
                     case 1:
@@ -67,7 +66,7 @@ namespace Roguelike
                 for (int i = 0; i < aliveEnemies.Length; i++) aliveEnemies[i].UpdateEffects();
                 for (int i = 0; i < friend.Length; i++) friend[i].UpdateEffects();
                 UpdateAliveEnemies();
-                for (int i = 0; i < aliveEnemies.Length; i++) friend[0].GetDamaged(aliveEnemies[i].Stats["damage"][1]);
+                for (int i = 0; i < aliveEnemies.Length; i++) if(aliveEnemies[i].Stunned==false) friend[0].GetDamaged(aliveEnemies[i].Stats["damage"][1],false,aliveEnemies);
             }
             if (friend[0].Alive)
             {
