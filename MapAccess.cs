@@ -18,12 +18,16 @@ namespace Roguelike
         static public void Initialise() //Запись всех карт в allMaps (!!! стирает всю информацию с них, которая была записана во время выполнения)
         {
             allMaps = MapSolver.MapCollector();
+            allMaps[0].transitionCoords[3] = new point(1, 1);
+            allMaps[0].transitionTo[1, 1] = 3;
+            allMaps[0].drawnMap[1, 1] = 'E';
+            allMaps.Add(Generation.GenerateMap());
         }
         static public char [,] GetDrawnMap(int mapId) //Возвращает карту в удобном для отображения в консоли формате
         {
             return allMaps[mapId].drawnMap;
         }
-        static public string GetMapName(int mapId) //Не возвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
+        static public string GetMapName(int mapId) //Возвращает название карты (пишется в оригинальном файле с расширением .map последней строчкой)
         {
             return allMaps[mapId].name;
         }

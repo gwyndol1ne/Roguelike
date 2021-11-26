@@ -35,5 +35,26 @@ namespace Roguelike
             name = map[map.Length - 1];
             drawnMap = MapSolver.mapSplitter(map, sizey, transitionTo, connections, passable);
         }
+        public Map(char[,] tiles, int numberOfMaps)
+        {
+            int sizeX = tiles.GetLength(0);
+            int sizeY = tiles.GetLength(1);
+            passable = new bool[sizeX, sizeY];
+            for(int i = 0;i<sizeX;i++) for(int j = 0; j < sizeY; j++)
+                {
+                    if (tiles[i, j] == '#' || tiles[i, j] == ' ') passable[i, j] = false;
+                    else passable[i, j] = true;
+                }
+            transitionCoords = new point[numberOfMaps + 1];
+            drawnMap = tiles;
+            drawnMap[1, 1] = 'E';
+            chests = new Chest[sizeX, sizeY];
+            entities = new Entity[sizeX, sizeY];
+            transitionTo = new int[sizeX, sizeY];
+            for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) transitionTo[i, j] = -1;
+            transitionTo[1, 1] = 0;
+            transitionCoords[0] = new point(1, 1);
+            name = "Данж";
+        }
     }
 }

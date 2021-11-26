@@ -379,9 +379,7 @@ namespace Roguelike
                         
                         //if (!generated)
                         //{
-                            bool[,] screen = Gen.Generate(20,23);
-                            Draw.drawBool(screen);
-                            //generated = true;
+                            Draw.draw(Generation.GenerateCharMap(20,23));
                             Console.ReadKey();
                         //}
                         break;
