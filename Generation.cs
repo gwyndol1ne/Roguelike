@@ -59,9 +59,9 @@ namespace Roguelike
             else if (y == map.GetLength(1) - 1) move.Remove(new point(0,1));
             int result = 0;
             for (int i = 0; i < move.Count; i++) if (map[x + move[i].x, y + move[i].y] != 1) result++;
-            //List<point> additionalMoves = new List<point>();
-            //for (int i = 0; i < move.Count; i++) for (int j = i + 1; j < move.Count; j++) if (move[i].x != move[j].x) additionalMoves.Add(new point(move[i].x + move[j].x, move[i].y+ move[j].y));
-            //for (int i = 0; i < additionalMoves.Count; i++) if (map[x + additionalMoves[i].x, y + additionalMoves[i].y] == 0) result++;
+            List<point> additionalMoves = new List<point>();
+            for (int i = 0; i < move.Count; i++) for (int j = i + 1; j < move.Count; j++) if (move[i].x != move[j].x) additionalMoves.Add(new point(move[i].x + move[j].x, move[i].y+ move[j].y));
+            for (int i = 0; i < additionalMoves.Count; i++) if (map[x + additionalMoves[i].x, y + additionalMoves[i].y] == 0) result++;
             return result;
         }
         public static int[,] CleanInt(int[,] map)

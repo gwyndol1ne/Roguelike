@@ -27,8 +27,27 @@ namespace Roguelike
             {
                 Console.SetCursorPosition(xoffset, yoffset + i);
                 for (int j = 0; j < screen.GetLength(1); j++)
-                {
+                {switch (screen[i, j])
+                    {
+                        case '#':
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                            break;
+                        case '.':
+                            Console.ForegroundColor = ConsoleColor.White;
+                            break;
+                        case '$':
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            break;
+                        case 'C':
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            break;
+                        case 'E':
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            break;
+                        
+                    }    
                     Console.Write("{0} ",screen[i, j]);
+                    Console.ResetColor();
                 }
                 Console.WriteLine();
             }
@@ -36,7 +55,24 @@ namespace Roguelike
         public static void DrawAtPos(int x, int y, char symbol)
         {
             Console.SetCursorPosition(x*2 + xoffset, y + yoffset);
+            if (symbol=='@')
+            {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+            }
+            if (symbol == 'N')
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            if (symbol == '$')
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            if (symbol == 'E')
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
             Console.WriteLine(symbol);
+            Console.ResetColor();
         }
         public static void ReDrawMap(char[,] drawnMap, int mapId)
         {

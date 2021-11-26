@@ -20,7 +20,7 @@ namespace Roguelike
         public static Player GenerateStartPlayer(int tarotNumber = 0, bool needUpdate = false)
         {
             List<Quest> quests = new List<Quest>();
-            quests.Add(new Quest("Узнайте имя Максима и пошлите его нахуй"));
+            quests.Add(new Quest("Узнайте имя странного человека"));
             quests.Add(new Quest("Он зол бегите в яму"));
             Player player = new Player("Maksim", 2000, 0, 10, 10, 10, 0, 0, 6, 6, quests, tarotNumber);
             if(needUpdate)
